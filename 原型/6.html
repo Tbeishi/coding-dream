@@ -1,0 +1,38 @@
+<script>
+    Ground.prototype.lastname = '贺'
+    function Ground(){
+
+    }
+    var ground = new Ground()
+
+    Father.prototype = ground
+    function Father(){
+        this.name = 'jinwei'
+    }
+
+    var father = new Father()
+
+    Son.prototype = father
+    function Son(){
+        this.hobby = 'reading'
+    }
+    var son = new Son()
+    console.log(son.lastname);
+
+</script>
+
+
+<script>
+    Person.prototype = {
+        name: 'John',
+        sayName : function(){
+            console.log(this.name);
+        }
+    }
+    function Person(){
+        this.name = 'lisa'
+    }
+
+    var p = new Person()
+    p.sayName()
+</script>
