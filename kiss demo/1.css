@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
 }
-.box{
+
+/*用来装两个小可爱  */
+.box{ 
     display: flex;
     width: 400px;
     height: 300px;
@@ -14,14 +16,24 @@
     justify-content: center;
     align-items: center;
 }
+
+/* 两个小可爱的头 */
 .head{
     background-color:yellow;
     width: 100px;
     height: 100px;
     border: 8px solid black;
     border-radius: 50%;
-    position: relative;
 }
+
+/* 两个小可爱的脸 */
+.l-face,.r-face{
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+/* 两个小可爱的眼睛 */
 .eye{
     position: absolute;
     width:15px;
@@ -29,28 +41,36 @@
     border-bottom: 5px solid black;
     border-radius: 50%;
 }
+
+/* 调整左边小可爱左眼睛位置 */
+.l-left{
+  right:10px;
+  top:25px;
+}
+
+/* 调整左边小可爱右眼睛位置 */
 .l-right{
     left:35px;
     top:25px;
 }
-.l-left{
-    right:10px;
-    top:25px;
+
+/* 调整右边小可爱左眼睛位置 */
+.r-left{
+  border-top:5px solid;
+  border-bottom:0px solid;
+  left:15px;
+  top:30px;
 }
 
+/* 调整右边小可爱右眼睛位置 */
 .r-right{
     border-top:5px solid;
     border-bottom:0px solid;
     right:30px;
     top:30px;
 }
-.r-left{
-    border-top:5px solid;
-    border-bottom:0px solid;
-    left:15px;
-    top:30px;
-}
 
+/* 两个小可爱的嘴巴 */
 .mouth{
     width:30px;
     height:14px;
@@ -61,11 +81,26 @@
     right:25px;
 }
 
+/* 调整右小可爱嘴巴位置 */
 .r-mouth{
-    right:43px;
+  bottom: 25px;
+  right:40px;
 }
 
-.l-face:before{
+/* 两个小可爱脸上左边的红晕 */
+.face:after{
+  position:absolute;
+  content:"";
+  width:18px;
+  height:8px;
+  background-color:#badc58;
+  left:20px;
+  bottom:40px;
+  border-radius:50%;
+}
+
+/* 两个小可爱脸上右边的红晕 */
+.face:before{
     position:absolute;
     content:"";
     width:18px;
@@ -74,120 +109,126 @@
     right:5px;
     bottom:40px;
     border-radius:50%;
-    z-index:1;
-  }
+}
 
-  .l-face:after{
-    position:absolute;
-    content:"";
-    width:18px;
-    height:8px;
-    background-color:#badc58;
-    left:20px;
-    bottom:40px;
-    border-radius:50%;
-  }
-
-  /* .r-face:before{
+/* 调整右边小可爱脸上右边的红晕 */
+.r-face:before{
     width:10px;
     height:10px;
-    right:25px;
-  }
+    right:27px;
+}
 
-  .r-face:after{
+/* 调整右边小可爱脸上左边的红晕 */
+.r-face:after{
     width:10px;
     height:10px;
     left:10px;
-  } */
+}
 
+/* 左边小可爱的头向右边小可爱移动 */
+.h-left{
+  z-index: 1;
+  animation: move 5s ease infinite;
+}
 
-  .l-face{
-    width: 100px;
-    height: 100px;
-    left:8px;
-    animation: head 4s ease infinite;
-    z-index: 1;
-  }
+/* 左边小可爱的脸向右边小可爱蹭蹭 */
+.l-face{
+  animation: cengceng 5s ease infinite;
+}
 
-  .r-face{
-    width: 100px;
-    height: 100px;
-    left:8px;
-    /* animation: head 4s ease infinite; */
-    z-index: 1;
-  }
+/* 调整右边小可爱头的位置 */
+.h-right{
+  translate: -15px;
+  animation: tietie 5s ease infinite;
+}
 
-  .h-left{
-    z-index: 1;
-    animation: move 4s ease infinite;
-  }
-
-  .h-right{
-    right:12px;
-  }
-
-  
+/* 右边小可爱kiss的嘴形 */
 .kiss{
-  width:13px;
-  height:10px;
+  width:15px;
+  height:14px;
   border-radius:50%;
   border-left:5px solid black;
 }
 
-.kissmouth{
-  position: absolute;
-  left: 30px;
-  bottom: 25px;
+/* 右边小可爱靠近左边小可爱 */
+.h-right{
+  animation:close 5s ease infinite;
 }
 
+/* 右边小可爱嘴型改变 */
 .r-mouth{
+  animation: mRotate 5s ease infinite;
+}
+
+@keyframes move{
+  0%{transform:translate(0)}
+  9%{transform:translate(8px)}
+  25%{transform:translate(8px)}
+  45%{transform:translate(0px)}
+}
+
+@keyframes cengceng{
+  0%{transform:translate(0) rotate(0);}
+  10%{transform:translate(5px) rotate(-2deg);}
+  18%{transform:translate(0) rotate(0);}
+  25%{transform:translate(5px) rotate(-2deg);}
+  40%{transform:translate(0) rotate(0);}
+}
+
+@keyframes mRotate{
+  44.9%{transform:rotate(0deg);opacity: 1}
+  45%{transform:rotate(90deg);opacity: 0}
+  64%{transform:rotate(90deg);opacity: 0;}
+  64.1%{transform:rotate(0);opacity: 1}
+}
+
+/* 调整右边小可爱kiss嘴形的位置 */
+.kissmouth{
+  position: absolute;
+  left: 35px;
+  bottom: 20px;
   opacity: 0;
+  animation:kiss-mouth 5s ease infinite;
+}
+@keyframes kiss-mouth{
+  45%{opacity:0 }
+  46%{opacity:1 }
+  64%{opacity:1 }
+  64.1%{opacity:0 }
+}
+
+@keyframes close{
+  30%{transform:translate(0);}
+  40%{transform:translate(30px) rotate(15deg);}
+  50%{transform:translate(-33px) rotate(-10deg);}
+  65%{transform:translate(-33px);}
+  70%{transform:translate(0);}
 }
 
 .redface{
-  width: 18px;
+  width: 25px;
   height: 15px;
   border-radius:50%;
-  border:5px solid black;
+  background: radial-gradient(red,white);
 }
 
 .redFace{
-  width: 40px;
+  position: absolute;
+  width: 82px;
   height: 30px;
   display: flex;
+  left:17px;
+  bottom:29px;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  z-index: 1;
+  animation: faceRed 5s ease infinite;
 }
 
-  @keyframes move{
-    10%{transform:translate(0)}
-    20%{transform:translate(5px);}
-    28%{transform:translate(0)}
-    35%{transform:translate(5px)}
-    50%{transform:translate(0)}
-  }
-
-  @keyframes head{
-    10%{transform:translate(0) rotate(0);}
-    20%{transform:translate(5px) rotate(-2deg);}
-    28%{transform:translate(0) rotate(0);}
-    35%{transform:translate(5px) rotate(-2deg);}
-    50%{transform:translate(0) rotate(0);}
-  }
-
-
-
-  @keyframes headRed{
-    60%{
-        background-color:#badc58;
-        opacity: 1;
-    }
-    65%{
-        background-color:rgb(220, 143, 88);
-        opacity: 0.6;
-    }
-    70%{background-color:#dc7058;
-        opacity: 0.5;
-    }
-    100%{background-color:#ff3d11;
-        opacity: 0.3;
-    }
-  }
+@keyframes faceRed{
+  50%{ opacity: 0;}
+  85%{ opacity: 0.6;}
+  88%{ opacity: 0.6;}
+  100%{ opacity: 0;}
+}
