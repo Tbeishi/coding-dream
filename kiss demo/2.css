@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/*用来装两个小可爱  */
+.box{ 
+    display: flex;
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 两个小可爱的头 */
+.head{
+    background-color:yellow;
+    width: 100px;
+    height: 100px;
+    border: 8px solid black;
+    border-radius: 50%;
+}
+/* 两个小可爱的脸 */
+.l-face,.r-face{
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+/* 两个小可爱的眼睛 */
+.eye{
+    position: absolute;
+    width:15px;
+    height:14px;
+    border-bottom: 5px solid black;
+    border-radius: 50%;
+}
+
+/* 调整左边小可爱左眼睛位置 */
+.l-left{
+  right:10px;
+  top:25px;
+}
+
+/* 调整左边小可爱右眼睛位置 */
+.l-right{
+    left:35px;
+    top:25px;
+}
+
+/* 调整右边小可爱左眼睛位置 */
+.r-left{
+  border-top:5px solid;
+  border-bottom:0px solid;
+  left:15px;
+  top:30px;
+}
+
+/* 调整右边小可爱右眼睛位置 */
+.r-right{
+    border-top:5px solid;
+    border-bottom:0px solid;
+    right:30px;
+    top:30px;
+}
+
+/* 两个小可爱的嘴巴 */
+.mouth{
+    width:30px;
+    height:14px;
+    border-radius:50%;
+    border-bottom:5px solid black;
+    position:absolute;
+    bottom:30px;
+    right:25px;
+}
+
+/* 调整右小可爱嘴巴位置 */
+.r-mouth{
+  bottom: 25px;
+  right:40px;
+}
+
+/* 两个小可爱脸上左边的红晕 */
+.face::after{
+    position:absolute;
+    content:"";
+    width:18px;
+    height:8px;
+    background-color:#badc58;
+    left:20px;
+    bottom:40px;
+    border-radius:50%;
+  }
+  
+  /* 两个小可爱脸上右边的红晕 */
+  .face::before{
+      position:absolute;
+      content:"";
+      width:18px;
+      height:8px;
+      background-color:#badc58;
+      right:5px;
+      bottom:40px;
+      border-radius:50%;
+  }
+  
+  /* 调整右边小可爱脸上右边的红晕 */
+  .r-face::before{
+      width:10px;
+      height:10px;
+      right:27px;
+  }
+  
+  /* 调整右边小可爱脸上左边的红晕 */
+  .r-face::after{
+      width:10px;
+      height:10px;
+      left:10px;
+  }
+  

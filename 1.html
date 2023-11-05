@@ -1,0 +1,13 @@
+<script>
+    girl.prototype.name='小米'
+    girl.prototype.say=function(){
+        console.log(this)
+    }
+    function girl(){
+        this.name='小妹'
+        this.age=18
+    }
+    const p = new girl()
+    p.say()
+    console.log(p.__proto__=== girl.prototype) ;
+</script>
