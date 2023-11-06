@@ -160,6 +160,13 @@
   animation: mRotate 5s ease infinite;
 }
 
+@keyframes mRotate{
+  44.9%{transform:rotate(0deg);opacity: 1}
+  45%{transform:rotate(90deg);opacity: 0}
+  64%{transform:rotate(90deg);opacity: 0;}
+  64.1%{transform:rotate(0);opacity: 1}
+}
+
 @keyframes move{
   0%{transform:translate(0)}
   9%{transform:translate(8px)}
@@ -175,12 +182,7 @@
   40%{transform:translate(0) rotate(0);}
 }
 
-@keyframes mRotate{
-  44.9%{transform:rotate(0deg);opacity: 1}
-  45%{transform:rotate(90deg);opacity: 0}
-  64%{transform:rotate(90deg);opacity: 0;}
-  64.1%{transform:rotate(0);opacity: 1}
-}
+
 
 /* 调整右边小可爱kiss嘴形的位置 */
 .kissmouth{

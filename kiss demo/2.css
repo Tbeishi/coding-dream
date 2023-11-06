@@ -25,6 +25,7 @@
     border: 8px solid black;
     border-radius: 50%;
 }
+
 /* 两个小可爱的脸 */
 .l-face,.r-face{
     position: relative;
@@ -50,6 +51,11 @@
 .l-right{
     left:35px;
     top:25px;
+}
+
+ /* 调整右边小可爱头的位置 */
+.h-right{
+    translate: -15px;
 }
 
 /* 调整右边小可爱左眼睛位置 */
@@ -121,5 +127,112 @@
       width:10px;
       height:10px;
       left:10px;
+  }
+  
+  /* 左边小可爱的头向右边小可爱移动 */
+.h-left{
+    z-index: 1;
+    animation: move 5s ease infinite;
+  }
+
+  @keyframes move{
+    0%{transform:translate(0)}
+    9%{transform:translate(8px)}
+    25%{transform:translate(8px)}
+    45%{transform:translate(0px)}
+  }
+
+  /* 左边小可爱的脸向右边小可爱蹭蹭 */
+  .l-face{
+    animation: cengceng 5s ease infinite;
+  }
+
+  @keyframes cengceng{
+    0%{transform:translate(0) rotate(0);}
+    10%{transform:translate(5px) rotate(-2deg);}
+    18%{transform:translate(0) rotate(0);}
+    25%{transform:translate(5px) rotate(-2deg);}
+    40%{transform:translate(0) rotate(0);}
+  }
+
+  /* 右边小可爱kiss的嘴形 */
+.kiss{
+    width:15px;
+    height:14px;
+    border-radius:50%;
+    border-left:5px solid black;
+  }
+  
+  /* 调整右边小可爱kiss嘴形的位置 */
+.kissmouth{
+    position: absolute;
+    left: 35px;
+    bottom: 20px;
+  }
+
+  /* 右边小可爱靠近左边小可爱 */
+.h-right{
+    animation:close 5s ease infinite;
+  }
+
+  @keyframes close{
+    30%{transform:translate(0);}
+    40%{transform:translate(30px) rotate(15deg);}
+    50%{transform:translate(-33px) rotate(-10deg);}
+    65%{transform:translate(-33px);}
+    70%{transform:translate(0);}
+  }
+
+  /* 右边小可爱原来嘴型旋转隐藏 */
+.r-mouth{
+    animation: mRotate 5s ease infinite;
+  }
+  
+  @keyframes mRotate{
+    44.9%{transform:rotate(0deg);opacity: 1}
+    45%{transform:rotate(90deg);opacity: 0}
+    64%{transform:rotate(90deg);opacity: 0;}
+    64.1%{transform:rotate(0);opacity: 1}
+  }
+
+  /* 调整右边小可爱kiss嘴形出现隐藏 */
+.kissmouth{
+    opacity: 0;
+    animation:kiss-mouth 5s ease infinite;
+  }
+
+  @keyframes kiss-mouth{
+    45%{opacity:0 }
+    46%{opacity:1 }
+    64%{opacity:1 }
+    64.1%{opacity:0 }
+  }
+
+  .redface{
+    width: 25px;
+    height: 15px;
+    border-radius:50%;
+    background: radial-gradient(red,white);
+  }
+  
+  .redFace{
+    position: absolute;
+    width: 82px;
+    height: 30px;
+    display: flex;
+    left:17px;
+    bottom:29px;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    z-index: 1;
+    animation: faceRed 5s ease infinite;
+  }
+  
+  @keyframes faceRed{
+    50%{ opacity: 0;}
+    85%{ opacity: 0.6;}
+    88%{ opacity: 0.6;}
+    100%{ opacity: 0;}
   }
   
