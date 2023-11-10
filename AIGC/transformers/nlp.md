@@ -24,5 +24,8 @@ output 显示器 硬盘
 
 -requests 网络请求
 requests.get(url,stream=True).raw
-http 请求的方法 get明文请求
-post 提交表单
+http 请求的方法 get 明文请求 post 提交表单
+-PIL库 图片的读写等...
+    Image  r
+    ImageDraw  w
+-object-detection
