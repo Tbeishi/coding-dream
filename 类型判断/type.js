@@ -4,7 +4,7 @@ let flag = false //boolean
 let und = undefined //undefined
 let nu = null //null
 let big = 123n //big number
-let s = Symbol('hello') 
+let s = Symbol('hello')  //symbol
 
 let obj = {}
 let arr = []
@@ -21,5 +21,7 @@ console.log(typeof(obj)); //object
 console.log(typeof(arr)); //object
 console.log(typeof(fn)); //function
 console.log(typeof(date)); //object
+
+console.log(typeof  Symbol('hello'));
 
 
