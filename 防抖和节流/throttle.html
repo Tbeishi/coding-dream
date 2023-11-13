@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">提交</button>
+</body>
+<script>
+    function send(){
+        console.log('我们好棒鸭！',this);
+    }
+    const btn = document.getElementById("btn");
+    btn.addEventListener("click",throttle(send,1000))
+
+    function throttle(send,delay){
+        let pretime = Date.now()
+        return function(){
+        let arr = arguments 
+        if(Date.now() - pretime > delay){
+        send.call(this,...arr)
+        pretime = Date.now()
+        }
+    }
+}
+</script>
+</html>

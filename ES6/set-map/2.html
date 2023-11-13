@@ -1,0 +1,21 @@
+<script>
+const weakset = new WeakSet();
+
+function createObj() {
+  const obj = document.createElement('div');
+  weakset.add(obj);
+  document.body.appendChild(obj);
+}
+
+function deleteObj(obj) {
+  document.body.removeChild(obj);
+  weakset.delete(obj);
+}
+
+createObj();
+
+setTimeout(() => {
+  const objs = Array.from(weakset);
+  objs.forEach(item=> deleteObj(item));
+}, 5000);
+</script>

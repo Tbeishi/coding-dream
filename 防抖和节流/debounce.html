@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">提交</button>
+</body>
+</html>
+<script>
+    function send(){
+        console.log('我们好棒鸭！',this);
+    }
+    const btn = document.getElementById("btn");
+    btn.addEventListener("click",debounce(send,1000))
+    
+    // function debounce(send,time){
+    //     let name;
+    //     return function(){
+    //         let _this = this;//这个this指向btn
+    //         let arr = arguments //包含传递给函数的每个参数
+    //         if(name) clearTimeout(name) //name有值，说明上次定时器还没执行完，这时清除上次定时器
+    //         name = setTimeout(function(){
+    //         send.call(_this,...arr) //将send函数的this指向_this(也就是btn)
+    //                                 //arguments里的每个参数展开到send函数中作为实参
+    //     }, time);
+    // }
+    //也可以使用箭头函数这样写
+    function debounce(send,time){
+        let name;
+        return function(){
+            let arr = arguments //包含传递给函数的每个参数
+            if(name) clearTimeout(name) //name有值，说明上次定时器还没执行完，这时清除上次定时器
+            name = setTimeout(()=>{  //这里使用箭头函数，因为箭头函数没有this，所以里面的this依旧指向btn
+            send.call(this,...arr) //将send函数的this指向btn（此时this指向btn）
+                                    //arguments里的每个参数展开到send函数中作为实参
+        }, time);
+    }
+}
+</script>

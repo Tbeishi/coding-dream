@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrap">
+        <button id="btn">确认</button>
+    </div>
+</body>
+<script>
+    const wrap = document.getElementById("wrap");
+    const btn = document.getElementById("btn");
+
+    //给btn打上标签
+    const disableElements = new weakSet()
+    disableElements.add(btn)
+
+    btn.addEventListener("click",() => {
+        wrap.removeChild(btn)
+        console.log(disableElements); //理论上认为为{}
+    })
+</script>
+</html>
