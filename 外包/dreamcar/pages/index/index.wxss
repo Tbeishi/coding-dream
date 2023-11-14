@@ -1,0 +1,11 @@
+/* 单屏类名section */
+.section{
+  height: 100vh;
+}
+/* hero风格主体 */
+.hero{
+  
+}
+.white{
+  background-color: white;
+}
