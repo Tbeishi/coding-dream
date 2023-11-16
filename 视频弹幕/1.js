@@ -1,9 +1,9 @@
 const data = [
     { value: '今天你掘金了吗？', color: 'red', fontSize: 22, time: 5 },
-    { value: '不听不听，就要恋爱', color: 'green', fontSize: 30, time: 10 },
-    { value: '小米露我男神', color: '#00a1f5', fontSize: 26, time: 13 },
-    { value: '掘金掘金，每日掘金', color: '#00a1f5', fontSize: 26, time: 13 },
-    { value: '掘金文章每日来一篇', color: '#00a1f5', fontSize: 26, time: 13 },
+    { value: '不听不听，就要恋爱', color: 'green', fontSize: 30, time: 7 },
+    { value: '小米露小米露', color: '#00a1f5', fontSize: 26, time: 9 },
+    { value: '掘金掘金，每日掘金', color: '#00a1f5', fontSize: 26, time: 9 },
+    { value: '掘金文章每日来一篇', color: '#00a1f5', fontSize: 26, time: 9 },
   ]
 
 

@@ -1,10 +1,10 @@
 //模拟历史弹幕数据
 const data = [
     { text: '今天你掘金了吗？', color: 'red', fontSize: 22, time: 5 },
-    { text: '不听不听，就要恋爱', color: 'green', fontSize: 30, time: 10 },
-    { text: '小米露我男神', color: 'red', fontSize: 35, time: 13 },
-    { text: '掘金掘金，每日掘金', color: 'pink', fontSize: 50, time: 13 },
-    { text: '掘金文章每日来一篇', color: '#00a1f5', fontSize: 40, time: 13 },
+    { text: '不听不听，就要恋爱', color: 'green', fontSize: 30, time: 7 },
+    { text: '小米露小米露', color: 'red', fontSize: 35, time: 9 },
+    { text: '掘金掘金，每日掘金', color: 'pink', fontSize: 50, time: 9 },
+    { text: '掘金文章今天你写了吗', color: '#00a1f5', fontSize: 40, time: 9 },
   ]
 
   barrageManage.prototype.render = function(){
@@ -80,10 +80,10 @@ function barrageManage(canvas,video,sendData={}) {
 
 //弹幕初始化
 Barrage.prototype.init = function(){
-  this.color = this.obj.color || this.context.color
-  this.fontSize = this.obj.fontSize || this.context.fontSize
-  this.speed = this.context.speed
-  this.opacity = this.context.opacity 
+  this.color = this.obj.color || this.context.color //用户未设置颜色，使用默认颜色
+  this.fontSize = this.obj.fontSize || this.context.fontSize//用户未设置字体大小，使用默认大小
+  this.speed = this.context.speed //默认速度
+  this.opacity = this.context.opacity  //默认透明度
 
   //获取弹幕的宽度
   const p = document.createElement('p')
@@ -117,7 +117,7 @@ function Barrage(obj,context){ //context == this
   this.text = obj.text
   this.time = obj.time
   this.obj = obj
-  this.context = context //挂载上文this
+  this.context = context //挂载barrageManage函数里面的this
 }
 
 const canvas = document.getElementById('canvas')
