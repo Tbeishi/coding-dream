@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4336216_jvz3csttiz.css">
+    <link rel="stylesheet" href="1.css">
+</head>
+<body>
+    <div class="header">
+        <i class="iconfont icon-fanhui"></i>
+        <div class="tubaio">
+            <img src="./图标.png" alt="" width="50px" height="50px">
+            <span class="text"></span>
+        </div>
+    </div>
+    <div class="contaner">
+        <input type="text" class="inp" id= "user" placeholder="登录邮箱">
+        <input type="text" class="inp" id= "password" placeholder="密码">
+    </div>
+    <div class="foot">
+        <button class="btn">登录</button>
+        <p>重设密码</p>
+    </div>
+    <div class="ts">
+        <span class="tss">登入</span>
+    </div>
+</body>
+<script>
+    const btn = document.querySelector('#user');
+    const inp = document.querySelector('#password')
+    const dr = document.querySelector('.btn');
+    const tss = document.querySelector('.tss');
+    const ts = document.querySelector('.ts');
+
+    dr.addEventListener('click',()=>{
+        const username = btn.value
+        const password = inp.value
+        console.log(username,password);
+        fetch("http://127.0.0.1:8080/api/login?"+'name='+`${username}`+'&&'+'password='+`${password}`).then(data => 
+                data.json()).then(res => {
+                    ts.style.display = 'inline-block'
+                    tss.innerHTML = res.message
+                    ts.style.backgroundColor = res.code === 0 ? "green" : "red"
+                    tss.innerHTML = res.message
+                    setTimeout(()=>{
+                        ts.style.display = 'none'
+                    },2000)
+                })
+        
+    })
+
+</script>
+</html>
