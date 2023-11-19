@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4336216_jvz3csttiz.css">
     <link rel="stylesheet" href="1.css">
 </head>
 <body>
@@ -37,19 +36,16 @@
     dr.addEventListener('click',()=>{
         const username = btn.value
         const password = inp.value
-        console.log(username,password);
-        fetch("http://127.0.0.1:8080/api/login?"+'name='+`${username}`+'&&'+'password='+`${password}`).then(data => 
+        fetch(`http://127.0.0.1:520/api/login?username=${username}&&password=${password}`).then(data => 
                 data.json()).then(res => {
                     ts.style.display = 'inline-block'
                     tss.innerHTML = res.message
-                    ts.style.backgroundColor = res.code === 0 ? "green" : "red"
+                    ts.style.backgroundColor = res.status === 200 ? "green" : "red"
                     tss.innerHTML = res.message
                     setTimeout(()=>{
                         ts.style.display = 'none'
                     },2000)
                 })
-        
     })
-
 </script>
 </html>
