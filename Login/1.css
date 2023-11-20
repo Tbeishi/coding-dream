@@ -2,84 +2,119 @@
     margin: 0;
     padding: 0;
 }
-.icon-fanhui{
-    font-size: 20px;
-    line-height: 80px;
-    padding-left: 10px;
-}
-
-img{
-    margin:15px 0;
-}
 
 .header{
     height: 80px;
-    top: 0;
-    width: 100%;
-    display: flex;
-    line-height: 80px;
+    position: relative;
 }
 
-.tubaio{
-   position: relative;
-   left: 50%;
-   transform: translate(-50%);
-   font-size: 15px;
-}
-
-.contaner{
-    margin-top: 120px;
-    display: flex;
-    height: 200px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content:center
-}
-
-.contaner .inp{
-    height: 50px;
-    width: 200px;
-    border: none;
-    border-radius: 8px;
-    background-color: rgba(238, 238, 238, 0.504);
-    padding-left: 20px;
-}
-
-.btn{
-    width: 220px;
-    height: 50px;
-    background-color: rgba(209, 32, 32, 0.501);
-    border: 0;
-    border-radius: 20px;
-    font-size: 20px;
-    color: rgb(246, 246, 255);
-}
-
-.foot{
-    margin-top: 20px;
-    text-align: center;
-}
-
-p{
-    margin: 20px 0;
-    color: red;
-    font-size: 15px;
-}
-
-.ts{
-    position: fixed;
-    width: 200px;
-    height: 200px;
-    background-color: rgb(165, 132, 132);
-    top: 180px;
+.logo{
+    position: absolute;
+    top:0;
     left:50%;
     transform: translate(-50%);
-    text-align: center;
-    border-radius: 8px;
-    display: none;
 }
 
-.tss{
-    font-size: 20px;
-    line-height: 200px;
+.iconfont1{
+    height: 30px;
+    width: 30px;
+    margin: 25px 10px;
 }
+
+.iconfont2{
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    vertical-align:middle;
+}
+.tittle{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+    line-height: 80px;
+}
+.content{
+    margin-top: 50px;
+    text-align: center;
+}
+.content .inp{
+    width: 210px;
+    height: 50px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(241, 241, 241);
+    padding-left: 25px;
+}
+
+.content input::placeholder {
+    color: rgb(172, 172, 172);
+}
+
+.content input:focus {
+    border: 0;
+    outline: 1px solid rgb(236, 236, 236);
+    box-shadow: 1px 1px 10px 1px rgb(225, 225, 225);
+
+}
+
+.end{
+    margin-top: 5px;
+    text-align: center;
+}
+
+.end .btn{
+    border-radius: 30px;
+    margin: 15px 0;
+    width: 230px;
+    height: 50px;
+    border: none;
+    background-color: #ffcdcd;
+    color: rgb(228, 228, 228);
+    transition: all .3s;
+}
+
+.end p{
+    color: rgb(56, 125, 254);
+    font-size: 13px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.end .active{
+    background-color: #f60000;
+}
+
+.dialog{
+    position: fixed;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    outline: 1px solid rgb(236, 236, 236);
+    box-shadow: 1px 1px 10px 1px rgb(225, 225, 225);
+    opacity: 0;
+    transition: all 0.7s;
+}
+
+.message{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 18px 0;
+    padding: 0 18px 0 38px;
+    font-size: 13px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.error{
+    background-image: url(./错误.png);
+    color: #ff0303;
+}
+
+.right{
+    background-image: url(./正确.png);
+    color: rgb(0, 162, 0);
+}
+

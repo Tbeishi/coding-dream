@@ -3,49 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>网易云登录</title>
     <link rel="stylesheet" href="1.css">
 </head>
 <body>
     <div class="header">
-        <i class="iconfont icon-fanhui"></i>
-        <div class="tubaio">
-            <img src="./图标.png" alt="" width="50px" height="50px">
-            <span class="text"></span>
+        <img src="./返回.png" class="iconfont1">
+        <div class="logo">
+            <img src="./图标.png" class="iconfont2">
+            <span class="tittle">网易云音乐</span>
         </div>
     </div>
-    <div class="contaner">
-        <input type="text" class="inp" id= "user" placeholder="登录邮箱">
-        <input type="text" class="inp" id= "password" placeholder="密码">
+    <div class="content">
+        <input type="text" class="inp" placeholder="登录邮箱" id="email">
+        <input type="password" class="inp"  placeholder="密码" id="password"> 
     </div>
-    <div class="foot">
-        <button class="btn">登录</button>
+    <div class="end">
+        <button class="btn" disabled>登录</button>
         <p>重设密码</p>
     </div>
-    <div class="ts">
-        <span class="tss">登入</span>
+    <div class="dialog">
+        <span class="message">用户名或密码错误</span>
     </div>
 </body>
 <script>
-    const btn = document.querySelector('#user');
-    const inp = document.querySelector('#password')
-    const dr = document.querySelector('.btn');
-    const tss = document.querySelector('.tss');
-    const ts = document.querySelector('.ts');
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const btn = document.querySelector('.btn')
+    const dialog = document.querySelector('.dialog')
+    const message = document.querySelector('.message')
+    let Isemail = false;
+    let Ispassword = false;
+    let addclass = null;
 
-    dr.addEventListener('click',()=>{
-        const username = btn.value
-        const password = inp.value
-        fetch(`http://127.0.0.1:520/api/login?username=${username}&&password=${password}`).then(data => 
+    email.addEventListener('input', (e) => {
+        Isemail = e.target.value ? true : false
+        show()
+    })
+    password.addEventListener('input', (e) => {
+        Ispassword = e.target.value ? true : false
+        show()
+    })
+
+    btn.addEventListener('click', () => {
+        const $username = email.value
+        const $password = password.value
+        fetch(`http://127.0.0.1:520/login?username=${$username}&&password=${$password}`).then(data => 
                 data.json()).then(res => {
-                    ts.style.display = 'inline-block'
-                    tss.innerHTML = res.message
-                    ts.style.backgroundColor = res.status === 200 ? "green" : "red"
-                    tss.innerHTML = res.message
+                    btn.disabled = "true"
+                    dialog.style.opacity = 1
+                    message.innerHTML = res.message
+                    if(message.classList.contains(addclass)) message.classList.remove(addclass) 
+                    addclass = res.status === 200 ? 'right' : 'error'
+                    message.classList.add (addclass) 
                     setTimeout(()=>{
-                        ts.style.display = 'none'
+                        dialog.style.opacity = 0
+                        btn.disabled = ""
                     },2000)
                 })
     })
+
+    function show(){
+        if(Isemail && Ispassword) {
+            btn.classList.add('active')
+            btn.disabled = ""
+        }
+        else{
+            if(btn.classList.contains('active'))
+            btn.classList.remove('active');
+            btn.disabled = "true"
+        }
+    }
 </script>
 </html>
