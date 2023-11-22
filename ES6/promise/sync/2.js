@@ -41,4 +41,4 @@ xq().then((res)=>{
     console.log(res);
     baby2()
 })
-
+//.then虽然默认会返回promise对象，但是当.then的回调有人为返回的promise对象时，.then默认的promise会失效
