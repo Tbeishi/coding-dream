@@ -1,10 +1,6 @@
 console.log('start');
 setTimeout(()=>{
     console.log('setTimeout');
-    setTimeout(()=>{
-        console.log('inner');
-    },1000)
-    console.log('end');
 },0)
 new Promise((resolve, reject) => {
     console.log('Promise');
@@ -14,4 +10,4 @@ new Promise((resolve, reject) => {
 }).then(() => {
     console.log('then2');
 })
-//start Promise then1 then2 setTimeout end inner
+//start Promise then1 then2 setTimeout
