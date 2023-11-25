@@ -10,11 +10,12 @@ async1()
 setTimeout(function() {
 console.log('setTimeout1')
 }, 1000)
+
 setTimeout(function() {
     console.log('setTimeout2')
     setTimeout(function() {
         console.log('setTimeout22')
-        }, 400)
+        }, 100)
 }, 500)
 new Promise(resolve => {
 console.log('Promise')
@@ -27,7 +28,6 @@ console.log('promise1')
 console.log('promise2')
 })
 console.log('script end')
-
 // script start
 // async2 end
 // Promise

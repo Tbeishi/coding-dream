@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="list">
+
+    </ul>
+
+</body>
+<script>
+    async function Fetch() {
+    const response = await fetch("https://l3vmmu.laf.run/get-list");
+    const { data } = await response.json();
+    document.querySelector("#list").innerHTML = data.map(item=>
+        `<li>${item.txt}</li>`
+    ).join('')
+    }
+    Fetch()
+    </script>
+</html>

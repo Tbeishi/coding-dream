@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden{
+            display: none !important;
+        }
+        .show{
+            display: inline-block;
+        }
+        #box2{
+            z-index: 999;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center{
+            width: 100px;
+            margin: 10px auto;
+            background-color: red;
+            color: white;
+        }
+        /* box2.classList.remove('hidden') */
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div id="loading" class="hidden">抽奖中...</div>
+        <button id="btn">按钮</button>
+    </div>
+    <div id="box2" class="hidden">
+        <table>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>食物</th>
+                    <th>食物价格</th>
+                </tr>
+            </thead>
+            <tbody>
+                <button id="btn2">再抽</button>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    var isPicking = false
+    const btn = document.querySelector('#btn');
+    const loading = document.querySelector('#loading');
+    const box2 = document.querySelector('#box2');
+    const btn2 = document.querySelector('#btn2');
+    btn.addEventListener('click', function(){
+        btn.classList.add('hidden')
+        loading.classList.remove('hidden')
+        setTimeout(()=>{
+        btn.classList.remove('hidden')
+        loading.classList.add('hidden') 
+        box2.classList.remove('hidden')
+        },2000)
+    })
+
+    btn2.addEventListener('click', function(){
+        box2.classList.add('hidden')
+    })
+</script>
+</html>
