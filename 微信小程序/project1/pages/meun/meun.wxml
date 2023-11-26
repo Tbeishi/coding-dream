@@ -1,0 +1,9 @@
+<!--pages/meun/meun.wxml-->
+<view class="contianer">
+</view>
+<scroll-view class="meunList">
+<view class="box" wx:for="{{foodList}}" wx:key="idfood">
+<image src="../../image/可爱多.jpg" mode="heightFix" class="img"/>
+<text class="message">{{item.foodname}}</text>
+</view>
+</scroll-view>
