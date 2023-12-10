@@ -1,5 +1,5 @@
 <template>
     <div>
-        管理
+        我的密码
     </div>
 </template>
