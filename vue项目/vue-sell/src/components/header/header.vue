@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="showDetail">
     <div class="content-wrapper">
       <div class="avatar">
         <img :src="seller.avatar" alt="">
@@ -29,20 +29,39 @@
       <i class="iconfont icon-youjiantou"></i>
     </div>
 
-    <div class="bg" style="background-image: url('http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg');"></div>
+    <div class="bg" v-if="seller.avatar" :style="{backgroundImage: `url(${seller.avatar})`}"></div>
+    
+    <header-detail v-show="detailShow" @hide="handle"/>
+
   </div>
 </template>
 
 <script>
 import SupportIcon from '@/components/support-icon/Support-icon.vue'
+import HeaderDetail from '@/components/header-detail/Header-detail.vue'
 export default {
   components: {
-    SupportIcon
+    SupportIcon,
+    HeaderDetail
   },
   props: {
     seller: {
       type: Object,
       default: () => {}
+    }
+  },
+  data() {
+    return {
+      detailShow: false
+    }
+  },
+  methods: {
+    showDetail() {
+      this.detailShow = true;
+    },
+    handle(val) {
+      // console.log('子组件发布了一个事件hide，值为:', val);
+      this.detailShow = val
     }
   }
 }
