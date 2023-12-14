@@ -17,14 +17,14 @@
           </li>
         </ul>
       </div>  
-      <div class="foods-wrapper">
+      <div class="foods-wrapper" ref="foodsWrapper">
         <ul>
           <!-- 一个菜系 -->
-          <li class="food-list" v-for="(item,index) in goods" :key="index">
+          <li class="food-list" v-for="(item,index1) in goods" :key="index1" ref="foodList">
             <h1 class="title">{{ item.name }}</h1>
             <!-- 一道一道菜 -->
             <ul>
-              <li class="food-item"  v-for="(food,index) in item.foods" :key="index">
+              <li class="food-item"  v-for="(food,index2) in item.foods" :key="index2">
                 <div class="pic">
                   <img :src="food.image">
                 </div>
@@ -33,11 +33,18 @@
                   <p class="desc">{{ food.description }}</p>
                   <div class="extra">
                     <span class="count">月售{{ food.sellCount }}份</span>
-                    <span>好评{{ food.rating }}%</span>
+                    <span>好评率{{ food.rating }}%</span>
                   </div>
                   <div class="price">
-                    <span class="now">￥{{ food.price }}</span>
-                    <span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
+                    <div class="price-context">
+                      <span class="now">￥{{ food.price }}</span>
+                      <span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
+                    </div>
+                    <div class="cart-context">
+                      <i class="iconfont icon-jianshao" v-show="cartCount[index1]"  @click="selectFood(index1,index2)"></i>
+                      <span class="cart-count" v-show="cartCount[index1][index2]">{{ cartCount[index1][index2] }}</span>
+                      <i class="iconfont icon-jia" @click="selectFood(index1,index2)"></i>
+                    </div>
                   </div>
                   <!-- + -->
 
@@ -49,7 +56,7 @@
       </div>
     </div>
     
-    <div class="cart-wrapper">购物车</div>
+    <Cart/>
   </div>
 </template>
 
@@ -57,15 +64,21 @@
 import { getGoods } from '@/api'
 import SupportIcon from '@/components/support-icon/Support-icon.vue'
 import BScroll from '@better-scroll/core'
-
+import Cart from '@/components/cart/Cart.vue'
 export default {
   components: {
-    SupportIcon
+    SupportIcon,
+    Cart
   },
   data() {
     return {
       goods: [],
-      currentIndex: 0
+      currentIndex: 0,
+      foodList:[],//各菜系的食物dom结构
+      foodBScroll:[],
+      scrollY:0,
+      foodHeight:[],
+      cartCount:[][20],
     }
   },
   created() {
@@ -76,6 +89,13 @@ export default {
       
       this.$nextTick(() => { // $nextTick里面的回调会在页面加载完毕之后才执行
         this.betterScroll()
+        this.getFoodHeight()
+        this.goods.forEach((item,index)=>{
+          const arr = []
+          item.foods.forEach(()=>{ arr.push(1)})
+          this.cartCount.push(arr)
+          
+        })
       })
     })
   },
@@ -85,13 +105,38 @@ export default {
       new BScroll(this.$refs.menuWrapper, {
         click: true
       })
-
+      this.foodBScroll = new BScroll(this.$refs.foodsWrapper, {
+        click: true,
+        scroll: true,
+        probeType:3
+      })
+      this.foodList = this.$refs.foodList
+      this.foodBScroll.on('scroll',(pos)=>{
+        this.scrollY = Math.round(Math.abs(pos.y))
+      })
     },
     selectMenu(i) {
       // console.log(i);
       this.currentIndex = i
+      this.foodBScroll.scrollToElement(this.foodList[i],500)
+    },
+    selectFood(i,y) {
+      console.log(this.cartCount[i][y]);
+    },
+    getFoodHeight(){
+      let height = 0
+      this.foodHeight.push(height)
+      this.foodList.forEach((foodheight)=>{
+        height += foodheight.clientHeight
+        this.foodHeight.push(height)
+      })
     }
-  }
+  },
+  // computed:{
+  //   computeHeight(){
+  //     const 
+  //   }
+  // }
 }
 </script>
 
@@ -135,7 +180,8 @@ export default {
       }
       .food-item{
         display: flex;
-        padding: 18px;
+        padding-bottom: 18px;
+        margin: 18px;
         .pic{
           flex: 0 0 57px;
           margin-right: 10px;
@@ -159,10 +205,19 @@ export default {
               margin-right: 12px;
             }
           }
+          .extra{
+            margin-bottom: 0px;
+            }
           .price{
+            display: flex;
             font-weight: 700;
-            line-height: 10px;
-            .now{
+            line-height: 24px;
+            height: 24px;
+            justify-content: space-between;
+            // align-items: center;
+
+            .price-context{
+              .now{
               font-size: @fontsize-medium;
               color: @color-red;
               margin-right: 8px;
@@ -172,19 +227,29 @@ export default {
               color: rgb(147, 153, 159);
               text-decoration: line-through;
             }
+            }
+           
+            .cart-context{
+            margin-top: -2px;
+              .iconfont{
+              color: #00a0dc;
+              font-size: 22px;
+              padding: 6px;
+              vertical-align: middle;
+            }
+            .cart-count{
+              display: inline-block;
+              color: #8e8e8e;
+              font-size: 10px;
+              width: 12px;
+              text-align: center;
+            }
+            }
+            
           }
         }
       }
     }
   }
-
-  .cart-wrapper{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 48px;
-    background: #aaa;
-  }
 }
-
 </style>
