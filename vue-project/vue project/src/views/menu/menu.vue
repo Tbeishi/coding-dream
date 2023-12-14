@@ -40,10 +40,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
-.el-card__body {
-    display: flex;
-    align-content: center;
+.el-card{
 }
-
 </style>

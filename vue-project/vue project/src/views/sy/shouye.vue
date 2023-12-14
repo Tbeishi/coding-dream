@@ -84,7 +84,7 @@
 import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBottom,Document,SwitchButton} from '@element-plus/icons-vue'
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
-import defaultAvatar from '../assets/picture/默认头像.jpg'
+import defaultAvatar from '../../assets/picture/默认头像.jpg'
 const router = useRouter()
 const handlecommand = async (key)=>{
     if(key === 'layout'){
@@ -117,8 +117,8 @@ const handlecommand = async (key)=>{
 }
 
 .logo{
-    height: 150px;
-    background: url(../assets/picture/头像.jpg) no-repeat center top/cover;
+    height: 120px;
+    background: url(../../assets/picture/头像.jpg) no-repeat center center/cover;
 }
 
 .el-menu {

@@ -78,7 +78,7 @@ export default {
       foodBScroll:[],
       scrollY:0,
       foodHeight:[],
-      cartCount:[][20],
+      cartCount:[],
     }
   },
   created() {
