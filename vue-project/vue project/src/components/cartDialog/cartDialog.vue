@@ -24,21 +24,28 @@
     </el-table-column>
     <el-table-column label="购买数量" prop="count">
       <template #default="{row,$index}">
-        <i class="iconfont icon-jianshao" :class="{'forbid':row.count === 0}" @click="reduceCount($index)"></i>
-        <span class="cart-count"> {{ row.count }}</span>
-        <i class="iconfont icon-jia" @click="addCount($index)"></i>
+        <!-- :class="{'forbid':row.count === 0}" -->
+        <div class="reduce" :class="{'forbid':row.count === 0}">
+        <i  class="iconfont icon-jianshao" :class="{'forbid':row.count === 0}" @click="reduceCount($index)"></i>
+        </div>
+          <span class="cart-count"> {{ row.count }}</span>
+          <i class="iconfont icon-jia" @click="addCount($index)"></i>
       </template>
     </el-table-column>
   </el-table>
   </el-scrollbar>
 
     <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">加入购物车</el-button>
-        <el-button type="success" @click="dialogVisible = false">
-          立即下单
-        </el-button>
-      </span>
+      <div class="dialog-footer">
+        <div>
+          <span class="message" v-show="allcount > 0">已选择<span class="number">{{ allcount }}</span>件商品,合计:</span>
+          <span class="cost" v-show="allcount > 0">￥{{ allcost }}</span>
+        </div> 
+        <div>
+          <el-button type="primary" @click="dialogVisible = false" :class="{'empty':allcount === 0}" :disabled="allcount === 0">加入购物车</el-button>
+          <el-button type="success" @click="dialogVisible = false" :class="{'notSettled':allcount === 0}" :disabled="allcount === 0"> 立即下单</el-button>
+        </div>
+      </div>
     </template>
   </el-dialog>
   </div>
@@ -68,6 +75,10 @@ defineExpose({
 
 const allcount = computed(()=>{
   return (KindsItem.value.reduce((pre,cur)=>pre + cur.count,0));
+})
+
+const allcost = computed(()=>{
+  return (KindsItem.value.reduce((pre,cur)=>pre + cur.count*cur.price,0));
 })
 
 provide('cartCount',allcount)
@@ -115,25 +126,61 @@ provide('cartCount',allcount)
   top: 3px;
 }
 
+.reduce{
+  margin-bottom: 2px;
+  &.forbid{
+    cursor:not-allowed;
+  }
+}
 .iconfont{
   color: #00a0dc;
   font-size: 22px;
   padding: 6px;
   vertical-align: middle;
   cursor: pointer;
-  
+  &.forbid{
+    color: #a4d4e5;
+    pointer-events:none;
+  }
 }
-.forbid{
-  color: #a4d4e5;
-  cursor:not-allowed;
-  pointer-events:none;
-}
+
 .cart-count{
   display: inline-block;
   color: #8e8e8e;
   font-size: 10px;
   width: 12px;
   text-align: center;
+}
+
+::v-deep .el-dialog__footer{
+  padding-top: 20px;
+}
+
+.empty{
+  border-color: #a0cfff;
+  background-color: #a0cfff;
+}
+
+.notSettled{
+  border-color: rgb(183, 225, 162);
+  background-color: rgb(183, 225, 162);
+}
+
+.dialog-footer{
+  display: flex;
+  justify-content: space-between;
+  .message{
+    line-height: 32px;
+    .number{
+      font-weight: bold;
+      padding: 0 4px;
+    }
+  }
+ 
+  .cost{
+    font-size: 23px;
+    color:#f01414;
+  }
 }
 </style>
 

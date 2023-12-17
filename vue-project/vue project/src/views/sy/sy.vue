@@ -1,7 +1,7 @@
 <template>
     <el-carousel :interval="5000" height="400px" pause-on-hover>
     <el-carousel-item v-for="item in data" :key="item.id">
-      <el-image :src="item.url"/>
+      <el-image :src="item.url" style="width:100%"/>
     </el-carousel-item>
   </el-carousel>
 </template>
