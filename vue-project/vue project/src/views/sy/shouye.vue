@@ -15,7 +15,7 @@
           </el-menu-item>
           <el-menu-item index="/food/menu">
             <el-icon><KnifeFork /></el-icon>
-            <span>食品菜单</span>
+            <span>零食菜单</span>
           </el-menu-item>
           <el-menu-item index="/food/orders">
             <el-icon><Memo /></el-icon>
@@ -47,11 +47,11 @@
         <el-header>
         <span class="message">欢迎您！<strong>小米露</strong></span>
         <div class="itemBar">
-            <div class="shoppingCart">
-                <el-icon size="25"><Document /></el-icon>
+            <div class="shoppingCart" @click="router.replace({path:'/my/cart'})">
+                <i class="iconfont icon-gouwuchekong"></i>
                 <div class="cart">
                     <span>购物车</span>
-                    <div class="count">2</div>
+                    <div class="count">{{ count }}</div>
                 </div>
             </div>      
         </div>
@@ -84,7 +84,8 @@
 import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBottom,Document,SwitchButton} from '@element-plus/icons-vue'
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
-import defaultAvatar from '../../assets/picture/默认头像.jpg'
+import defaultAvatar from '@/assets/picture/默认头像.jpg'
+import { inject } from 'vue'
 const router = useRouter()
 const handlecommand = async (key)=>{
     if(key === 'layout'){
@@ -102,73 +103,70 @@ const handlecommand = async (key)=>{
     router.replace({path:`/my/${key}`})
     }
 }
+
+const count = inject('cartCount')
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .el-header{
     display: flex;
     justify-content: space-between;
     background-color: #fff;
-}
-
-.el-aside{
-      height:100vh;
-      background-color: black;
-}
-
-.logo{
-    height: 120px;
-    background: url(../../assets/picture/头像.jpg) no-repeat center center/cover;
-}
-
-.el-menu {
-    border-right: none;
-}
-.dropdown__box{
-    display: flex;
-    align-items: center;
-}
-
-.message{
+    .message{
     line-height: 60px;
-}
-
-.dropdown__box:focus{
-    outline: none;
-}
-
-.dropdown__box .el-icon {
-    color: #999;
-    margin-left: 10px;
-}
-
-.itemBar{
+  }
+    .itemBar{
     display: flex;
     flex: 1;
     justify-content: flex-end;
-}
-
-.shoppingCart{
+    .shoppingCart{
     position: relative;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    .iconfont{
+     font-size: 25px;
+    }
+      .cart{
+      margin: 0 20px 0 5px;
+      .count{
+        background: linear-gradient(90deg,#fc9153,#f01414);
+        border-radius: 16px;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 16px;
+        padding: 0 6px;
+        text-align: center;
+        position: absolute;
+        left: 13px;
+        top: 14px;
+        }
+      }
+    }
+  }
+}
+.el-aside{
+      height:100vh;
+      background-color: black;
+    .logo{
+      height: 120px;
+      background: url(../../assets/picture/头像.jpg) no-repeat center center/cover;
+  }
+    .el-menu {
+      border-right: none;
+  }
 }
 
-.cart{
-    margin: 0 20px 0 5px;
-}
-
-.cart .count{
-    position: absolute;
-    padding: 1px 6px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: red;
-    text-align: center;
-    line-height: 15px;
-    top: 12px;
-    left: 12px;
-    font-size: 10px;
-    color: aliceblue;
+.dropdown__box{
+    display: flex;
+    align-items: center;
+    &:focus{
+    outline: none;
+  }
+  .el-icon {
+    color: #999;
+    margin-left: 10px;
+  }
 }
 </style>

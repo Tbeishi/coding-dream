@@ -1,7 +1,7 @@
 <template>
     <el-carousel :interval="5000" height="400px" pause-on-hover>
     <el-carousel-item v-for="item in data" :key="item.id">
-      <img :src="item.url" width="100%" height="100%">
+      <el-image :src="item.url"/>
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -11,7 +11,7 @@ const data = [
     {
         id: 1,
         name:"可爱多",
-        url:"/src/assets/picture/可爱多.jpg"
+        url:"/src/assets/picture/可爱多.jpg",
     },
     {
         id: 2,
@@ -31,7 +31,7 @@ const data = [
 ]
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .el-carousel__item h3 {
   color: #475669;
   opacity: 0.75;

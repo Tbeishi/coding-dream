@@ -9,31 +9,35 @@ const router = createRouter({
         },
         {
             path:'/food/sy',
-            component: ()=> import('../views/sy/shouye.vue'),
+            component: ()=> import('@/views/sy/shouye.vue'),
             children:[
                 {
                     path:'/food/sy',
-                    component: ()=> import('../views/sy/sy.vue'),
+                    component: ()=> import('@/views/sy/sy.vue'),
                 },
                 {
                     path:'/food/menu',
-                    component: ()=> import('../views/menu/menu.vue'),
+                    component: ()=> import('@/views/menu/menu.vue'),
                 },
                 {
                     path:'/food/orders',
-                    component: ()=> import('../views/order/orders.vue'),
+                    component: ()=> import('@/views/order/orders.vue'),
                 },
                 {
                     path:'/my/profile',
-                    component: ()=> import('../views/my/myProfile.vue'),
+                    component: ()=> import('@/views/my/myProfile.vue'),
                 },
                 {
                     path:'/my/avatar',
-                    component: ()=> import('../views/my/myAvatar.vue'),
+                    component: ()=> import('@/views/my/myAvatar.vue'),
                 },
                 {
                     path:'/my/password',
-                    component: ()=> import('../views/my/myPassword.vue'),
+                    component: ()=> import('@/views/my/myPassword.vue'),
+                },
+                {
+                    path:'/my/cart',
+                    component: ()=> import('@/views/cart/cart.vue'),
                 },
             ]
         },
