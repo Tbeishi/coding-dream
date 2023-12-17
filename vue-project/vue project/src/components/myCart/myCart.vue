@@ -1,20 +1,116 @@
 <template>
     <div>
+    <el-scrollbar>
     <el-table
+    :data="cartList"
     style="width: 100%"
+    :cell-style="{padding:'20px 0',fontSize:'15px'}"
+    max-height="450px"
+  
   >
-    <el-table-column type="selection" width="55" />
-    <el-table-column label="Date" width="120">
-      <template #default="scope">{{ scope.row.date }}</template>
+    <el-table-column type="selection" />
+    <el-table-column label="图片" width="150">
+      <template #default="{row}">
+        <el-image :src="row.image" style="width: 50px; height: 50px"></el-image>
+      </template>
     </el-table-column>
-    <el-table-column property="name" label="Name" width="120" />
-    <el-table-column property="address" label="Address" show-overflow-tooltip />
+    <el-table-column prop="name" label="名称"/>
+    <el-table-column label="单价">
+    <template #default="{row}">
+        <span>￥{{ row.price}}</span>
+    </template>
+  </el-table-column>
+  <el-table-column label="购买数量">
+    <template #default="{row}">
+        <el-button type="" plain class="count">x{{ row.count}}</el-button>
+    </template>
+  </el-table-column>
+    <el-table-column label="合计">
+    <template #default="{row}">
+        <span class="cost">￥{{ row.price*row.count }}</span>
+    </template>
+  </el-table-column>
+  <el-table-column width="100px">
+
+  </el-table-column> 
   </el-table>
-  <div style="margin-top: 20px">
-    <el-button
-      >Toggle selection status of second and third rows</el-button
-    >
-    <el-button>Clear selection</el-button>
-  </div>
+</el-scrollbar>
+<div class="footer">
+<div class="footer-right">
+  <div class="total">总计<span class="pay">￥{{ getPay }}</span></div>
+  <div><el-button type="danger" round size="large">结算</el-button></div>
+</div>
+
+</div>
     </div>
 </template>
+
+<script setup>
+import { computed } from 'vue';
+
+defineProps({
+  cartList:{
+    type:Object,
+  }
+})
+
+const getPay = computed(()=>{
+  return 
+})
+</script>
+
+<style lang="less" scoped>
+::v-deep(.el-table__header){
+  padding: 0;
+  .cell{
+    font-weight: 700;
+    color:rgb(88, 88, 88)
+  }
+}
+
+::v-deep(.el-table__cell){
+  padding: 15px 10px;
+  .cell{
+    font-size:18px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.el-button.is-plain.count{
+  line-height: 32px;
+  font-size:15px;
+  cursor: pointer;
+}
+
+.cost{
+  font-size: 20px;
+  color:#f01414;
+}
+
+.footer{
+  width: 100%;
+  height: 72px;
+  background-color: rgb(238, 238, 238);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .footer-right{
+    display: flex;
+    align-items: center;
+    .el-button{
+      margin: 30px;
+      width: 100px;
+    }
+  }
+  .total{
+    .pay{
+  font-size: 30px;
+  color:#f01414;
+  }
+  }
+  
+}
+</style>

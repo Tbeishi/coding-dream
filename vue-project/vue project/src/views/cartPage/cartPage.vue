@@ -1,7 +1,7 @@
 <template>
     <div>
-        <emptyCart/>
-        <myCart/>
+        <emptyCart v-if="cartData.length === 0"/>
+        <myCart v-else :cartList="cartData"/>
     </div>
 </template>
 
@@ -11,8 +11,9 @@ import emptyCart from '@/components/emptyCart/emptyCart.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const route= useRoute()
-
+const cartData = ref([])
 onMounted(()=>{
-console.log(route.params);
+    cartData.value = JSON.parse(route.params.cartData)
+    console.log( cartData.value);
 })
 </script>
