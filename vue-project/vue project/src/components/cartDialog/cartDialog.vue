@@ -23,13 +23,12 @@
       </template>
     </el-table-column>
     <el-table-column label="购买数量" prop="count">
-      <template #default="{row,$index}">
-        <!-- :class="{'forbid':row.count === 0}" -->
+      <template #default="{row}">
         <div class="reduce" :class="{'forbid':row.count === 0}">
         <i  class="iconfont icon-jianshao" :class="{'forbid':row.count === 0}" @click="reduceCount($index)"></i>
         </div>
           <span class="cart-count"> {{ row.count }}</span>
-          <i class="iconfont icon-jia" @click="addCount($index)"></i>
+          <i class="iconfont icon-jia" @click="addCount(row)"></i>
       </template>
     </el-table-column>
   </el-table>
@@ -42,7 +41,7 @@
           <span class="cost" v-show="allcount > 0">￥{{ allcost }}</span>
         </div> 
         <div>
-          <el-button type="primary" @click="dialogVisible = false" :class="{'empty':allcount === 0}" :disabled="allcount === 0">加入购物车</el-button>
+          <el-button type="primary" @click="addcart" :class="{'empty':allcount === 0}" :disabled="allcount === 0">加入购物车</el-button>
           <el-button type="success" @click="dialogVisible = false" :class="{'notSettled':allcount === 0}" :disabled="allcount === 0"> 立即下单</el-button>
         </div>
       </div>
@@ -52,22 +51,33 @@
 </template>
 
 <script setup>
-import { computed, provide, ref } from 'vue'
+import { computed, ref } from 'vue'
 const dialogVisible = ref(false)
 const KindsItem = ref(null)
+const cartList = []
+const cartNameList = []
+const emit = defineEmits(['sendData'])
 
 const showDialog = (Item,index)=>{
     dialogVisible.value = true
     KindsItem.value = Item.kinds
-    console.log(KindsItem.value);
 }
 
-const addCount = (index)=>{
-  KindsItem.value[index].count++
+const addCount = (row)=>{
+  row.count++
+  if(!cartNameList.includes(row.id)){
+    cartNameList.push(row.id)
+    cartList.push(row)
+  }
 }
 
-const reduceCount = (index)=>{
-  KindsItem.value[index].count--
+const reduceCount = (row)=>{
+  row.count--
+  if(row.count === 0){
+    const flag = cartNameList.indexOf(0)
+    cartNameList.splice(flag,1)
+    cartList.splice(flag,1)
+  }
 }
 defineExpose({
     showDialog
@@ -81,7 +91,11 @@ const allcost = computed(()=>{
   return (KindsItem.value.reduce((pre,cur)=>pre + cur.count*cur.price,0));
 })
 
-provide('cartCount',allcount)
+const addcart = ()=>{
+  dialogVisible.value = false
+  emit('sendData', cartList);
+}
+
 </script>
 
 <style scoped lang="less">

@@ -15,7 +15,7 @@
     >
     <el-table-column prop="name" label="名称"/>
     <el-table-column prop="category" label="类别"/>
-    <el-table-column prop="img" label="图片">
+    <el-table-column label="图片">
       <template #default="scope">
         <el-image :src="scope.row.img" style="width: 50px; height: 50px"/>
       </template>
@@ -41,7 +41,7 @@
     >
   </el-pagination>
 </el-card>
-<cartDialog ref="dialog"/>
+<cartDialog ref="dialog" @sendData="cartData"/>
 </div>
 </template>
 
@@ -53,6 +53,11 @@ const currentPage = ref(1) //当前页 刷新后默认显示第一页
 const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
 const dialog = ref(null)
 const fooddata = getData()
+const emit = defineEmits(['getcart'])
+
+const cartData = (data)=>{
+  emit('getcart',data)
+}
 
 const openDialog = (row,$index)=>{
   dialog.value.showDialog(row,$index)

@@ -51,7 +51,7 @@
                 <i class="iconfont icon-gouwuchekong"></i>
                 <div class="cart">
                     <span>购物车</span>
-                    <div class="count">{{ count }}</div>
+                    <div class="count" v-show="count>0">{{ count }}</div>
                 </div>
             </div>      
         </div>
@@ -72,7 +72,7 @@
       </el-header>
 
         <el-main>
-            <router-view></router-view>
+            <router-view @getcart="getData"></router-view>
         </el-main>
       </el-container>
 
@@ -85,8 +85,10 @@ import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBotto
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
-import { inject } from 'vue'
+import { computed, ref } from 'vue'
 const router = useRouter()
+const cartData = ref([])
+const count = ref(0)
 const handlecommand = async (key)=>{
     if(key === 'layout'){
     await ElMessageBox.confirm(
@@ -103,8 +105,15 @@ const handlecommand = async (key)=>{
     router.replace({path:`/my/${key}`})
     }
 }
+const getData = (data)=>{
+  cartData.value = data
+  count.value = cartCount()
+  console.log(cartData.value);
+  console.log(count.value);
+}
 
-const count = inject('cartCount')
+const cartCount = () => cartData.value.reduce((pre,cur)=>pre + cur.count,0)
+
 </script>
 
 <style scoped lang="less">
