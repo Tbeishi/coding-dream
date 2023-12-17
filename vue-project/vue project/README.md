@@ -1,7 +1,27 @@
-# Vue 3 + Vite
+# 路由传参  使用useRouter方法
+<!--
+import { useRouter }  from 'vue-router' 
+const router = useRouter()
+ const navigate = () => {
+    router.push({
+    name:'mycart',  跳转组件名字
+    params: { cartData:JSON.stringify(cartData.value) }  数据要转为JSON字符串
+  })
+} 
+-->
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# 目标组件接收参数 使用useRoute方法
+<!-- import { useRoute } from 'vue-router'
+const route= useRoute()
+onMounted(()=>{
+console.log(route.params.mycart);
+}) -->
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# 配置动态路由参数
+<!-- 
+{
+ path:'/my/cart/:cartData',
+ name:'mycart',
+ component: ()=> import('@/views/cartPage/cartPage.vue'),
+}
+ -->

@@ -17,26 +17,32 @@ const router = createRouter({
                 },
                 {
                     path:'/food/menu',
+                    name:'menu',
                     component: ()=> import('@/views/menuPage/menuPage.vue'),
                 },
                 {
                     path:'/food/orders',
+                    name:'orders',
                     component: ()=> import('@/views/orderPage/ordersPage.vue'),
                 },
                 {
                     path:'/my/profile',
+                    name:'myprofile',
                     component: ()=> import('@/views/myPage/myProfilePage.vue'),
                 },
                 {
                     path:'/my/avatar',
+                    name:'myavatar',
                     component: ()=> import('@/views/myPage/myAvatarPage.vue'),
                 },
                 {
                     path:'/my/password',
+                    name:'mypassword',
                     component: ()=> import('@/views/myPage/myPasswordPage.vue'),
                 },
                 {
-                    path:'/my/cart',
+                    path:'/my/cart/:cartData',
+                    name:'mycart',
                     component: ()=> import('@/views/cartPage/cartPage.vue'),
                 },
             ]

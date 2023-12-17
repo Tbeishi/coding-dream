@@ -47,7 +47,7 @@
         <el-header>
         <span class="message">欢迎您！<strong>小米露</strong></span>
         <div class="itemBar">
-            <div class="shoppingCart" @click="router.replace({path:'/my/cart'})">
+            <div class="shoppingCart" @click="navigate">
                 <i class="iconfont icon-gouwuchekong"></i>
                 <div class="cart">
                     <span>购物车</span>
@@ -85,7 +85,7 @@ import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBotto
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 const router = useRouter()
 const cartData = ref([])
 const count = ref(0)
@@ -114,6 +114,12 @@ const getData = (data)=>{
 
 const cartCount = () => cartData.value.reduce((pre,cur)=>pre + cur.count,0)
 
+const navigate = () => {
+  router.push({
+    name:'mycart',
+    params: { cartData:JSON.stringify(cartData.value) } 
+  })
+}
 </script>
 
 <style scoped lang="less">

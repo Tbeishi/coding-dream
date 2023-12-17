@@ -25,7 +25,7 @@
     <el-table-column label="购买数量" prop="count">
       <template #default="{row}">
         <div class="reduce" :class="{'forbid':row.count === 0}">
-        <i  class="iconfont icon-jianshao" :class="{'forbid':row.count === 0}" @click="reduceCount($index)"></i>
+        <i  class="iconfont icon-jianshao" :class="{'forbid':row.count === 0}" @click="reduceCount(row)"></i>
         </div>
           <span class="cart-count"> {{ row.count }}</span>
           <i class="iconfont icon-jia" @click="addCount(row)"></i>
@@ -99,27 +99,27 @@ const addcart = ()=>{
 </script>
 
 <style scoped lang="less">
-::v-deep .el-dialog__title{
+::v-deep(.el-dialog__title){
   font-size: 15px;
   line-height: 54px;
   margin-left: 15px;
 }
-::v-deep .el-dialog__header{
+::v-deep(.el-dialog__header){
   padding: 0; 
   margin: 0;
   background-color: rgb(244, 244, 244);   
 }
 
-::v-deep .el-dialog__headerbtn{
+::v-deep(.el-dialog__headerbtn){
   top:0;
   padding: 10px 10px
 }
 
-::v-deep .el-dialog__body{
+::v-deep(.el-dialog__body){
   min-height: 100px;
   padding: 0;
 }
-::v-deep .el-table__header{
+::v-deep(.el-table__header){
   padding: 0;
 }
 
@@ -166,7 +166,7 @@ const addcart = ()=>{
   text-align: center;
 }
 
-::v-deep .el-dialog__footer{
+::v-deep(.el-dialog__footer){
   padding-top: 20px;
 }
 

@@ -71,7 +71,8 @@ const handleCurrentChange = (Page) => {
 onMounted(()=>{
   document.getElementsByClassName("el-pagination__goto")[0].childNodes[0].nodeValue = "跳转至";
   document.getElementsByClassName("el-pagination__total")[0].childNodes[0].nodeValue = `共${fooddata.length}种商品`;
- }) 
+}) 
+
 </script>
 
 <style scoped lang="less">
@@ -88,11 +89,11 @@ onMounted(()=>{
   }
 }
 
-.el-card ::v-deep .el-card__body {
+.el-card ::v-deep(.el-card__body){
   padding: 0;
 }
 
-::v-deep .el-table__cell{
+::v-deep(.el-table__cell){
   padding: 15px 10px;
   .cell{
     text-align: center;
