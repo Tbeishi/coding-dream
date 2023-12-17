@@ -58,7 +58,7 @@ const cartList = []
 const cartNameList = []
 const emit = defineEmits(['sendData'])
 
-const showDialog = (Item,index)=>{
+const showDialog = (Item)=>{
     dialogVisible.value = true
     KindsItem.value = Item.kinds
 }

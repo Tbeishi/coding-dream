@@ -26,8 +26,8 @@
       </template>
       <!-- row - table的每一行数据,类似item -->
       <!-- $index - table的每一行数据的下标 -->
-      <template #default="{ row,$index }">
-        <el-button type="primary" text bg @click="openDialog(row,$index)">选择样式</el-button>
+      <template #default="{ row }">
+        <el-button type="primary" text bg @click="openDialog(row)">选择样式</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -48,7 +48,7 @@
 <script setup>
 import { onMounted,ref } from "vue";
 import cartDialog from '@/components/cartDialog/cartDialog.vue'
-import getData from '@/views/menu/menudata.js'
+import getData from '@/views/menuPage/menudata.js'
 const currentPage = ref(1) //当前页 刷新后默认显示第一页
 const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
 const dialog = ref(null)
@@ -59,8 +59,8 @@ const cartData = (data)=>{
   emit('getcart',data)
 }
 
-const openDialog = (row,$index)=>{
-  dialog.value.showDialog(row,$index)
+const openDialog = (row)=>{
+  dialog.value.showDialog(row)
 }
 
 const handleCurrentChange = (Page) => {
