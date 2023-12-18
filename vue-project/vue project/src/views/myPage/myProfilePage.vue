@@ -3,7 +3,7 @@
     <el-descriptions
     class="margin-top"
     title="个人信息"
-    column = 1
+    :column = 1
     :border="true"
   >
     <template #extra>

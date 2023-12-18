@@ -38,21 +38,25 @@
 <div class="footer">
 <div class="footer-right">
   <div class="total">总计:<span class="pay">￥{{ allPay }}</span></div>
-  <div><el-button type="danger" round size="large">结算</el-button></div>
+  <div><el-button type="danger" round size="large" @click="open">结算</el-button></div>
 </div>
-
 </div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { ElMessage } from 'element-plus'
 const allPay = ref(0)
 defineProps({
   cartList:{
     type:Object,
   }
 })
+
+const open = () => {
+  ElMessage({ type:'error', message:'您还没有选择宝贝哦！'})
+}
 
 // selection为购物车列表选中的每一项
 const countPay = (selection)=>{
