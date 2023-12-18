@@ -9,7 +9,7 @@
         active-text-color="#ffd04b"
         router
         >
-        <el-menu-item index="/food/sy">
+        <el-menu-item :index= index>
             <el-icon><House /></el-icon>
             <span>首页</span>
           </el-menu-item>
@@ -45,7 +45,7 @@
       <el-container>
 
         <el-header>
-        <span class="message">欢迎您！<strong>小米露</strong></span>
+        <span class="message">欢迎您！<strong>{{ user }}</strong></span>
         <div class="itemBar">
             <div class="shoppingCart" @click="navigate">
                 <i class="iconfont icon-gouwuchekong"></i>
@@ -72,7 +72,7 @@
       </el-header>
 
         <el-main>
-            <router-view @getcart="getData"></router-view>
+            <router-view @getcart="getData" @getUser="getUserData"></router-view>
         </el-main>
       </el-container>
 
@@ -88,7 +88,13 @@ import defaultAvatar from '@/assets/picture/默认头像.jpg'
 import { ref } from 'vue'
 const router = useRouter()
 const cartData = ref([])
+const user = ref('')
 const count = ref(0)
+const index = ref('')
+const getUserData = (data)=>{
+    user.value = data
+    index.value = "/food/sy/"+ user.value
+}
 const handlecommand = async (key)=>{
     if(key === 'layout'){
     await ElMessageBox.confirm(
