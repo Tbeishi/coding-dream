@@ -10,7 +10,7 @@
       </div>
     </template>
     <el-table style="width: 100%" 
-    :data="fooddata.slice((currentPage - 1) * pageSize, currentPage * pageSize)" 
+    :data="formData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" 
     :cell-style="{padding:'8px 0',fontSize:'15px'}"
     >
     <el-table-column prop="name" label="名称"/>
@@ -22,7 +22,7 @@
     </el-table-column> 
     <el-table-column>
       <template #header>
-        <el-input size="small" placeholder="搜索食品"/>
+        <el-input size="small" placeholder="搜索食品" v-model="search"/>
       </template>
       <!-- row - table的每一行数据,类似item -->
       <!-- $index - table的每一行数据的下标 -->
@@ -46,14 +46,21 @@
 </template>
 
 <script setup>
-import { onMounted,ref } from "vue";
+import { computed, onMounted,ref } from "vue";
 import cartDialog from '@/components/cartDialog/cartDialog.vue'
 import getData from '@/views/menuPage/menudata.js'
 const currentPage = ref(1) //当前页 刷新后默认显示第一页
 const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
 const dialog = ref(null)
 const fooddata = getData()
+const search = ref(null)
 const emit = defineEmits(['getcart'])
+
+// filter过滤数组，默认不搜索!search.value为true,返回fooddata数据每一项
+// 搜索!search.value为false，走||，返回每一项中的名字和分类含有搜索的值
+const formData = computed(()=>{
+  return fooddata.filter((item)=> !search.value || item.name.includes(search.value) || item.category.includes(search.value))
+})
 
 const cartData = (data)=>{
   emit('getcart',data)
