@@ -39,6 +39,7 @@
     @current-change="handleCurrentChange"
     :page-size="pageSize"
     >
+    <!-- hide-on-single-page -->
   </el-pagination>
 </el-card>
 <cartDialog ref="dialog" @sendData="cartData"/>
@@ -108,5 +109,9 @@ onMounted(()=>{
     align-items: center;
     justify-content: center;
   }
+}
+
+::v-deep(.el-table__inner-wrapper){
+  height: 389px;
 }
 </style>

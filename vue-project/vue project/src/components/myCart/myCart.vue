@@ -6,7 +6,7 @@
     style="width: 100%"
     :cell-style="{padding:'20px 0',fontSize:'15px'}"
     max-height="450px"
-  
+    @selection-change="countPay"
   >
     <el-table-column type="selection" />
     <el-table-column label="图片" width="150">
@@ -37,7 +37,7 @@
 </el-scrollbar>
 <div class="footer">
 <div class="footer-right">
-  <div class="total">总计<span class="pay">￥{{ getPay }}</span></div>
+  <div class="total">总计<span class="pay">￥{{ allPay }}</span></div>
   <div><el-button type="danger" round size="large">结算</el-button></div>
 </div>
 
@@ -46,17 +46,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-
+import { ref } from 'vue';
+const allPay = ref(0)
 defineProps({
   cartList:{
     type:Object,
   }
 })
 
-const getPay = computed(()=>{
-  return 
-})
+// selection为购物车列表选中的每一项
+const countPay = (selection)=>{
+  allPay.value = selection.reduce((pre,cur)=> pre + cur.price*cur.count, 0)
+}
 </script>
 
 <style lang="less" scoped>

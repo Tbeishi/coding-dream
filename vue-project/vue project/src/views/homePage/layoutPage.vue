@@ -95,7 +95,6 @@ const defaultIndex = ref('/food/sy/新用户')
 const path = ref('')
 onMounted(()=>{
 path.value = index.value ? index.value : defaultIndex.value
-console.log(path.value);
 })
 const getUserData = (data)=>{
     user.value = data
@@ -120,8 +119,6 @@ const handlecommand = async (key)=>{
 const getData = (data)=>{
   cartData.value = data
   count.value = cartCount()
-  console.log(cartData.value);
-  console.log(count.value);
 }
 
 const cartCount = () => cartData.value.reduce((pre,cur)=>pre + cur.count,0)

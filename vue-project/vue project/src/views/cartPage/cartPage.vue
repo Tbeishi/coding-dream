@@ -14,6 +14,5 @@ const route= useRoute()
 const cartData = ref([])
 onMounted(()=>{
     cartData.value = JSON.parse(route.params.cartData)
-    console.log( cartData.value);
 })
 </script>
