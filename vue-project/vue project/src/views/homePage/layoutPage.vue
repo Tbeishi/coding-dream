@@ -9,7 +9,7 @@
         active-text-color="#ffd04b"
         router
         >
-        <el-menu-item :index= index>
+        <el-menu-item :index= path>
             <el-icon><House /></el-icon>
             <span>首页</span>
           </el-menu-item>
@@ -85,12 +85,18 @@ import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBotto
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 const router = useRouter()
 const cartData = ref([])
 const user = ref('')
 const count = ref(0)
 const index = ref('')
+const defaultIndex = ref('/food/sy/新用户')
+const path = ref('')
+onMounted(()=>{
+path.value = index.value ? index.value : defaultIndex.value
+console.log(path.value);
+})
 const getUserData = (data)=>{
     user.value = data
     index.value = "/food/sy/"+ user.value
