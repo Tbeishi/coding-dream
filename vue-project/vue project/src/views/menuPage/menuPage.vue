@@ -22,7 +22,7 @@
     </el-table-column> 
     <el-table-column>
       <template #header>
-        <el-input size="small" placeholder="搜索食品" v-model="search"/>
+        <el-input size="small" placeholder="搜索名称或类别" v-model="search"/>
       </template>
       <!-- row - table的每一行数据,类似item -->
       <!-- $index - table的每一行数据的下标 -->
@@ -34,7 +34,7 @@
   <el-pagination 
     background
     layout="prev,pager,next,total,jumper"
-    :total="fooddata.length"
+    :total="formData.length"
     :current-page="currentPage"
     @current-change="handleCurrentChange"
     :page-size="pageSize"
