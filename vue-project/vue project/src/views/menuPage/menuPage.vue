@@ -74,7 +74,7 @@ const openDialog = (row)=>{
 const handleCurrentChange = (Page) => {
          //每次点击分页按钮，当前页发生变化
     currentPage.value = Page
-  }
+}
 
 onMounted(()=>{
   document.getElementsByClassName("el-pagination__goto")[0].childNodes[0].nodeValue = "跳转至";

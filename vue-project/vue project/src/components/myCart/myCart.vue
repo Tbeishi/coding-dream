@@ -37,7 +37,7 @@
 </el-scrollbar>
 <div class="footer">
 <div class="footer-right">
-  <div class="total">总计<span class="pay">￥{{ allPay }}</span></div>
+  <div class="total">总计:<span class="pay">￥{{ allPay }}</span></div>
   <div><el-button type="danger" round size="large">结算</el-button></div>
 </div>
 
