@@ -47,7 +47,10 @@
 <script setup>
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const allPay = ref(0)
+const count = ref(0)
 defineProps({
   cartList:{
     type:Object,
@@ -55,11 +58,16 @@ defineProps({
 })
 
 const open = () => {
+  if(count.value === 0)
   ElMessage({ type:'error', message:'您还没有选择宝贝哦！'})
+  else {
+    router.push({name:'pay'})
+  }
 }
 
 // selection为购物车列表选中的每一项
 const countPay = (selection)=>{
+  count.value ++
   allPay.value = selection.reduce((pre,cur)=> pre + cur.price*cur.count, 0)
 }
 </script>

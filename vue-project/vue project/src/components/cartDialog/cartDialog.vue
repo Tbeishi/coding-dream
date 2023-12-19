@@ -42,7 +42,7 @@
         </div> 
         <div>
           <el-button type="primary" @click="addcart" :class="{'empty':allcount === 0}" :disabled="allcount === 0">加入购物车</el-button>
-          <el-button type="success" @click="dialogVisible = false" :class="{'notSettled':allcount === 0}" :disabled="allcount === 0"> 立即下单</el-button>
+          <el-button type="success" @click="payOrder" :class="{'notSettled':allcount === 0}" :disabled="allcount === 0"> 立即下单</el-button>
         </div>
       </div>
     </template>
@@ -52,6 +52,8 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const dialogVisible = ref(false)
 const KindsItem = ref(null)
 const cartList = []
@@ -94,6 +96,11 @@ const allcost = computed(()=>{
 const addcart = ()=>{
   dialogVisible.value = false
   emit('sendData', cartList);
+}
+
+const payOrder = ()=>{
+  dialogVisible.value = false
+  router.push({name:'pay'})
 }
 
 </script>
