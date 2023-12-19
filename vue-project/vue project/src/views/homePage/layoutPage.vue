@@ -9,20 +9,24 @@
         active-text-color="#ffd04b"
         router
         >
-        <el-menu-item :index= path>
+        <el-menu-item index="/food/sy">
             <el-icon><House /></el-icon>
             <span>首页</span>
           </el-menu-item>
           <el-menu-item index="/food/menu">
-            <el-icon><KnifeFork /></el-icon>
+            <el-icon><IceTea /></el-icon>
             <span>零食菜单</span>
           </el-menu-item>
           <el-menu-item index="/food/orders">
             <el-icon><Memo /></el-icon>
             <span>我的订单</span>
           </el-menu-item>
-  
-          <el-sub-menu index="/my">
+          <el-menu-item index="/my/notLogin" v-if="!UserStore.user">
+            <el-icon><Avatar /></el-icon>
+            <span>个人中心</span>
+          </el-menu-item>
+
+          <el-sub-menu index="/my" v-else>
             <template #title>
             <el-icon><Avatar /></el-icon>
               <span>个人中心</span>
@@ -45,7 +49,7 @@
       <el-container>
 
         <el-header>
-        <span class="message">欢迎您！<strong>{{ user }}</strong></span>
+        <span class="message">欢迎您！<strong>{{ UserStore.user }}</strong></span>
         <div class="itemBar">
             <div class="shoppingCart" @click="navigate">
                 <i class="iconfont icon-gouwuchekong"></i>
@@ -62,17 +66,17 @@
           </span>
           <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item :icon="Message" command="profile">基本资料</el-dropdown-item>
-            <el-dropdown-item :icon="PictureFilled" command="avatar">更换头像</el-dropdown-item>
-            <el-dropdown-item :icon="RefreshLeft" command="password">重置密码</el-dropdown-item>
-            <el-dropdown-item :icon="SwitchButton" command="layout">退出登录</el-dropdown-item>
+            <el-dropdown-item :icon="Message" command="profile" v-if="UserStore.user">基本资料</el-dropdown-item>
+            <el-dropdown-item :icon="PictureFilled" command="avatar" v-if="UserStore.user">更换头像</el-dropdown-item>
+            <el-dropdown-item :icon="RefreshLeft" command="password" v-if="UserStore.user">重置密码</el-dropdown-item>
+            <el-dropdown-item :icon="SwitchButton" :command="UserStore.user ? 'layout' : 'login'">{{UserStore.user ? '退出登录' : '去登录'}}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
         </el-dropdown>
       </el-header>
 
         <el-main>
-            <router-view @getcart="getData" @getUser="getUserData"></router-view>
+            <router-view @getcart="getData"></router-view>
         </el-main>
       </el-container>
 
@@ -81,25 +85,17 @@
 </template>
 
 <script setup>
-import {House,KnifeFork,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBottom,Document,SwitchButton} from '@element-plus/icons-vue'
+import {House,IceTea,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBottom,Document,SwitchButton} from '@element-plus/icons-vue'
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import { useUserStore } from '@/store/user'
+const UserStore = useUserStore()
 const router = useRouter()
 const cartData = ref([])
-const user = ref('')
 const count = ref(0)
-const index = ref('')
-const defaultIndex = ref('/food/sy/新用户')
-const path = ref('')
-onMounted(()=>{
-path.value = index.value ? index.value : defaultIndex.value
-})
-const getUserData = (data)=>{
-    user.value = data
-    index.value = "/food/sy/"+ user.value
-}
+
 const handlecommand = async (key)=>{
     if(key === 'layout'){
     await ElMessageBox.confirm(
@@ -110,7 +106,12 @@ const handlecommand = async (key)=>{
       cancelButtonText: '否',
       type: 'warning',
     })
-    router.replace({path:'/'})
+    UserStore.count = 0
+    UserStore.user = ''
+    router.replace({path:'/login'})
+    }
+    else if(key == 'login'){
+    router.replace({path:'/login'})
     }
     else{
     router.replace({path:`/my/${key}`})

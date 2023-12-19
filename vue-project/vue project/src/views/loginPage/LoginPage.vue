@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus';
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/store/user';
 
+const UserStore = useUserStore()
 //准备表单对象
 const refForm = ref({
     name:'',
@@ -33,9 +35,10 @@ const dologin = ()=>{
     formdata.value.validate((valid)=>{
         if(valid){
            ElMessage({ type:'success', message:'登录成功！'})
+           UserStore.user = name
+           console.log(UserStore.user)
            router.push({
             name:'home',
-            params:{user: name}
         })
     }
 })

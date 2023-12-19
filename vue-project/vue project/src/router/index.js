@@ -5,7 +5,7 @@ const router = createRouter({
     routes: [
         {
             path:'/',
-            redirect:'/food/sy/新用户'
+            redirect:'/food/sy'
         },
         {
             path:'/login',
@@ -17,7 +17,7 @@ const router = createRouter({
             component: ()=> import('@/views/homePage/layoutPage.vue'),
             children:[
                 {
-                    path:'/food/sy/:user',
+                    path:'/food/sy',
                     name: 'home',
                     component: ()=> import('@/views/homePage/homePage.vue'),
                 },
@@ -35,6 +35,11 @@ const router = createRouter({
                     path:'/my/profile',
                     name:'myprofile',
                     component: ()=> import('@/views/myPage/myProfilePage.vue'),
+                },
+                {
+                    path:'/my/notLogin',
+                    name:'notLogin',
+                    component: ()=> import('@/views/myPage/notLoginPage.vue'),
                 },
                 {
                     path:'/my/avatar',
