@@ -36,7 +36,6 @@ const dologin = ()=>{
         if(valid){
            ElMessage({ type:'success', message:'登录成功！'})
            UserStore.user = name
-           console.log(UserStore.user)
            router.push({
             name:'home',
         })

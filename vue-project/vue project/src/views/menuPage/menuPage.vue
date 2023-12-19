@@ -1,11 +1,53 @@
+<script setup>
+import { ref } from "vue";
+import cartDialog from '@/components/cartDialog/cartDialog.vue'
+import getData from '@/views/menuPage/menudata.js'
+import { Search } from '@element-plus/icons-vue'
+const currentPage = ref(1) //当前页 刷新后默认显示第一页
+const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
+const dialog = ref(null)
+const search = ref(null)
+const emit = defineEmits(['getcart'])
+const foodData = getData()
+const formData = ref(foodData)
+
+const searchData = ()=>{
+  if(search.value){
+    // filter过滤数组，默认不搜索!search.value为true,返回fooddata数据每一项
+    // 搜索!search.value为false，走||，返回每一项中的名字和分类含有搜索的值
+  formData.value = foodData.filter((item)=> !search.value || item.name.includes(search.value) || item.category.includes(search.value))
+  search.value = ''
+  }
+}
+
+const showAllData = ()=>{
+  formData.value = foodData
+}
+
+const cartData = (data)=>{
+  emit('getcart',data)
+}
+
+const openDialog = (row)=>{
+  dialog.value.showDialog(row)
+}
+
+const handleCurrentChange = (Page) => {
+         //每次点击分页按钮，当前页发生变化
+    currentPage.value = Page
+}
+</script>
+
 <template>
   <div>
     <el-card class="card">
     <template #header>
       <div class="card-header">
-        <span>零食菜单</span>
+        <span>商品菜单</span>
         <div>
-          <el-button type="primary">分类</el-button>
+          <el-input @keyup.enter.native="searchData" size="default" placeholder="搜索名称或类别" :prefix-icon="Search" v-model="search" style="width:200px;margin-right: 10px;"/>
+          <el-button type="primary" @click="searchData">搜索</el-button>
+          <el-button plain @click="showAllData">全部商品</el-button>
         </div>
       </div>
     </template>
@@ -20,10 +62,7 @@
         <el-image :src="scope.row.img" style="width: 50px; height: 50px"/>
       </template>
     </el-table-column> 
-    <el-table-column>
-      <template #header>
-        <el-input size="small" placeholder="搜索名称或类别" v-model="search"/>
-      </template>
+    <el-table-column label="样式">
       <!-- row - table的每一行数据,类似item -->
       <!-- $index - table的每一行数据的下标 -->
       <template #default="{ row }">
@@ -45,43 +84,6 @@
 <cartDialog ref="dialog" @sendData="cartData"/>
 </div>
 </template>
-
-<script setup>
-import { computed, onMounted,ref } from "vue";
-import cartDialog from '@/components/cartDialog/cartDialog.vue'
-import getData from '@/views/menuPage/menudata.js'
-const currentPage = ref(1) //当前页 刷新后默认显示第一页
-const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
-const dialog = ref(null)
-const fooddata = getData()
-const search = ref(null)
-const emit = defineEmits(['getcart'])
-
-// filter过滤数组，默认不搜索!search.value为true,返回fooddata数据每一项
-// 搜索!search.value为false，走||，返回每一项中的名字和分类含有搜索的值
-const formData = computed(()=>{
-  return fooddata.filter((item)=> !search.value || item.name.includes(search.value) || item.category.includes(search.value))
-})
-
-const cartData = (data)=>{
-  emit('getcart',data)
-}
-
-const openDialog = (row)=>{
-  dialog.value.showDialog(row)
-}
-
-const handleCurrentChange = (Page) => {
-         //每次点击分页按钮，当前页发生变化
-    currentPage.value = Page
-}
-
-onMounted(()=>{
-  document.getElementsByClassName("el-pagination__goto")[0].childNodes[0].nodeValue = "跳转至";
-  document.getElementsByClassName("el-pagination__total")[0].childNodes[0].nodeValue = `共${fooddata.length}种商品`;
-}) 
-
-</script>
 
 <style scoped lang="less">
 .card{

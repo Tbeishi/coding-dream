@@ -53,32 +53,35 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { useCartStore } from '@/store/cart'
+const CartStore = useCartStore()
 const router = useRouter()
 const dialogVisible = ref(false)
 const KindsItem = ref(null)
-const cartList = []
-const cartNameList = []
-const emit = defineEmits(['sendData'])
+const foodList = [] //记录用户选购的商品
+const ListName = [] //记录用户选购商品的id
 
 const showDialog = (Item)=>{
     dialogVisible.value = true
     KindsItem.value = Item.kinds
 }
-
+//用户每次点+,该商品购买数量+1,并且通过用户选购的商品id,来判断是否选购过该商品
+//没有选购过该商品，foodList，ListName均添加数据
 const addCount = (row)=>{
   row.count++
-  if(!cartNameList.includes(row.id)){
-    cartNameList.push(row.id)
-    cartList.push(row)
+  if(!ListName.includes(row.id)){
+    ListName.push(row.id)
+    foodList.push(row)
   }
 }
-
+//用户每次点-,该商品购买数量-1,并且通过判断用户点击的商品选购数量是否减为0
+//若减为0，foodList，ListName均删除该商品数据
 const reduceCount = (row)=>{
   row.count--
   if(row.count === 0){
-    const flag = cartNameList.indexOf(0)
-    cartNameList.splice(flag,1)
-    cartList.splice(flag,1)
+    const flag = ListName.indexOf(row.id)
+    ListName.splice(flag,1)
+    foodList.splice(flag,1)
   }
 }
 defineExpose({
@@ -94,8 +97,20 @@ const allcost = computed(()=>{
 })
 
 const addcart = ()=>{
+  //依次遍历ListName，看仓库的cartNameList是否存在该商品，若不存在则往仓库添加该商品信息
+  //若存在，则在仓库找到该商品增加相应选购数量
+  ListName.forEach((item,index)=>{
+    if(!CartStore.cartNameList.includes(item)){
+      CartStore.cartNameList.push(item)
+      CartStore.Cartdata.push(foodList[index])
+    }
+    else{
+      const flag = CartStore.cartNameList.indexOf(item)
+      CartStore.Cartdata[flag].count += foodList[index].count
+    }
+    })
+  CartStore.Cartcount = CartStore.Cartdata.reduce((pre,cur)=>pre + cur.count,0)
   dialogVisible.value = false
-  emit('sendData', cartList);
 }
 
 const payOrder = ()=>{

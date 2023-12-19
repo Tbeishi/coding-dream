@@ -52,7 +52,7 @@ const router = createRouter({
                     component: ()=> import('@/views/myPage/myPasswordPage.vue'),
                 },
                 {
-                    path:'/my/cart/:cartData',
+                    path:'/my/cart',
                     name:'mycart',
                     component: ()=> import('@/views/cartPage/cartPage.vue'),
                 },

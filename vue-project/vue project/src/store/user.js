@@ -8,7 +8,5 @@ export const useUserStore = defineStore('user',()=>{
         user, //记录用户名
         count //记录进入首页次数
     }
-},{
-    persist:true,
 })
 

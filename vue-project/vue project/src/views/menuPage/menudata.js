@@ -242,6 +242,7 @@ export default function  getData(){
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
+            kinds:[]
         },
         {
             id: 7,
@@ -249,6 +250,7 @@ export default function  getData(){
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
+            kinds:[]
         },
         {
             id: 8,
@@ -256,6 +258,7 @@ export default function  getData(){
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
+            kinds:[]
         },
         {
             id: 9,
@@ -263,6 +266,7 @@ export default function  getData(){
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
+            kinds:[]
         },
         {
             id: 10,
@@ -270,6 +274,7 @@ export default function  getData(){
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
+            kinds:[]
         },
     ]
     return fooddata

@@ -2,7 +2,7 @@
     <div>
     <el-scrollbar>
     <el-table
-    :data="cartList"
+    :data="CartStore.Cartdata"
     style="width: 100%"
     :cell-style="{padding:'20px 0',fontSize:'15px'}"
     max-height="450px"
@@ -45,17 +45,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router';
+import { useCartStore } from '@/store/cart'
+
+const CartStore = useCartStore()
 const router = useRouter()
 const allPay = ref(0)
 const count = ref(0)
-defineProps({
-  cartList:{
-    type:Object,
-  }
-})
 
 const open = () => {
   if(count.value === 0)

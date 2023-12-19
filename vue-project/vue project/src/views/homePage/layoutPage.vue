@@ -51,11 +51,11 @@
         <el-header>
         <span class="message">欢迎您！<strong>{{ UserStore.user }}</strong></span>
         <div class="itemBar">
-            <div class="shoppingCart" @click="navigate">
+            <div class="shoppingCart" @click="router.push({name:'mycart'})">
                 <i class="iconfont icon-gouwuchekong"></i>
                 <div class="cart">
                     <span>购物车</span>
-                    <div class="count" v-show="count>0">{{ count }}</div>
+                    <div class="count" v-show="CartStore.Cartcount>0">{{ CartStore.Cartcount }}</div>
                 </div>
             </div>      
         </div>
@@ -76,7 +76,7 @@
       </el-header>
 
         <el-main>
-            <router-view @getcart="getData"></router-view>
+            <router-view></router-view>
         </el-main>
       </el-container>
 
@@ -89,12 +89,13 @@ import {House,IceTea,Memo,RefreshLeft,PictureFilled,Message,Avatar,CaretBottom,D
 import { useRouter }  from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useUserStore } from '@/store/user'
+import { useCartStore } from '@/store/cart'
+
 const UserStore = useUserStore()
+const CartStore = useCartStore()
 const router = useRouter()
-const cartData = ref([])
-const count = ref(0)
 
 const handlecommand = async (key)=>{
     if(key === 'layout'){
@@ -117,19 +118,7 @@ const handlecommand = async (key)=>{
     router.replace({path:`/my/${key}`})
     }
 }
-const getData = (data)=>{
-  cartData.value = data
-  count.value = cartCount()
-}
 
-const cartCount = () => cartData.value.reduce((pre,cur)=>pre + cur.count,0)
-
-const navigate = () => {
-  router.push({
-    name:'mycart',
-    params: { cartData:JSON.stringify(cartData.value) } 
-  })
-}
 </script>
 
 <style scoped lang="less">
