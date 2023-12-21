@@ -22,14 +22,14 @@
     <el-table-column prop="name" label="名称"/>
     <el-table-column label="单价">
     <template #default="{row}">
-        <span>￥{{ row.price}}</span>
+        <span>¥{{ row.price}}</span>
     </template>
   </el-table-column>
   <el-table-column label="购买数量">
     <template #default="{row,$index}">
-        <i class="iconfont icon-jianshao" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper}"></i>
-        <el-button type="" plain class="count" @click="changeAnimation($index)">x{{ row.count}}</el-button>
-        <i class="iconfont icon-jia" :class="{'showjia': animationList[$index].show,'returnjia': animationList[$index].disapper}"></i>
+        <i class="iconfont icon-jianshao" @click="reduce(row)" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper}"></i>
+        <el-input type="button" size="default" style="width:42px" class="count" @click="changeAnimation($index)" v-model="row.count"/>
+        <i class="iconfont icon-jia" @click="row.count++" :class="{'showjia': animationList[$index].show,'returnjia': animationList[$index].disapper}"></i>
     </template>
   </el-table-column>
     <el-table-column label="合计">
@@ -95,10 +95,9 @@ const open = () => {
   }
 }
 
-
-// selection为购物车列表选中的每一项
-const countPay = ()=>{
-  count.value ++
+const reduce = (row) => {
+  if(row.count > 1)
+  row.count--
 }
 
 const checkAll = ()=>{
@@ -128,15 +127,13 @@ const checkAll = ()=>{
 //计算购物车被选物品的总价
 const allPay = computed(()=>{
   let res = 0
-  // checkedList.value.forEach((item,index)=>{
-  //   if(item === true){
-  //     res = res + CartStore.cartCartdata[index].price * CartStore.cartCartdata[index].price.count
-  //   }
-  // })
+  checkedList.value.forEach((item,index)=>{
+    if(item === true){
+      res += CartStore.Cartdata[index].price * CartStore.Cartdata[index].count
+    }
+  })
   return res
 })
-
-
 </script>
 
 <style lang="less" scoped>
@@ -222,7 +219,7 @@ pointer-events:none;
   animation: returnjia 1.3s ease forwards;
 }
 
-.el-button.is-plain.count{
+.el-input{
   line-height: 32px;
   font-size:15px;
   cursor: pointer;
