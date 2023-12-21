@@ -7,8 +7,13 @@
     :cell-style="{padding:'20px 0',fontSize:'15px'}"
     max-height="450px"
     @selection-change="countPay"
+    ref = "table"
   >
-    <el-table-column type="selection" />
+  <el-table-column width="70">
+    <template #default="{$index}">
+      <el-checkbox v-model="checkedList[$index]"></el-checkbox>
+    </template>
+  </el-table-column>
     <el-table-column label="图片" width="150">
       <template #default="{row}">
         <el-image :src="row.image" style="width: 50px; height: 50px"></el-image>
@@ -21,23 +26,31 @@
     </template>
   </el-table-column>
   <el-table-column label="购买数量">
-    <template #default="{row}">
-        <el-button type="" plain class="count">x{{ row.count}}</el-button>
+    <template #default="{row,$index}">
+        <i class="iconfont icon-jianshao" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper}"></i>
+        <el-button type="" plain class="count" @click="changeAnimation($index)">x{{ row.count}}</el-button>
+        <i class="iconfont icon-jia" :class="{'showjia': animationList[$index].show,'returnjia': animationList[$index].disapper}"></i>
     </template>
   </el-table-column>
     <el-table-column label="合计">
     <template #default="{row}">
-        <span class="cost">￥{{ row.price*row.count }}</span>
+        <span class="cost"><i>¥</i>{{ row.price*row.count }}</span>
     </template>
   </el-table-column>
   <el-table-column width="100px">
-
+    <template #header>
+      <el-icon><Grid /></el-icon>
+    </template>
   </el-table-column> 
   </el-table>
 </el-scrollbar>
 <div class="footer">
+<div class="footer-left">
+  <el-checkbox size="large" @change="checkAll" v-model="checked"/>
+  <div @click="checkAll" style="margin-left: 5px;">全选</div>
+</div>
 <div class="footer-right">
-  <div class="total">总计:<span class="pay">￥{{ allPay }}</span></div>
+  <div class="total">总计:<span class="pay"><i>¥</i>{{ allPay }}</span></div>
   <div><el-button type="danger" round size="large" @click="open">结算</el-button></div>
 </div>
 </div>
@@ -45,15 +58,34 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/store/cart'
+import { Grid } from '@element-plus/icons-vue'
 
 const CartStore = useCartStore()
 const router = useRouter()
-const allPay = ref(0)
-const count = ref(0)
+const count = ref(0) 
+const table = ref(null)
+const checkedList = ref([])
+const checked = ref(false)
+const animationList = ref([])
+const clickedItem = ref() 
+CartStore.cartNameList.forEach(() => {
+  checkedList.value.push(false)
+  animationList.value.push({show:false, disapper:false})
+});
+
+const changeAnimation = (index)=>{
+  animationList.value[index].show = true
+  if(clickedItem.value >= 0){
+    animationList.value[clickedItem.value].show = false
+    animationList.value[clickedItem.value].disapper = true
+  }
+  clickedItem.value = index
+  animationList.value[clickedItem.value].disapper = false
+}
 
 const open = () => {
   if(count.value === 0)
@@ -63,11 +95,48 @@ const open = () => {
   }
 }
 
+
 // selection为购物车列表选中的每一项
-const countPay = (selection)=>{
+const countPay = ()=>{
   count.value ++
-  allPay.value = selection.reduce((pre,cur)=> pre + cur.price*cur.count, 0)
 }
+
+const checkAll = ()=>{
+  const flag = checkedList.value.every((item)=> item === true)
+  if(!flag){
+    for(let i=0; i<checkedList.value.length ; i++){
+    checkedList.value[i] = true
+  }
+}
+  else{
+    for(let i=0; i<checkedList.value.length ; i++){
+    checkedList.value[i] = !checkedList.value[i]
+  }
+}
+}
+
+//监听商品是否被全选，是则全选按钮自动选上，反之，取消选上
+ watch(checkedList.value, (newVal,oldVal) => {
+      if(!newVal.includes(false)){
+        checked.value = true
+      }
+      else{
+        checked.value = false
+      }
+})
+
+//计算购物车被选物品的总价
+const allPay = computed(()=>{
+  let res = 0
+  // checkedList.value.forEach((item,index)=>{
+  //   if(item === true){
+  //     res = res + CartStore.cartCartdata[index].price * CartStore.cartCartdata[index].price.count
+  //   }
+  // })
+  return res
+})
+
+
 </script>
 
 <style lang="less" scoped>
@@ -87,13 +156,77 @@ const countPay = (selection)=>{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    .iconfont{
+    position: absolute;
+    top: 0;
+    left: 66px;
+    color: #00a0dc;
+    font-size: 22px;
+    padding: 5px 0;
+    transition: all .5s;
+    }
   }
+}
+
+::v-deep(.el-checkbox__inner){
+  border: 1px solid rgb(164, 164, 164);
+  margin-left: 20px;
+}
+
+::v-deep(.el-table__header .el-table-column--selection .el-checkbox__inner) {
+display: none;
+pointer-events:none;
+}
+
+::v-deep(.footer-left .el-checkbox__inner) {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgb(164, 164, 164);
+}
+
+@keyframes showjianshao{
+  0%{opacity: 0;};
+  60%{opacity: 0.5;};
+  100%{opacity: 1;transform: translate(-40px) rotate(360deg);}
+}
+
+@keyframes showjia{
+  0%{opacity: 0;};
+  60%{opacity: 0.5;};
+  100%{opacity: 1;transform: translate(40px) rotate(360deg);}
+}
+
+@keyframes returnjianshao{
+  0%{opacity: 1;transform: translate(-40px) rotate(360deg)};
+  60%{opacity: 0.5;};
+  100%{opacity: 0;}
+}
+
+@keyframes returnjia{
+  0%{opacity: 1;transform: translate(40px) rotate(360deg)};
+  60%{opacity: 0.5;};
+  100%{opacity: 0;}
+}
+.showjian{
+  animation: showjianshao 1.3s ease forwards;
+}
+.returnjian{
+  animation: returnjianshao 1.3s ease forwards;
+}
+  
+.showjia{
+  animation: showjia 1.3s ease forwards;
+}
+.returnjia{
+  animation: returnjia 1.3s ease forwards;
 }
 
 .el-button.is-plain.count{
   line-height: 32px;
   font-size:15px;
   cursor: pointer;
+  z-index: 5;
 }
 
 .cost{
@@ -106,8 +239,15 @@ const countPay = (selection)=>{
   height: 72px;
   background-color: rgb(238, 238, 238);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  .footer-left{
+    display: flex;
+    margin-left: 16px;
+    font-size:15px;
+    color:#7f7f7f;
+    align-items: center;
+  }
   .footer-right{
     display: flex;
     align-items: center;
@@ -122,6 +262,11 @@ const countPay = (selection)=>{
   color:#f01414;
   }
   }
-  
+}
+
+.footer-left ::after{
+  width: 5px;
+  height: 10px;
+  translate: 1px;
 }
 </style>

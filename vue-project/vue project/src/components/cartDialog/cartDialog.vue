@@ -6,7 +6,6 @@
     width="50%"
     align-center
   >
-
   <el-scrollbar>
       <el-table :data="KindsItem" style="width: 100%" :cell-style="{padding:'8px 0',fontSize:'15px'}" max-height="400px">
     <el-table-column label="图片">
@@ -19,7 +18,7 @@
     </el-table-column>
     <el-table-column label="价格">
       <template #default="scope">
-        <span>￥{{scope.row.price}}元</span>
+        <span><i>¥</i>{{scope.row.price}}元</span>
       </template>
     </el-table-column>
     <el-table-column label="购买数量" prop="count">
@@ -38,7 +37,7 @@
       <div class="dialog-footer">
         <div>
           <span class="message" v-show="allcount > 0">已选择<span class="number">{{ allcount }}</span>件商品,合计:</span>
-          <span class="cost" v-show="allcount > 0">￥{{ allcost }}</span>
+          <span class="cost" v-show="allcount > 0"><i>¥</i>{{ allcost }}</span>
         </div> 
         <div>
           <el-button type="primary" @click="addcart" :class="{'empty':allcount === 0}" :disabled="allcount === 0">加入购物车</el-button>
@@ -108,7 +107,8 @@ const addcart = ()=>{
       const flag = CartStore.cartNameList.indexOf(item)
       CartStore.Cartdata[flag].count += foodList[index].count
     }
-    })
+    }
+    )
   CartStore.Cartcount = CartStore.Cartdata.reduce((pre,cur)=>pre + cur.count,0)
   dialogVisible.value = false
 }

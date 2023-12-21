@@ -7,8 +7,16 @@ const currentPage = ref(1) //当前页 刷新后默认显示第一页
 const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数据
 const dialog = ref(null)
 const search = ref(null)
+const classifyData = []
 const emit = defineEmits(['getcart'])
 const foodData = getData()
+const value = ref('')
+getData().forEach((item)=>{
+  if(!classifyData.includes(item.category)){
+    classifyData.push(item.category)
+  }
+});
+console.log(classifyData);
 const formData = ref(foodData)
 
 const searchData = ()=>{
@@ -36,6 +44,7 @@ const handleCurrentChange = (Page) => {
          //每次点击分页按钮，当前页发生变化
     currentPage.value = Page
 }
+
 </script>
 
 <template>
@@ -43,7 +52,17 @@ const handleCurrentChange = (Page) => {
     <el-card class="card">
     <template #header>
       <div class="card-header">
-        <span>商品菜单</span>
+        <div class="title">
+          <span>商品菜单</span>
+        <el-select loading-text filterable :filter-method="filterOption" v-model="value" placeholder="选择类别" size="default" style="width:130px;margin-left:20px">
+          <el-option
+            v-for="item in classifyData"
+            :key="item"
+            :label="item"
+            :value="item"
+          />
+        </el-select>
+        </div>
         <div>
           <el-input @keyup.enter.native="searchData" size="default" placeholder="搜索名称或类别" :prefix-icon="Search" v-model="search" style="width:200px;margin-right: 10px;"/>
           <el-button type="primary" @click="searchData">搜索</el-button>
@@ -92,6 +111,11 @@ const handleCurrentChange = (Page) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .title{
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+    }
   }
   .el-pagination.is-background{
     padding: 15px 0;
@@ -114,6 +138,6 @@ const handleCurrentChange = (Page) => {
 }
 
 ::v-deep(.el-table__inner-wrapper){
-  height: 389px;
+  max-height: 389px;
 }
 </style>
