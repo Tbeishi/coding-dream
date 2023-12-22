@@ -1,12 +1,11 @@
 <template>
-    <div>
-    <el-scrollbar>
+    <div id="content">
+    <div class="header"></div>
+    <el-scrollbar ref="scroll" height="522px" @scroll="scrollhandle">
     <el-table
     :data="CartStore.Cartdata"
     style="width: 100%"
-    :cell-style="{padding:'20px 0',fontSize:'15px'}"
-    max-height="450px"
-    @selection-change="countPay"
+    :cell-style="lastRowStyle"
     ref = "table"
   >
   <el-table-column width="70">
@@ -27,7 +26,7 @@
   </el-table-column>
   <el-table-column label="购买数量">
     <template #default="{row,$index}">
-        <i class="iconfont icon-jianshao" @click="reduce(row)" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper}"></i>
+        <i class="iconfont icon-jianshao" @click="reduce(row)" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper,'forbid':row.count === 1}"></i>
         <el-input type="button" size="default" style="width:42px" class="count" @click="changeAnimation($index)" v-model="row.count"/>
         <i class="iconfont icon-jia" @click="row.count++" :class="{'showjia': animationList[$index].show,'returnjia': animationList[$index].disapper}"></i>
     </template>
@@ -37,24 +36,47 @@
         <span class="cost"><i>¥</i>{{ row.price*row.count }}</span>
     </template>
   </el-table-column>
-  <el-table-column width="100px">
+  <el-table-column width="117px">
     <template #header>
-      <el-icon><Grid /></el-icon>
+      <div @click="manage=!manage" :class="{'manage': manage===true}" style="display: flex;align-items: center;">
+        <el-icon size="20" ><Grid /></el-icon>
+        <span style="font-size: 13px">{{manage ?'退出管理':'管理'}}</span>
+      </div>
     </template>
-  </el-table-column> 
+
+    <template #default="{$index}">
+        <i class="iconfont icon-jianhao" @click="deleteCart($index)" :class="{'move':manage === true,'disappear':manage === false}"></i>
+    </template>
+  </el-table-column>
   </el-table>
 </el-scrollbar>
-<div class="footer">
-<div class="footer-left">
-  <el-checkbox size="large" @change="checkAll" v-model="checked"/>
-  <div @click="checkAll" style="margin-left: 5px;">全选</div>
+  <div class="fixFooter" v-show="showFootFixed===true">不好意思，已经到底了喔~</div> 
+
+<div class="footer Deletefooter" :class="{'showDelete':manage === true,'disappearDelete':manage === false}">
+  <div class="footer-left">
+    <el-checkbox size="large" @change="checkAll" v-model="checked"/>
+    <div div @click="checkAll" style="margin-left: 5px">全选</div>
+  </div>
+  <div class="footer-right">
+    <el-button type="danger" round size="large" @click="deleteHandel">
+      <i class="iconfont icon-shanchu"></i>
+      <span>删除</span>
+    </el-button>
+  </div>
 </div>
-<div class="footer-right">
-  <div class="total">总计:<span class="pay"><i>¥</i>{{ allPay }}</span></div>
-  <div><el-button type="danger" round size="large" @click="open">结算</el-button></div>
+
+<div class="footer payfooter" :class="{'disappearPay':manage === true,'showPay':manage === false}">
+  <div class="footer-left">
+    <el-checkbox size="large" @change="checkAll" v-model="checked"/>
+    <div div @click="checkAll" style="margin-left: 5px">全选</div>
+  </div>
+  <div class="footer-right">
+    <div class="total">总计:<span class="pay"><i>¥</i>{{ allPay }}</span></div>
+    <div><el-button type="success" round size="large" @click="open">结算</el-button></div>
+  </div>
 </div>
+
 </div>
-    </div>
 </template>
 
 <script setup>
@@ -72,11 +94,16 @@ const checkedList = ref([])
 const checked = ref(false)
 const animationList = ref([])
 const clickedItem = ref() 
+const manage = ref()
+const showFootFixed = ref(false)
+const scroll = ref()
+
 CartStore.cartNameList.forEach(() => {
   checkedList.value.push(false)
   animationList.value.push({show:false, disapper:false})
 });
 
+//动画的出现和隐藏
 const changeAnimation = (index)=>{
   animationList.value[index].show = true
   if(clickedItem.value >= 0){
@@ -85,6 +112,15 @@ const changeAnimation = (index)=>{
   }
   clickedItem.value = index
   animationList.value[clickedItem.value].disapper = false
+}
+
+const lastRowStyle = ({ rowIndex })=>{
+  if(CartStore.Cartdata.length > 4 && rowIndex === CartStore.Cartdata.length - 1){
+    return {padding:'20px 0 92px 0',fontSize:'15px'}
+  }
+  else{
+    return {padding:'20px 0',fontSize:'15px'}
+  }
 }
 
 const open = () => {
@@ -115,7 +151,7 @@ const checkAll = ()=>{
 }
 
 //监听商品是否被全选，是则全选按钮自动选上，反之，取消选上
- watch(checkedList.value, (newVal,oldVal) => {
+ watch(checkedList.value, (newVal) => {
       if(!newVal.includes(false)){
         checked.value = true
       }
@@ -134,9 +170,62 @@ const allPay = computed(()=>{
   })
   return res
 })
+
+//滚动监听
+const scrollhandle = ()=>{
+  const flag = scroll.value.wrapRef.scrollHeight - scroll.value.wrapRef.scrollTop - scroll.value.wrapRef.clientHeight <= 72
+  if(flag) showFootFixed.value = true
+  else {
+    showFootFixed.value = false
+  }
+}
+
+//点击图标➖删除该列商品信息
+const deleteCart = (index)=>{
+  if(CartStore.Cartdata.length===1)CartStore.Cartcount=0
+  CartStore.cartNameList.splice(index,1)
+  CartStore.Cartdata.splice(index,1)
+  checkedList.value.splice(index,1)
+  animationList.value.splice(index,1)
+}
+
+//监听购物车列表商品数量变化
+watch(CartStore.Cartdata,(newvalue)=>{
+    CartStore.Cartcount = newvalue.reduce((pre,cur)=>pre + cur.count,0)
+})
+
+//点击删除，删除所有勾选的商品信息
+const deleteHandel = ()=>{
+  let length = checkedList.value.length
+  for(let i = 0 ;i < length ;i++){
+    if(checkedList.value[i] === true){
+      CartStore.cartNameList.splice(i,1)
+      CartStore.Cartdata.splice(i,1)
+      animationList.value.splice(i,1)
+      checkedList.value.splice(i,1)
+      i--
+      length--
+    }
+  }
+  if(length === 0){ CartStore.Cartcount=0}
+}
 </script>
 
 <style lang="less" scoped>
+.header{
+  position: fixed;
+  width: 912px;
+  height: 54px;
+  background-color: #f01414;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.scroll-wrapper{
+  height: 520px;
+  overflow: hidden;
+}
+
 ::v-deep(.el-table__header){
   padding: 0;
   .cell{
@@ -154,16 +243,58 @@ const allPay = computed(()=>{
     align-items: center;
     justify-content: center;
     position: relative;
-    .iconfont{
+    .iconfont.icon-jianshao{
     position: absolute;
     top: 0;
-    left: 66px;
+    left: 63px;
     color: #00a0dc;
     font-size: 22px;
     padding: 5px 0;
     transition: all .5s;
+    &.forbid{
+    cursor:not-allowed;
+    color: #a4d4e5;
+    } 
+    }
+    .iconfont.icon-jia{
+      position: absolute;
+      top: 0;
+      left: 62px;
+      color: #00a0dc;
+      font-size: 22px;
+      padding: 5px 0;
+      transition: all .5s;
     }
   }
+}
+
+.manage{
+  color: #f01414;
+}
+
+.iconfont.icon-jianhao{
+  color:#f01414;
+  font-size: 20px;
+  transition: all .3s;
+  opacity: 0;
+  &.move{
+    animation: showjianhao 0.6s ease forwards;
+  }
+  &.disappear{
+    animation: disappearjianhao 0.3s ease forwards;
+  }
+}
+
+@keyframes showjianhao{
+  0%{transform: translateX(68.5px);opacity: 0};
+  70%{opacity: 0.6;}
+  100%{transform: translateX(px);opacity: 1;}
+}
+
+@keyframes disappearjianhao{
+  0%{transform: translateX(0px);opacity: 1;};
+  50%{opacity: 0.2;}
+  100%{transform: translateX(68.5px);opacity: 0;}
 }
 
 ::v-deep(.el-checkbox__inner){
@@ -232,12 +363,29 @@ pointer-events:none;
 }
 
 .footer{
-  width: 100%;
+  position: fixed;
+  width: 924px;
   height: 72px;
   background-color: rgb(238, 238, 238);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all .3s;
+  opacity: 1;
+  bottom: 20px;
+  z-index: 999;
+  &.showPay{
+    animation:appear 0.3s ease forwards;
+  }
+  &.disappearPay{
+    animation:disappear 0.6s ease forwards;
+  }
+  &.showDelete{
+    animation:appear 0.6s ease forwards;
+  }
+  &.disappearDelete{
+    animation:disappear 0.3s ease forwards;
+  }
   .footer-left{
     display: flex;
     margin-left: 16px;
@@ -261,9 +409,33 @@ pointer-events:none;
   }
 }
 
+@keyframes disappear {
+  0%{opacity: 1}
+  50%{opacity: 0.2;}
+  100%{opacity: 0;transform: translateY(100px)}
+}
+
+@keyframes appear {
+  0%{opacity: 0;transform: translateY(100px);}
+  50%{opacity: 0.2;}
+  70%{opacity: 0.6;}
+  100%{opacity: 1;}
+}
+
 .footer-left ::after{
   width: 5px;
   height: 10px;
   translate: 1px;
+}
+
+.fixFooter{
+  height: 72px;
+  width: 924px;
+  position: fixed;
+  color: rgb(115, 115, 115);
+  bottom: 20px;
+  text-align: center;
+  line-height: 72px;
+  z-index: 2;
 }
 </style>
