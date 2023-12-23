@@ -8,7 +8,6 @@ const pageSize = ref(5) //每一页显示的数据量 此处每页显示5条数�
 const dialog = ref(null)
 const search = ref(null)
 const classifyData = []
-const emit = defineEmits(['getcart'])
 const foodData = getData()
 const value = ref('')
 getData().forEach((item)=>{
@@ -16,7 +15,6 @@ getData().forEach((item)=>{
     classifyData.push(item.category)
   }
 });
-console.log(classifyData);
 const formData = ref(foodData)
 
 const searchData = ()=>{
@@ -32,10 +30,6 @@ const showAllData = ()=>{
   formData.value = foodData
 }
 
-const cartData = (data)=>{
-  emit('getcart',data)
-}
-
 const openDialog = (row)=>{
   dialog.value.showDialog(row)
 }
@@ -43,6 +37,10 @@ const openDialog = (row)=>{
 const handleCurrentChange = (Page) => {
          //每次点击分页按钮，当前页发生变化
     currentPage.value = Page
+}
+
+const classifyMethod = ()=>{
+  formData.value = foodData.filter((item)=>item.category.includes(value.value))
 }
 
 </script>
@@ -54,7 +52,7 @@ const handleCurrentChange = (Page) => {
       <div class="card-header">
         <div class="title">
           <span>商品菜单</span>
-        <el-select loading-text filterable :filter-method="filterOption" v-model="value" placeholder="选择类别" size="default" style="width:130px;margin-left:20px">
+        <el-select loading-text filterable @change="classifyMethod" v-model="value" placeholder="选择类别" size="default" style="width:130px;margin-left:20px">
           <el-option
             v-for="item in classifyData"
             :key="item"
@@ -97,10 +95,9 @@ const handleCurrentChange = (Page) => {
     @current-change="handleCurrentChange"
     :page-size="pageSize"
     >
-    <!-- hide-on-single-page -->
   </el-pagination>
 </el-card>
-<cartDialog ref="dialog" @sendData="cartData"/>
+<cartDialog ref="dialog"/>
 </div>
 </template>
 

@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/store/cart'
@@ -88,7 +88,6 @@ import { Grid } from '@element-plus/icons-vue'
 
 const CartStore = useCartStore()
 const router = useRouter()
-const count = ref(0) 
 const table = ref(null)
 const checkedList = ref([])
 const checked = ref(false)
@@ -124,9 +123,14 @@ const lastRowStyle = ({ rowIndex })=>{
 }
 
 const open = () => {
-  if(count.value === 0)
+  if(!checkedList.value.includes(true))
   ElMessage({ type:'error', message:'您还没有选择宝贝哦！'})
   else {
+    CartStore.payList = CartStore.Cartdata.filter((item,index)=>{
+      if(checkedList.value[index]===true){
+        return item
+      }
+    })
     router.push({name:'pay'})
   }
 }
