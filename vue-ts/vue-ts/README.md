@@ -8,4 +8,36 @@
 - 给项目引入前端模型层
    - 路由已经不是后端的，前端也可以有
    - 前端也可以有自己的模型，MVVM
+
+- UI组件和数据管理的分离
+   - store / components|views
+   - pinia defineStore('todos',()=>{
+      return{
+         state,
+         ...actions
+      }
+   }) useTodoStore
+   - vue ref
+   - 这里是唯一请求axios 接口的地方
+   - app.use(createPinia())
+   - 引入这个模块，执行useTodosStore 方法
+useTodoStore()
+useTodoStore()
+const { getTodos } = useTodoStore()
+
+- vue项目开发设计模式
+   - 越复杂的，只要是流程，其实很简单，只不过需要一本说明书
+   - UI 组件 + 数据管理
+   - 数据的流向，backend -> models -> api -> store -> component
+   - SPA
+      router -> views -> components
+   - App = VUE + VueRouter + pinia + ts
+   - 写UI组件
+      ElementPlus(熟) + views + components(common|components) + Tailwindcss(熟) + 组件设计艺术
+
+- App.vue 一个个组件慢慢搭
+   <>defineProps
+   - 不要用ts
+
+
    

@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { onMounted,ref } from 'vue';
-import { useBanner } from './api/index'
-import type { Banner } from './models/banner'
-const banners = ref<Banner[]>([]) //vue的响应式
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue';
+import { usePersonalizedStore } from './store/personalized'
+import Banner from './components/Banner.vue'
 
+const { PersonalizedMv } = storeToRefs(usePersonalizedStore())
+const { getPersonalizedMv } = usePersonalizedStore()
 onMounted(async ()=>{
-  banners.value = await useBanner()
-  console.log(banners.value);
+  await getPersonalizedMv()
 })
 </script>
 
 <template>
   <div>
+    <Banner/>
    <ul>
-    <li v-for="banner in banners" :key="banner.targetId">
-      <img :src="banner.pic" alt="">
-    </li>
-   </ul>
+        <li v-for="Mv in PersonalizedMv" :key="Mv.Id">
+          <img :src="Mv.picUrl" alt="">
+          <div>{{ Mv.name }}</div>
+        </li>
+    </ul>
   </div>
 </template>
 
