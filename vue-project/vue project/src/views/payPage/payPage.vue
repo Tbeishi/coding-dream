@@ -1,12 +1,22 @@
 <template>
-    <el-card class="box-card">
+  <div>
+    <el-card class="box-card" style="height: 520px;" :body-style="{ height: '400px',padding:'0'}">
       <template #header>
         <div class="card-header">
           <span>确认订单</span>
           <!-- <el-button class="button" text>Operation button</el-button> -->
         </div>
       </template>
-      <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+      <el-scrollbar height="400px">
+      <div v-for="item in CartStore.payList" :key="item.id" class="cardBody">
+        <el-card :body-style="{ padding: '0px' }" class="card">
+          <el-image  :src="item.image" style="height: 80px;margin: 4px 0 4px 4px"/>
+        <div class="allPay">
+          <i>¥{{ item.count*item.price }}</i>
+        </div>
+        </el-card>
+      </div>
+    </el-scrollbar>
       <template #footer>
         <div class="footer">
             <div class="footerMessage">
@@ -18,6 +28,7 @@
         </div>
       </template>
     </el-card>
+  </div>
   </template>
 
 <script setup>
@@ -63,4 +74,29 @@ onMounted(()=>{
         }
     } 
 }
-</style>
+
+::v-deep(.el-card__footer){
+  padding: 10px 20px 10px 0;
+}
+
+.cardBody ::v-deep(.el-card__body){
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardBody{
+  margin:  0 20px;
+}
+
+.card{
+  margin-top: 8px;
+  width: 100%;
+  // display: flex;
+  // justify-content: space-between;
+  .allPay{
+    margin-right: 20px;
+    color: red;
+  }
+}
+</style> 

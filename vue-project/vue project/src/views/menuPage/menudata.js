@@ -2,7 +2,7 @@ export default function  getData(){
     const fooddata = [
         {
             id: 1,
-            name:"可爱多",
+            Foodname:"可爱多",
             img:"/src/assets/picture/可爱多.jpg",
             category:"冰淇淋",
             kinds:[
@@ -52,7 +52,7 @@ export default function  getData(){
         },
         {
             id: 2,
-            name:"溜溜梅",
+            Foodname:"溜溜梅",
             img:"/src/assets/picture/溜溜梅.jpg",
             category:"零食",
             kinds:[
@@ -123,7 +123,7 @@ export default function  getData(){
         },
         {
             id: 3,
-            name:"奥利奥",
+            Foodname:"奥利奥",
             img:"/src/assets/picture/奥利奥.jpg",
             category:"零食",
             kinds:[
@@ -166,7 +166,7 @@ export default function  getData(){
         },
         {
             id: 4,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             kinds:[
@@ -202,7 +202,7 @@ export default function  getData(){
         },
         {
             id: 5,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             kinds:[
@@ -238,7 +238,7 @@ export default function  getData(){
         },
         {
             id: 6,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
@@ -246,7 +246,7 @@ export default function  getData(){
         },
         {
             id: 7,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
@@ -254,7 +254,7 @@ export default function  getData(){
         },
         {
             id: 8,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
@@ -262,7 +262,7 @@ export default function  getData(){
         },
         {
             id: 9,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,
@@ -270,7 +270,7 @@ export default function  getData(){
         },
         {
             id: 10,
-            name:"麻辣王子",
+            Foodname:"麻辣王子",
             img:"/src/assets/picture/麻辣王子.jpg",
             category:"辣条",
             count: 0,

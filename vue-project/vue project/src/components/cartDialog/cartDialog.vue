@@ -7,7 +7,7 @@
     align-center
   >
   <el-scrollbar>
-      <el-table :data="KindsItem" style="width: 100%" :cell-style="{padding:'8px 0',fontSize:'15px'}" max-height="400px">
+      <el-table :data="FoodsItem.kinds" style="width: 100%" :cell-style="{padding:'8px 0',fontSize:'15px'}" max-height="400px">
     <el-table-column label="图片">
       <template #default="scope">
         <el-image :src="scope.row.image" style="width: 50px; height: 50px"/>
@@ -56,17 +56,19 @@ import { useCartStore } from '@/store/cart'
 const CartStore = useCartStore()
 const router = useRouter()
 const dialogVisible = ref(false)
-const KindsItem = ref(null)
+const FoodsItem = ref(null)
 const foodList = [] //记录用户选购的商品
 const ListName = [] //记录用户选购商品的id
 
 const showDialog = (Item)=>{
     dialogVisible.value = true
-    KindsItem.value = Item.kinds
+    FoodsItem.value = Item
 }
 //用户每次点+,该商品购买数量+1,并且通过用户选购的商品id,来判断是否选购过该商品
 //没有选购过该商品，foodList，ListName均添加数据
 const addCount = (row)=>{
+  row.Foodname = FoodsItem.value.Foodname
+  row.category = FoodsItem.value.category
   row.count++
   if(!ListName.includes(row.id)){
     ListName.push(row.id)
@@ -88,11 +90,11 @@ defineExpose({
 })
 
 const allcount = computed(()=>{
-  return (KindsItem.value.reduce((pre,cur)=>pre + cur.count,0));
+  return (FoodsItem.value.kinds.reduce((pre,cur)=>pre + cur.count,0));
 })
 
 const allcost = computed(()=>{
-  return (KindsItem.value.reduce((pre,cur)=>pre + cur.count*cur.price,0));
+  return (FoodsItem.value.kinds.reduce((pre,cur)=>pre + cur.count*cur.price,0));
 })
 
 const addcart = ()=>{
@@ -114,6 +116,7 @@ const addcart = ()=>{
 }
 
 const payOrder = ()=>{
+  CartStore.payList = foodList
   dialogVisible.value = false
   router.push({name:'pay'})
 }

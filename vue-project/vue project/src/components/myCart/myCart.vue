@@ -7,18 +7,22 @@
     style="width: 100%"
     :cell-style="lastRowStyle"
     ref = "table"
+    :header-cell-style="{background:'rgb(213, 213, 213)'}"
   >
   <el-table-column width="70">
     <template #default="{$index}">
       <el-checkbox v-model="checkedList[$index]"></el-checkbox>
     </template>
   </el-table-column>
-    <el-table-column label="图片" width="150">
+    <el-table-column label="商品信息" width="299">
       <template #default="{row}">
         <el-image :src="row.image" style="width: 50px; height: 50px"></el-image>
+        <div>
+          <span style="font-size: 15px;font-weight: 700;">{{ row.Foodname }}</span>
+          <div style="font-size: 12px;color:rgb(148, 148, 148)">样式:{{ row.name }}</div>
+        </div>
       </template>
     </el-table-column>
-    <el-table-column prop="name" label="名称"/>
     <el-table-column label="单价">
     <template #default="{row}">
         <span>¥{{ row.price}}</span>
@@ -231,7 +235,6 @@ const deleteHandel = ()=>{
 }
 
 ::v-deep(.el-table__header){
-  padding: 0;
   .cell{
     font-weight: 700;
     color:rgb(88, 88, 88)
@@ -370,7 +373,7 @@ pointer-events:none;
   position: fixed;
   width: 924px;
   height: 72px;
-  background-color: rgb(238, 238, 238);
+  background-color: rgb(226, 226, 226);
   display: flex;
   justify-content: space-between;
   align-items: center;

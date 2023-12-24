@@ -72,7 +72,7 @@ const classifyMethod = ()=>{
     :data="formData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" 
     :cell-style="{padding:'8px 0',fontSize:'15px'}"
     >
-    <el-table-column prop="name" label="名称"/>
+    <el-table-column prop="Foodname" label="名称"/>
     <el-table-column prop="category" label="类别"/>
     <el-table-column label="图片">
       <template #default="scope">
