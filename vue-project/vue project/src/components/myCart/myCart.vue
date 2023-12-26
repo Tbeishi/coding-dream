@@ -1,7 +1,18 @@
 <template>
-    <div id="content">
-    <div class="header"></div>
-    <el-scrollbar ref="scroll" height="522px" @scroll="scrollhandle">
+    <div class="content">
+      <el-card class="box-card">
+      <template #header>
+      <div class="card-header">
+        <span>购物车</span>
+        <el-button class="button" type='primary' text='primary'>
+          <div @click="manage=!manage" :class="{'manage': manage===true}" style="display: flex;align-items: center;">
+          <el-icon size="20" ><Grid /></el-icon>
+          <span style="font-size: 13px">{{manage ?'退出管理':'管理'}}</span>
+          </div>
+        </el-button>
+      </div>
+    </template>
+    <el-scrollbar height="468.7px">
     <el-table
     :data="CartStore.Cartdata"
     style="width: 100%"
@@ -16,11 +27,13 @@
   </el-table-column>
     <el-table-column label="商品信息" width="299">
       <template #default="{row}">
-        <el-image :src="row.image" style="width: 50px; height: 50px"></el-image>
-        <div>
-          <span style="font-size: 15px;font-weight: 700;">{{ row.Foodname }}</span>
+      <div class="Foodmessage">
+        <el-image :src="row.image" class="image"></el-image>
+        <div class="more">
+          <div style="font-size: 15px;font-weight: 700;">{{ row.Foodname }}</div>
           <div style="font-size: 12px;color:rgb(148, 148, 148)">样式:{{ row.name }}</div>
         </div>
+      </div>
       </template>
     </el-table-column>
     <el-table-column label="单价">
@@ -41,20 +54,16 @@
     </template>
   </el-table-column>
   <el-table-column width="117px">
-    <template #header>
-      <div @click="manage=!manage" :class="{'manage': manage===true}" style="display: flex;align-items: center;">
-        <el-icon size="20" ><Grid /></el-icon>
-        <span style="font-size: 13px">{{manage ?'退出管理':'管理'}}</span>
-      </div>
-    </template>
-
     <template #default="{$index}">
         <i class="iconfont icon-jianhao" @click="deleteCart($index)" :class="{'move':manage === true,'disappear':manage === false}"></i>
     </template>
   </el-table-column>
   </el-table>
+  <div class="fixFooter" >不好意思，已经到底了喔~</div> 
 </el-scrollbar>
-  <div class="fixFooter" v-show="showFootFixed===true">不好意思，已经到底了喔~</div> 
+</el-card>
+
+
 
 <div class="footer Deletefooter" :class="{'showDelete':manage === true,'disappearDelete':manage === false}">
   <div class="footer-left">
@@ -119,7 +128,7 @@ const changeAnimation = (index)=>{
 
 const lastRowStyle = ({ rowIndex })=>{
   if(CartStore.Cartdata.length > 4 && rowIndex === CartStore.Cartdata.length - 1){
-    return {padding:'20px 0 92px 0',fontSize:'15px'}
+    return {padding:'20px 0',fontSize:'15px'}
   }
   else{
     return {padding:'20px 0',fontSize:'15px'}
@@ -182,6 +191,7 @@ const allPay = computed(()=>{
 //滚动监听
 const scrollhandle = ()=>{
   const flag = scroll.value.wrapRef.scrollHeight - scroll.value.wrapRef.scrollTop - scroll.value.wrapRef.clientHeight <= 72
+  console.log(flag);
   if(flag) showFootFixed.value = true
   else {
     showFootFixed.value = false
@@ -220,18 +230,43 @@ const deleteHandel = ()=>{
 </script>
 
 <style lang="less" scoped>
-.header{
-  position: fixed;
-  width: 912px;
-  height: 54px;
-  background-color: #f01414;
-  z-index: 0;
-  opacity: 0.3;
+.card-header{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+  align-items: center;
+}
+
+::v-deep(.el-card__header){
+  padding: 10px 20px;
+}
+
+::v-deep(.el-card__body){
+  padding: 0;
 }
 
 .scroll-wrapper{
   height: 520px;
   overflow: hidden;
+}
+
+.Foodmessage{
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  transform: translateX(35px);
+  .image{
+    height: 50px;
+    width: 50px;
+  }
+  .more{
+    display: flex;
+    margin-left: 5px;
+    flex:1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
 }
 
 ::v-deep(.el-table__header){
@@ -273,6 +308,10 @@ const deleteHandel = ()=>{
       transition: all .5s;
     }
   }
+}
+
+::v-deep(.el-table__row){
+  z-index: 4;
 }
 
 .manage{
@@ -438,11 +477,9 @@ pointer-events:none;
 .fixFooter{
   height: 72px;
   width: 924px;
-  position: fixed;
   color: rgb(115, 115, 115);
   bottom: 20px;
   text-align: center;
   line-height: 72px;
-  z-index: 2;
 }
 </style>

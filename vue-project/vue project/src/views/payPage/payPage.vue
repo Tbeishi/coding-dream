@@ -7,7 +7,7 @@
           <!-- <el-button class="button" text>Operation button</el-button> -->
         </div>
       </template>
-      <el-scrollbar height="400px">
+      <el-scrollbar height="520px">
       <div v-for="item in CartStore.payList" :key="item.id" class="cardBody">
         <el-card :body-style="{ padding: '0px' }" class="card">
           <el-image  :src="item.image" style="height: 80px;margin: 4px 0 4px 4px"/>
