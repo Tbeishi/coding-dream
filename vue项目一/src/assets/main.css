@@ -1,0 +1,23 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* font-family: '楷体'; */
+}
+
+body{
+    background-color: #e5e5e5;
+}
+
+i{
+    font-style:normal;
+    font-size:15px;
+    padding: 0 2px;
+}
+
+ul{
+    list-style:none;    
+}
+li{
+    list-style-type:none;   
+}
