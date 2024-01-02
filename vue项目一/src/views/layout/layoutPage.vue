@@ -13,7 +13,7 @@
             <el-menu-item index="/sy">首页</el-menu-item>
             <el-menu-item index="/food">零食</el-menu-item>
             <el-menu-item index="/member">会员</el-menu-item>
-            <el-input @keyup.enter.native="searchData" placeholder="搜索名称或类别" :suffix-icon="Search"  style="width:300px;margin: auto 10px;height: 5vh;"/>
+            <el-input placeholder="搜索名称或类别" :suffix-icon="Search"  style="width:300px;margin: auto 10px;height: 5vh;"/>
             </el-menu>
         </div>
 
@@ -31,7 +31,7 @@
             <div class="toLogin">
                 去登录
             </div>
-            <el-dropdown placement="bottom-end" @command="handlecommand">  
+            <el-dropdown placement="bottom-end">  
           <span class="dropdown__box"> 
             <el-avatar :src="defaultAvatar" :size="30"/>
             <el-icon><CaretBottom /></el-icon>
@@ -46,21 +46,35 @@
         </el-dropdown> 
     </div>   
         </el-header>
-        <el-main>
-           <router-view/>
+        <el-main ref="scroll" :scrollY="scrollY" >
+           <router-view @getcardHeight="getcardHeight"/>
         </el-main>
       </el-container>
     </div>
   </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import defaultAvatar from '@/assets/picture/默认头像.jpg'
 import { Search,CaretBottom,Message,PictureFilled,SwitchButton } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router';
-const router = useRouter()
-const searchData = ()=>{
 
+import { useScroll } from '@vueuse/core'
+const scroll = ref(null)
+const cardHeight = ref([])
+const getScrollY = ()=>{
+    const { y } = useScroll(scroll);
+    watch(y,(newVal)=>{
+    
+    })
 }
+onMounted(()=>{
+    getScrollY()
+})
+
+const getcardHeight = (e)=>{
+    cardHeight.value = e
+}
+
 </script>
 
 <style lang="less" scoped>

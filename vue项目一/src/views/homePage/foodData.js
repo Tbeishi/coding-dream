@@ -14,7 +14,7 @@ export default function  getData(){
               kinds:[
                 {
                 kindsId: 111,
-                kindsName:"草莓味",
+                categoryName:"草莓味",
                 image:'/src/assets/可爱多/草莓味.jpg',
                 price:5,
                 count: 0,

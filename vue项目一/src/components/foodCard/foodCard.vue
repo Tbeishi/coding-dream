@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="foodcard" ref="containerHeight">
     <div class="card-header">
     <div>
     <!-- <i class="iconfont icon-remen"></i> -->
@@ -8,8 +8,9 @@
     <div class="more">更多</div>
     </div>
     <div  class="container">
-        <div class="card" v-for="item in food.category" :key="item.categoryId">
+        <div class="card" v-for="item in food.category" :key="item.categoryId" @click="toDetail(item)">
             <el-card>
+                <!-- <router-link :to="`/detail/${item.categoryId}`"> -->
                 <div class="card-pic">
                 <img :src="item.img" alt="" style="width:55%;height: 55%">
                 </div>
@@ -21,6 +22,7 @@
                     <span class="oldPrice" v-show="item.oldPrice"><i>¥</i>{{ item.oldPrice }}起</span>
                 </div>
                 </div>
+                <!-- </router-link> -->
             </el-card>
         </div>
     </div>
@@ -28,15 +30,35 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, defineEmits,onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router';
+import { usefoodDetail } from '@/store/foodDetail'
+const foodDetail = usefoodDetail()
+const router = useRouter()
 defineProps({
     food:{
         type:Object,
     }
 })
+const containerHeight = ref()
+const emit = defineEmits(['getContainerHeight'])
+
+onMounted(()=>{
+    // console.log(containerHeight.value.offsetHeight);
+    emit('getContainerHeight',containerHeight.value.offsetHeight)
+})
+
+const toDetail = (item)=>{
+    foodDetail.selectedFood = item
+    console.log(item);
+    router.push(`/detail/${item.categoryId}`)
+}
 </script>
 
 <style lang="less" scoped>
+.foodcard{
+    margin-bottom: 40px;
+}
 .container{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); /* 自适应列，最小宽度100px */
@@ -58,19 +80,19 @@ defineProps({
 
 ::v-deep(.el-card__body){
     padding: 0;
-    padding-top: 6px;
+    padding-top: 8px;
 }
 
 .card-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 3px;
     .title{
     font-weight: 700;
     font-size: 18px;
     position: relative;
-    padding: 12px 10px;
+    padding: 0 10px 12px 10px;
+    margin-bottom: 8px;
     &::after{
       content: '';
       position: absolute;
@@ -136,4 +158,7 @@ defineProps({
 }
 }
 
+.el-card.is-always-shadow{
+    padding: 0;
+}
 </style>

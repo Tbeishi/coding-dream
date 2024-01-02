@@ -23,6 +23,11 @@ const router = createRouter({
                     name:'member',
                     component:()=>import ('@/views/memberPage/memberPage.vue')
                 },
+                {
+                    path:'/detail/:id',
+                    name:'detail',
+                    component:()=>import ('@/views/foodDetail/foodDetail.vue')
+                },
             ]
         },
        
