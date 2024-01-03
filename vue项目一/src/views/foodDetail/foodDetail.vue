@@ -24,35 +24,50 @@
             <p>单价：<i>¥</i><span class="newPrice">{{ curFood.price }}</span></p>
             <p >购买数量：
                 <i class="iconfont icon-jianshao" 
-                :class="{'forbid':curFood.count === 0}"
-                @click="curFood.count > 0 && curFood.count--"
+                :class="{'forbid':buyCount === 0}"
+                @click="buyCount > 0 && buyCount--"
                 ></i>
-                <span class="buyCount">{{ curFood.count }}</span>
-                <i class="iconfont icon-jia" @click="curFood.count++"></i>
+                <span class="buyCount">{{ buyCount }}</span>
+                <i class="iconfont icon-jia" @click="buyCount++"></i>
             </p>
             <div class="btn">
-                <el-button type="primary" :class="{'empty':curFood.count === 0}">加入购物车</el-button>
+                <el-button type="primary" 
+                :class="{'empty':buyCount === 0}" 
+                @click="addCart"
+                :disabled="buyCount === 0">加入购物车</el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted,ref,toRefs } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref,toRefs } from 'vue';
 import { usefoodDetail } from '@/store/foodDetail'
+import { useCartStore } from '@/store/cart'
 const { selectedFood } = toRefs(usefoodDetail())
-const route = useRoute()
-const res =ref()
+const  CartStore  = useCartStore()
+const buyCount = ref(0)
 const curIndex = ref(0)
 const curFood = ref(selectedFood.value.kinds[0])
-onMounted(()=>{
-    res.value = route.params.id
-})
 
 const handle = (item,index)=>{
     curIndex.value = index
     curFood.value = item
+    buyCount.value = 0
+}
+
+const addCart = ()=>{
+    const id = curFood.value.kindsId
+    if(!CartStore.cartNameList.includes(id)){
+        CartStore.cartNameList.push(id)
+        curFood.value.name = selectedFood.value.categoryName
+        curFood.value.count = buyCount.value
+        CartStore.Cartdata.push(curFood.value)
+    }
+    else{
+        const index = CartStore.cartNameList.indexOf(id)
+        CartStore.Cartdata[index].count += buyCount.value
+    }
 }
 </script>
 

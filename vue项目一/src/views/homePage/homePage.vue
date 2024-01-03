@@ -1,9 +1,11 @@
 <template>
+    <div class="homePage">
     <homePlayPic/>
     <div class="card-container">
         <radiusCard v-for="card in cardData" :key="card.id" :card="card"/>
     </div>
     <foodCard v-for="food in foodData" :key="food.foodId" :food="food" @getContainerHeight="getContainerHeight"/>
+    </div>
 </template>
 
 <script setup>
@@ -39,6 +41,11 @@ const getContainerHeight = (e)=>{
 </script>
 
 <style lang="less" scoped>
+.homePage{
+    height: 100%;
+    padding: 0 50px;
+    overflow: auto;
+}
 .card-container{
     height: 120px;
     width: 100%;

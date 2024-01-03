@@ -18,11 +18,11 @@
         </div>
 
             <div class="header-right">
-            <div class="shoppingCart">
+            <div class="shoppingCart" @click="router.push({name:'mycart'})">
                 <i class="iconfont icon-gouwuchekong"></i>
+                <div class="count" v-show="cartcount > 0">{{ cartcount }}</div>
                 <div class="cart">
                     <span>购物车</span>
-                    <div class="count"></div>
                 </div>
             </div>
             <div>
@@ -54,13 +54,16 @@
   </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import defaultAvatar from '@/assets/picture/默认头像.jpg'
 import { Search,CaretBottom,Message,PictureFilled,SwitchButton } from '@element-plus/icons-vue'
-
+import { useRouter } from 'vue-router'
+import { useCartStore } from '@/store/cart'
+const router = useRouter()
 import { useScroll } from '@vueuse/core'
 const scroll = ref(null)
 const cardHeight = ref([])
+const CartStore = useCartStore()
 const getScrollY = ()=>{
     const { y } = useScroll(scroll);
     watch(y,(newVal)=>{
@@ -75,6 +78,9 @@ const getcardHeight = (e)=>{
     cardHeight.value = e
 }
 
+const cartcount = computed(()=>{
+    return CartStore.Cartdata.reduce((pre,cur)=>pre + cur.count,0)
+})
 </script>
 
 <style lang="less" scoped>
@@ -109,6 +115,24 @@ const getcardHeight = (e)=>{
             justify-content: center;
             align-items: center;
             margin-right: 30px;
+            position: relative;
+            .iconfont{
+                font-size: 20px;
+            }
+            .count{
+                background: linear-gradient(90deg,#fc9153,#f01414);
+                border-radius: 16px;
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                line-height: 16px;
+                padding: 0 6px;
+                text-align: center;
+                position: absolute;
+                left: 10px;
+                top: -8px;
+                }
+           
         }
         .toLogin{
             margin: 0 30px;
@@ -147,7 +171,8 @@ const getcardHeight = (e)=>{
     margin-top: 3vh;
     box-shadow:3px 3px 3px 1px rgba(179, 179, 179, 0.6);
     border-radius: 10px;
-    padding:0 50px;
+    padding: 0;
+    overflow: hidden;
 }
 
 .dropdown__box{
