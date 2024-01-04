@@ -235,9 +235,9 @@ const selectedCount = computed(()=>{
 <style lang="less" scoped>
 .content{
     position: relative;
+    height: 100%;
     // max-height: 100vh;
-    // overflow: hidden;
-    overflow: hidden !important;
+    overflow: hidden;
     .content-header{
       display: flex;
       justify-content: space-between;
@@ -516,11 +516,11 @@ pointer-events:none;
 @keyframes disappear {
   0%{opacity: 1}
   50%{opacity: 0.2;}
-  100%{opacity: 0;transform: translateY(100px)}
+  100%{opacity: 0;transform: translateY(120px)}
 }
 
 @keyframes appear {
-  0%{opacity: 0;transform: translateY(100px);}
+  0%{opacity: 0;transform: translateY(120px);}
   50%{opacity: 0.2;}
   70%{opacity: 0.6;}
   100%{opacity: 1;}

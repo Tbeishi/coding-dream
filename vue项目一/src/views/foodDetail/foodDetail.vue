@@ -11,14 +11,15 @@
         <el-image :src="curFood.image" style="height: 100%;"></el-image>
         </div>
         <div class="samllPic-container">
-        <div class="samllPic" 
-        v-for="(item,index) in selectedFood.kinds" 
-        :key="item.kindsId"
-        :class="{'active':curIndex === index}"
-        @click = "handle(item,index)"
-        >
-        <el-image :src="item.image" style="height: 100%;"></el-image>
-        </div>
+            <div class="samllPic" 
+            v-for="(item,index) in selectedFood.kinds" 
+            :key="item.kindsId"
+            :class="{'active':curIndex === index}"
+            @click = "handle(item,index)"
+            ref="itemRefsList"
+            >
+            <el-image :src="item.image" style="height: 100%;"></el-image>
+            </div>
         </div>
         </div>
         </div>
@@ -42,11 +43,24 @@
             </div>
         </div>
     </div>
+
+    <transition
+        appear
+        @before-appear="beforeEnter"
+        @after-appear="afterEnter"
+        v-for="(item,index) in showBall" 
+        :key="index"
+        @after-leave="handleAnimationEnd"
+    >
+        <div :style="ballStyle" class="ball" v-if="item">
+        <el-image :src="curFood.image"></el-image>
+        </div>
+    </transition>
 </div>
 </template>
 
 <script setup>
-import { ref,toRefs } from 'vue';
+import { ref,toRefs,defineProps,defineEmits } from 'vue';
 import { usefoodDetail } from '@/store/foodDetail'
 import { useCartStore } from '@/store/cart'
 const { selectedFood } = toRefs(usefoodDetail())
@@ -55,6 +69,19 @@ const buyCount = ref(0)
 const curIndex = ref(0)
 const curFood = ref(selectedFood.value.kinds[0])
 
+const showBall = ref([])//控制小球显示
+const elLeft = ref(0) //当前点击加入购物车商品距离网页左边的距离
+const elTop = ref(0)//当前点击加入购物车商品距离网页顶部的距离
+const ballStyle = ref({
+    left: elLeft.value,
+    top: elTop.value
+})
+const itemRefsList = ref([])
+const props = defineProps({
+    CartMessage:{
+        type:Object,
+    }
+})
 const handle = (item,index)=>{
     curIndex.value = index
     curFood.value = item
@@ -62,6 +89,14 @@ const handle = (item,index)=>{
 }
 
 const addCart = ()=>{
+    showBall.value.push('true')
+    // console.log(curFood.value);
+    elLeft.value = itemRefsList.value[curIndex.value].getBoundingClientRect().left
+    elTop.value = itemRefsList.value[curIndex.value].getBoundingClientRect().top
+}
+
+// 购物车添加商品数据的方法
+const addCartData = ()=>{
     const id = curFood.value.kindsId
     if(!CartStore.cartNameList.includes(id)){
         CartStore.cartNameList.push(id)
@@ -74,11 +109,64 @@ const addCart = ()=>{
         CartStore.Cartdata[index].count += buyCount.value
     }
 }
+
+const beforeEnter = (el)=>{
+    el.style.transform = `translate3d(${elLeft.value-30}px,${elTop.value-100}px,0)`
+    el.style.opacity = 0;
+    console.log('动画开始了');
+}
+
+const afterEnter = (el)=>{
+    const { left,top,clientWidth,clientHeight } = props.CartMessage //购物车到网页左边和顶部的距离
+    //设置小球移动的位移
+    el.style.transform = `translate3d(${left-clientWidth - 20}px,${top-clientHeight-70}px,0)`
+    //增加贝塞尔曲线
+    el.style.transition = 'transform .55s cubic-bezier(0.3,-0.25,0.7,-0.15)'
+    el.style.transition = 'transform .55s linear'
+    showBall.value = showBall.value.map(item => false)
+    console.log(showBall.value);
+    el.style.opacity = 1;
+}
+
+const emit = defineEmits(['AnimationEnd'])
+const handleAnimationEnd = ()=>{
+    emit('AnimationEnd',true)
+    addCartData() //动画结束后才将商品数据添加到购物车
+}
 </script>
 
 <style scoped lang="less" >
 .foodDetail{
     margin: 0 50px;
+}
+
+.ball{
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    // border-radius: 15px;
+    .el-image{
+        animation: 1s ballScale ease-in-out;
+        border-radius: 50%;
+    }
+}
+
+@keyframes ballScale {
+    0%{
+        transform: scale(1);
+    }
+    30%{
+        transform: scale(0.8);
+    }
+    60%{
+        transform: scale(0.6);
+    }
+    90%{
+        transform: scale(0.4);
+    }
+    100%{
+        transform: scale(0.2);
+    }
 }
 
 .title{
@@ -104,6 +192,7 @@ const addCart = ()=>{
         width: 400px;
         height: 400px;
         transition: all .3s;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         }
         .samllPic-container{
             height: 400px;
@@ -118,8 +207,9 @@ const addCart = ()=>{
             width: 60px;
             height: 60px;
             border: 0.5px solid #d9d9d9;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
             &.active{
-            border: 1px solid rgb(255, 3, 3)
+            border: 1.5px solid rgb(255, 3, 3)
             }
             &:nth-child(5n){
                 margin-bottom: 0;

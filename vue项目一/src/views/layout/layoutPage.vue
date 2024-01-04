@@ -18,9 +18,11 @@
         </div>
 
             <div class="header-right">
-            <div class="shoppingCart" @click="router.push({name:'mycart'})">
-                <i class="iconfont icon-gouwuchekong"></i>
+            <div class="shoppingCart" @click="router.push({name:'mycart'})" ref="CartRef">
+                <div :class="{'playAnimation': playStart}">
+                <i class="iconfont icon-gouwuchekong" ></i>
                 <div class="count" v-show="cartcount > 0">{{ cartcount }}</div>
+                </div>
                 <div class="cart">
                     <span>购物车</span>
                 </div>
@@ -46,8 +48,13 @@
         </el-dropdown> 
     </div>   
         </el-header>
-        <el-main ref="scroll" :scrollY="scrollY" >
-           <router-view @getcardHeight="getcardHeight"/>
+        <el-main ref="scroll">
+           <router-view 
+           @getcardHeight="getcardHeight" 
+           :scrollY="scrollY" 
+           :CartMessage="CartMessage"
+           @AnimationEnd="AnimationEnd"
+           />
         </el-main>
       </el-container>
     </div>
@@ -64,6 +71,10 @@ import { useScroll } from '@vueuse/core'
 const scroll = ref(null)
 const cardHeight = ref([])
 const CartStore = useCartStore()
+
+const CartRef = ref()
+const CartMessage = ref({})
+const playStart = ref(false)
 const getScrollY = ()=>{
     const { y } = useScroll(scroll);
     watch(y,(newVal)=>{
@@ -72,6 +83,10 @@ const getScrollY = ()=>{
 }
 onMounted(()=>{
     getScrollY()
+    CartMessage.value.left = CartRef.value.getBoundingClientRect().left
+    CartMessage.value.top = CartRef.value.getBoundingClientRect().top
+    CartMessage.value.clientWidth = CartRef.value.clientWidth
+    CartMessage.value.clientHeight = CartRef.value.clientHeight
 })
 
 const getcardHeight = (e)=>{
@@ -81,6 +96,13 @@ const getcardHeight = (e)=>{
 const cartcount = computed(()=>{
     return CartStore.Cartdata.reduce((pre,cur)=>pre + cur.count,0)
 })
+
+const AnimationEnd = (e)=>{
+     playStart.value = e
+     setTimeout(()=>{
+        playStart.value = false
+     },500)
+}
 </script>
 
 <style lang="less" scoped>
@@ -118,6 +140,9 @@ const cartcount = computed(()=>{
             position: relative;
             .iconfont{
                 font-size: 20px;
+            }
+            .playAnimation{
+                animation: cartScale 0.5s ease-in-out;
             }
             .count{
                 background: linear-gradient(90deg,#fc9153,#f01414);
@@ -172,7 +197,7 @@ const cartcount = computed(()=>{
     box-shadow:3px 3px 3px 1px rgba(179, 179, 179, 0.6);
     border-radius: 10px;
     padding: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .dropdown__box{
@@ -185,5 +210,23 @@ const cartcount = computed(()=>{
     color: #999;
     margin-left: 10px;
   }
+}
+
+@keyframes cartScale {
+    0%{
+        transform: scale(1);
+    }
+    20%{
+        transform: scale(1.2);
+    }
+    60%{
+        transform: scale(0.8);
+    }
+    80%{
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1);
+    }
 }
 </style>
