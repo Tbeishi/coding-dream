@@ -1,10 +1,10 @@
 <template>
     <div class="content">
       <div class="content-header">
-        <div class="title">
+        <h3 class="title">
           <i class="iconfont icon-gouwuchekong"></i>
           <span class="mycart">我的购物车</span>
-        </div>
+      </h3>
         <el-button class="button" type='primary' text='primary' link>
           <div @click="manage=!manage" :class="{'manage': manage===true}" style="display: flex;align-items: center;">
           <el-icon size="20" ><Grid /></el-icon>
@@ -250,14 +250,18 @@ const selectedCount = computed(()=>{
       .title{
         margin-left: 30px;
         font-weight: 700;
-        color:rgb(97, 98, 98);
+        color:rgb(0, 0, 0);
         .mycart{
           line-height: 7vh;
+          margin-left: 3px;
         }
         i{
           font-size: 20px;
-          padding: 0;
           margin-right: 4px;
+          color: rgb(255, 255, 255);
+          padding: 8px;
+          border-radius: 50%;
+          background: linear-gradient(to right, #ff9569 0%, #e92758 100%);
         }
       }
       .button{

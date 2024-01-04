@@ -21,7 +21,7 @@
             <h4 class="title">商品信息</h4>
 
             <el-table
-                :data="CartStore.Cartdata"
+                :data="CartStore.payList"
                 style="width: 100%"
                 :header-cell-style="{margin:'20px 0 0 0', backgroundColor: '#e2e2e2e0'}"
             >

@@ -1,5 +1,9 @@
 <template>
-    <h3 class="title">商品详情</h3>
+    <div class="foodDetail">
+    <h3 class="title">
+        <i class="iconfont icon-xiangqing"></i>
+        <span>商品详情</span>
+    </h3>
     <div class="container">
         <div class="container-left">
         <div class="pic-container">
@@ -38,6 +42,7 @@
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script setup>
@@ -72,9 +77,22 @@ const addCart = ()=>{
 </script>
 
 <style scoped lang="less" >
+.foodDetail{
+    margin: 0 50px;
+}
+
 .title{
     margin-top: 20px;
     margin-bottom: 30px;
+    line-height: 36px;
+    i{
+        font-size: 20px;
+        margin-right: 5px;
+        color: rgb(255, 255, 255);
+        padding: 8px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #ff9569 0%, #e92758 100%);
+    }
 }
 .container{
     display:flex;
@@ -91,18 +109,20 @@ const addCart = ()=>{
             height: 400px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: start;
             flex-wrap: wrap;
-            // align-items: center;
             align-items: start;
             margin-left: 10px;
             .samllPic{
-            margin: 0 5px;
+            margin: 0px 5px 25px 5px;
             width: 60px;
             height: 60px;
             border: 0.5px solid #d9d9d9;
             &.active{
             border: 1px solid rgb(255, 3, 3)
+            }
+            &:nth-child(5n){
+                margin-bottom: 0;
             }
         }
         }
