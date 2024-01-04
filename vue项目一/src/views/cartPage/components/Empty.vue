@@ -1,6 +1,6 @@
 <template>
     <div>
-       空的
+       空的购物车
     </div>
 </template>
 

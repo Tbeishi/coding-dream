@@ -8,7 +8,7 @@
         <el-button class="button" type='primary' text='primary' link>
           <div @click="manage=!manage" :class="{'manage': manage===true}" style="display: flex;align-items: center;">
           <el-icon size="20" ><Grid /></el-icon>
-          <span style="font-size: 13px">{{manage ?'退出管理':'管理'}}</span>
+          <span style="font-size: 13px ; margin-right: 30px;">{{manage ?'退出管理':'管理'}}</span>
           </div>
         </el-button>
       </div>
@@ -18,7 +18,7 @@
     style="width: 100%"
     :cell-style="lastRowStyle"
     ref = "table"
-    :header-cell-style="{background:'rgb(213, 213, 213)',margin:'20px 0 0 0'}"
+    :header-cell-style="{margin:'20px 0 0 0'}"
   >
   <el-table-column width="70">
     <template #default="{$index}">
@@ -82,7 +82,16 @@
     <div div @click="checkAll" style="margin-left: 5px">全选</div>
   </div>
   <div class="footer-right">
-    <div class="total">总计:<span class="pay"><i>¥</i>{{ allPay }}</span></div>
+    <div class="total">
+      <p>
+        <span class="selected" v-show="selectedCount > 0">已选 {{ selectedCount }} 件,</span>
+        合计:<span class="pay"><i>¥</i>{{ allPay === 0 ? allPay : allPay.toFixed(2) }}</span>
+      </p>
+      <p class="prefer" v-show="selectedCount > 0">
+        <span>共减<i>¥</i>10.48元</span>
+        <span class="detail">查看明细</span>
+      </p>
+    </div>
     <div><el-button type="success" round size="large" @click="open">结算</el-button></div>
   </div>
 </div>
@@ -105,8 +114,6 @@ const checked = ref(false)
 const animationList = ref([])
 const clickedItem = ref() 
 const manage = ref()
-const showFootFixed = ref(false)
-const scroll = ref()
 
 CartStore.cartNameList.forEach(() => {
   checkedList.value.push(false)
@@ -186,16 +193,6 @@ const allPay = computed(()=>{
   return res
 })
 
-//滚动监听
-const scrollhandle = ()=>{
-  const flag = scroll.value.wrapRef.scrollHeight - scroll.value.wrapRef.scrollTop - scroll.value.wrapRef.clientHeight <= 72
-  console.log(flag);
-  if(flag) showFootFixed.value = true
-  else {
-    showFootFixed.value = false
-  }
-}
-
 //点击图标➖删除该列商品信息
 const deleteCart = (index)=>{
   if(CartStore.Cartdata.length===1)CartStore.Cartcount=0
@@ -225,6 +222,14 @@ const deleteHandel = ()=>{
   }
   if(length === 0){ CartStore.Cartcount=0}
 }
+
+const selectedCount = computed(()=>{
+  let res = 0 
+  checkedList.value.forEach((item)=>{
+    if(item) res++
+  })
+  return res
+})
 </script>
 
 <style lang="less" scoped>
@@ -240,20 +245,23 @@ const deleteHandel = ()=>{
       align-items: center;
       z-index: 999;
       height: 7vh;
+      width: 100%;
+      background-color: #dad7d7;
       .title{
-        margin-left: 25px;
-        color:rgb(67, 177, 216);
+        margin-left: 30px;
+        font-weight: 700;
+        color:rgb(97, 98, 98);
         .mycart{
           line-height: 7vh;
         }
         i{
-          font-size: 25px;
+          font-size: 20px;
           padding: 0;
           margin-right: 4px;
         }
       }
       .button{
-        flex: 0 0 82px
+        flex: 0 0 106px
       }
     }
 }
@@ -465,15 +473,39 @@ pointer-events:none;
     display: flex;
     align-items: center;
     .el-button{
-      margin: 0 30px;
+      margin: 0 30px 0 15px;
       width: 100px;
     }
   }
   .total{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    p{
+      margin-bottom: 3px;
+      line-height: 20px;
+    }
     .pay{
-  font-size: 30px;
-  color:#f01414;
-  }
+    font-size: 25px;
+    color:#f01414;
+    }
+    .prefer{
+      color:rgb(255, 0, 0);
+      font-size: 13px;
+      i{
+        font-size: 14px;
+        padding: 0 3px;
+      }
+    }
+    .detail{
+      font-size: 15px;
+      margin-left: 7px;
+    }
+    .selected{
+      color:rgb(134, 132, 132);
+      font-size:14px
+    }
   }
 }
 
