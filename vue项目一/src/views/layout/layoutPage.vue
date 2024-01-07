@@ -186,7 +186,7 @@ const AnimationEnd = (e)=>{
 ::v-deep(.el-menu .el-menu-item.is-active){
     color: #2E95FB !important;
     background: #ffffff;
-    height: 30px;
+    // height: 30px;
 }
 .el-main{
     width: 90vw;
@@ -205,7 +205,7 @@ const AnimationEnd = (e)=>{
     align-items: center;
     &:focus{
     outline: none;
-  }
+}
   .el-icon {
     color: #999;
     margin-left: 10px;

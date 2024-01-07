@@ -113,7 +113,6 @@ const addCartData = ()=>{
 const beforeEnter = (el)=>{
     el.style.transform = `translate3d(${elLeft.value-30}px,${elTop.value-100}px,0)`
     el.style.opacity = 0;
-    console.log('动画开始了');
 }
 
 const afterEnter = (el)=>{
@@ -124,7 +123,6 @@ const afterEnter = (el)=>{
     el.style.transition = 'transform .55s cubic-bezier(0.3,-0.25,0.7,-0.15)'
     el.style.transition = 'transform .55s linear'
     showBall.value = showBall.value.map(item => false)
-    console.log(showBall.value);
     el.style.opacity = 1;
 }
 

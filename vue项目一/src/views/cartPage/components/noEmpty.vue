@@ -44,7 +44,9 @@
   <el-table-column label="购买数量">
     <template #default="{row,$index}">
         <i class="iconfont icon-jianshao" @click="reduce(row)" :class="{'showjian': animationList[$index].show,'returnjian': animationList[$index].disapper,'forbid':row.count === 1}"></i>
-        <el-input type="button" size="default" style="width:42px" class="count" @click="changeAnimation($index)" v-model="row.count"/>
+        <el-input type="button" size="default" style="width:42px" class="count" 
+        v-debounce="{ handler:changeAnimation, args:[$index]}"
+        v-model="row.count"/>
         <i class="iconfont icon-jia" @click="row.count++" :class="{'showjia': animationList[$index].show,'returnjia': animationList[$index].disapper}"></i>
     </template>
   </el-table-column>
@@ -121,7 +123,7 @@ CartStore.cartNameList.forEach(() => {
 });
 
 //动画的出现和隐藏
-const changeAnimation = (index)=>{
+const changeAnimation = (event,index)=>{
   animationList.value[index].show = true
   if(clickedItem.value >= 0){
     animationList.value[clickedItem.value].show = false

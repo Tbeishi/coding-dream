@@ -21,7 +21,25 @@ const router = createRouter({
                 {
                     path:'/member',
                     name:'member',
-                    component:()=>import ('@/views/memberPage/memberPage.vue')
+                    component:()=>import ('@/views/memberPage/memberPage.vue'),
+                    redirect:'/member/mydata',
+                    children:[
+                        {
+                            path:'/member/mydata',
+                            name:'mydata',
+                            component:()=>import ('@/views/memberPage/mydataPage/mydataPage.vue'),
+                        },
+                        {
+                            path:'/member/discount',
+                            name:'discount',
+                            component:()=>import ('@/views/memberPage/discountPage/discountPage.vue'),
+                        },
+                        {
+                            path:'/member/order',
+                            name:'order',
+                            component:()=>import ('@/views/memberPage/orderPage/orderPage.vue'),
+                        },
+                    ]
                 },
                 {
                     path:'/detail/:id',
