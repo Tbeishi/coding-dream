@@ -58,6 +58,7 @@ import { computed, ref,watch } from 'vue'
 import { useCouponsStore } from '@/store/coupons'
 const CouponsStore = useCouponsStore()
 const drawer = ref(false)
+const choosedIndex = ref()
 const openDrawer = ()=>{
     drawer.value= true
 }
@@ -67,7 +68,9 @@ const handleChecked = (index)=>{
     if(coupon !== undefined){
     coupon.isChecked = false
     CouponsStore.usefulCouponList[index].isChecked = true
+    choosedIndex.value = index
     }
+    else{choosedIndex.value = -1}
 }
 
 const CouponPay = computed(()=>{
@@ -93,8 +96,7 @@ const Couponcount =  computed(()=>{
 })
 
 const post = ()=>{
-    emit('revisePay',CouponPay.value)
-    console.log(CouponPay.value);
+    emit('revisePay',choosedIndex.value)
     drawer.value= false
 }
 

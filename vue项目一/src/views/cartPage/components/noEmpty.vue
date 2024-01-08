@@ -86,9 +86,9 @@
     <div class="total">
       <p>
         <span class="selected" v-show="selectedCount > 0">已选 {{ selectedCount }} 件,</span>
-        合计:<span class="pay"><i>¥</i>{{ allPay === 0 ? allPay - coupons : (allPay-coupons).toFixed(2) }}</span>
+        合计:<span class="pay"><i>¥</i>{{ allPay - coupons === 0 ? allPay - coupons : (allPay-coupons).toFixed(2) }}</span>
       </p>
-      <p class="prefer" v-show="selectedCount > 0 ">
+      <p class="prefer" v-show="coupons !== 0 ">
         <span>共减<i>¥</i>{{ coupons }}元</span>
         <span class="detail" @click="openDrawer">查看明细<i class="iconfont icon-xiangshangjiantou"></i></span>
         <couponsDetail 
@@ -126,7 +126,8 @@ const manage = ref()
 const choosedItemList = ref([])
 const conponsLise = ref([])
 const drawer = ref()
-const Payrevise = ref()
+const reviseIndex  = ref(0)
+const conponLength = ref(0)
 const openDrawer = ()=>{
 drawer.value.openDrawer()
 }
@@ -194,7 +195,9 @@ const checkAll = ()=>{
       })
 })
 
-
+watch(CouponsStore.curConpons,()=>{
+  
+})
 
 //计算优惠金额
 const coupons = computed(()=>{
@@ -227,16 +230,27 @@ const coupons = computed(()=>{
     IsvalueArr.forEach((item)=>item.isMaxCoupon = false)
     IsvalueArr[0].isMaxCoupon = true
     IsvalueArr.forEach(item=> item.isChecked = false)
-    IsvalueArr[0].isChecked = true
+    CouponsStore.couponsSortList = [...IsvalueArr,...NovalueArr]
+    CouponsStore.usefulCouponList = IsvalueArr
+    if(reviseIndex.value === -1) { 
+      reviseIndex.value = 0 
+      return 0
+    }
+    else {
+      if(conponLength.value !== IsvalueArr.length){
+        IsvalueArr[0].isChecked = true
+        reviseIndex.value = 0
+        CouponsStore.curConpons = IsvalueArr[0] 
+        conponLength.value = IsvalueArr.length
+      }
+      CouponsStore.curConpons = IsvalueArr[reviseIndex.value] 
+      CouponsStore.curConpons.isChecked = true
+    }
+    const curId = CouponsStore.curConpons.id
+    const res = conponsLise.value.find((item)=>item.id === curId).coupon
+    return res
   }
-  CouponsStore.couponsSortList = [...IsvalueArr,...NovalueArr]
-  CouponsStore.usefulCouponList = IsvalueArr
-  const res = Payrevise.value === undefined ? conponsLise.value.reduce((max,cur)=> cur.coupon > max ? cur.coupon : max ,conponsLise.value[0].coupon) : Payrevise.value
-  return res
-
-  // const isChecked = IsvalueArr.find((item)=> item.isChecked)
-  // const res = isChecked ? conponsLise.value.find((item)=>item.id === isChecked.id).coupon : 0
-  // return res
+  return 0
 })
 
 function sortRule(a,b) {
@@ -345,7 +359,7 @@ const selectedCount = computed(()=>{
 })
 
 const revisePay = (value)=>{
-  Payrevise.value = value
+  reviseIndex.value = value
 }
 </script>
 
