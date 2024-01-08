@@ -6,7 +6,9 @@ export default function getCouponsData(){
             outOffDate:'2024.05.20 23:59',
             CouponPrice: 10,
             CouponWay:"无门槛",
-            CouponRange:'全部商品可用'
+            CouponType: 1,
+            CouponRange:'全部商品可用',
+            isChecked:false,
         },
         {
             id: 2,
@@ -14,7 +16,10 @@ export default function getCouponsData(){
             outOffDate:'2024.05.20 23:59',
             CouponPrice: 5.2,
             CouponWay:"满12可用",
-            CouponRange:'仅冰淇淋可用'
+            CouponLocalPrice: 12,
+            CouponType: 2,
+            CouponRange:'仅冰淇淋可用',
+            isChecked:false,
         },
         {
             id: 3,
@@ -22,23 +27,32 @@ export default function getCouponsData(){
             outOffDate:'2024.01.20 23:59',
             CouponPrice: 13.14,
             CouponWay:"满52可用",
-            CouponRange:'全部商品可用'
+            CouponLocalPrice: 52,
+            CouponType: 2,
+            CouponRange:'全部商品可用',
+            isChecked:false,
         },
         {
             id: 4,
             CouponTitle:'零食',
             outOffDate:'2024.03.20 23:59',
-            CouponPrice: '8.5折',
+            CouponPrice: 8.5,
             CouponWay:"满50可用",
-            CouponRange:'仅零食可用'
+            CouponLocalPrice: 50,
+            CouponType: 3,
+            CouponRange:'仅零食可用',
+            isChecked:false,
         },
         {
             id: 5,
             CouponTitle:'立减红包',
             outOffDate:'2024.01.22 23:59',
             CouponPrice: 3,
-            CouponWay:"满3立减",
-            CouponRange:'全部商品可用'
+            CouponWay:"满5立减",
+            CouponLocalPrice: 5,
+            CouponType: 4,
+            CouponRange:'全部商品可用',
+            isChecked:false,
         },
     ]
     return data

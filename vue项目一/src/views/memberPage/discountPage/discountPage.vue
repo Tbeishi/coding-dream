@@ -15,7 +15,9 @@
                             </div>
                             <div class="prefer">
                                 <p class="preferPrice">
-                                    <i>¥</i><span class="price">{{ item.CouponPrice }}</span>
+                                    <i v-if="item.CouponType !== 3">¥</i><span class="price">{{ item.CouponPrice }}
+                                    <span v-if="item.CouponType === 3">折</span>
+                                    </span>
                                 </p>
                                 <p class="message">
                                     {{ item.CouponWay }}
@@ -43,6 +45,7 @@
 import { ref } from "vue";
 import { useCouponsStore } from '@/store/coupons.js'
 const CouponsStore = useCouponsStore()
+
 </script>
 
 <style lang="less" scoped>
@@ -97,7 +100,7 @@ li{
             }
         }
         .prefer{
-            margin-right: 12px;
+            margin-right: 30px;
             .preferPrice{
                 text-align: center;
                 color: #ff0000;
@@ -142,6 +145,7 @@ li{
             width: 80px;
             height: 30px;
             border-radius: 15px;
+            margin-right: 10px;
             // background-color: #ff3a3a;
             // border: #ff3a3a;
         }

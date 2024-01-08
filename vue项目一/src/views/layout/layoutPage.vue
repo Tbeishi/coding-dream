@@ -51,7 +51,6 @@
         <el-main ref="scroll">
            <router-view 
            @getcardHeight="getcardHeight" 
-           :scrollY="scrollY" 
            :CartMessage="CartMessage"
            @AnimationEnd="AnimationEnd"
            />

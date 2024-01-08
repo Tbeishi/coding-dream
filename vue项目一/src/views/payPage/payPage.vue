@@ -115,7 +115,7 @@ watch(UserStore.addressList,(newVal)=>{
 })
 
 onMounted(()=>{
-    address.value = UserStore.addressList.find(item=> item.default === true)
+    address.value = UserStore.addressList.find(item=> item.default === true) || {}
 })
 </script>
 

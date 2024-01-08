@@ -16,7 +16,6 @@
     <el-table
     :data="CartStore.Cartdata"
     style="width: 100%"
-    :cell-style="lastRowStyle"
     ref = "table"
     :header-cell-style="{margin:'20px 0 0 0'}"
   >
@@ -87,11 +86,16 @@
     <div class="total">
       <p>
         <span class="selected" v-show="selectedCount > 0">已选 {{ selectedCount }} 件,</span>
-        合计:<span class="pay"><i>¥</i>{{ allPay === 0 ? allPay : allPay.toFixed(2) }}</span>
+        合计:<span class="pay"><i>¥</i>{{ allPay === 0 ? allPay - coupons : (allPay-coupons).toFixed(2) }}</span>
       </p>
-      <p class="prefer" v-show="selectedCount > 0">
-        <span>共减<i>¥</i>10.48元</span>
-        <span class="detail">查看明细</span>
+      <p class="prefer" v-show="selectedCount > 0 ">
+        <span>共减<i>¥</i>{{ coupons }}元</span>
+        <span class="detail" @click="openDrawer">查看明细<i class="iconfont icon-xiangshangjiantou"></i></span>
+        <couponsDetail 
+        ref="drawer" 
+        :allPay ="allPay" 
+        @revisePay="revisePay"
+        />
       </p>
     </div>
     <div><el-button type="success" round size="large" @click="open">结算</el-button></div>
@@ -107,7 +111,10 @@ import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/store/cart'
 import { Grid } from '@element-plus/icons-vue'
+import { useCouponsStore } from '@/store/coupons'
+import couponsDetail from '@/components/couponsDetail/couponsDetail.vue';
 
+const CouponsStore = useCouponsStore()
 const CartStore = useCartStore()
 const router = useRouter()
 const table = ref(null)
@@ -116,6 +123,13 @@ const checked = ref(false)
 const animationList = ref([])
 const clickedItem = ref() 
 const manage = ref()
+const choosedItemList = ref([])
+const conponsLise = ref([])
+const drawer = ref()
+const Payrevise = ref()
+const openDrawer = ()=>{
+drawer.value.openDrawer()
+}
 
 CartStore.cartNameList.forEach(() => {
   checkedList.value.push(false)
@@ -131,15 +145,6 @@ const changeAnimation = (event,index)=>{
   }
   clickedItem.value = index
   animationList.value[clickedItem.value].disapper = false
-}
-
-const lastRowStyle = ({ rowIndex })=>{
-  if(CartStore.Cartdata.length > 4 && rowIndex === CartStore.Cartdata.length - 1){
-    return {padding:'20px 0',fontSize:'15px'}
-  }
-  else{
-    return {padding:'20px 0',fontSize:'15px'}
-  }
 }
 
 const open = () => {
@@ -182,7 +187,113 @@ const checkAll = ()=>{
       else{
         checked.value = false
       }
+      choosedItemList.value = CartStore.Cartdata.filter((item,index)=>{
+        if(newVal[index]){
+          return item
+        }
+      })
 })
+
+
+
+//计算优惠金额
+const coupons = computed(()=>{
+  if(!CouponsStore.couponsList || selectedCount.value === 0) return 0
+  CouponsStore.couponsList.forEach((item)=>{
+    if(item.CouponType === 1){
+      noThreshold(item)
+    }
+    else if(item.CouponType === 2){
+      fullMinus(item)
+    }
+    else if(item.CouponType === 3){
+      disCount(item)
+    }
+    else if(item.CouponType === 4){
+      instantReduction(item)
+    }
+  })
+  CouponsStore.couponsList.forEach((item)=>{
+    const coupon = conponsLise.value.find(coupons=>coupons.id === item.id)
+    if(coupon === undefined)  item.Isvalue = false
+    else {
+      item.Isvalue = true
+    }
+  })
+  const IsvalueArr = CouponsStore.couponsList.filter(item => item.Isvalue === true)
+  const NovalueArr = CouponsStore.couponsList.filter(item => item.Isvalue !== true)
+  IsvalueArr.sort(sortRule)
+  if(IsvalueArr.length > 0){
+    IsvalueArr.forEach((item)=>item.isMaxCoupon = false)
+    IsvalueArr[0].isMaxCoupon = true
+    IsvalueArr.forEach(item=> item.isChecked = false)
+    IsvalueArr[0].isChecked = true
+  }
+  CouponsStore.couponsSortList = [...IsvalueArr,...NovalueArr]
+  CouponsStore.usefulCouponList = IsvalueArr
+  const res = Payrevise.value === undefined ? conponsLise.value.reduce((max,cur)=> cur.coupon > max ? cur.coupon : max ,conponsLise.value[0].coupon) : Payrevise.value
+  return res
+
+  // const isChecked = IsvalueArr.find((item)=> item.isChecked)
+  // const res = isChecked ? conponsLise.value.find((item)=>item.id === isChecked.id).coupon : 0
+  // return res
+})
+
+function sortRule(a,b) {
+    return b.CouponPrice - a.CouponPrice;
+}
+
+//计算无门槛优惠
+const noThreshold = (item)=>{
+  const res = findCouponId(item.id)
+  if(allPay.value >= item.CouponPrice){
+    res === undefined ? conponsLise.value.push({id:item.id ,coupon:item.CouponPrice}) : res.coupon = item.CouponPrice
+  }
+  else{
+    // item.CouponPrice -= allPay
+    res === undefined ? conponsLise.value.push({id:item.id ,coupon:allPay.value}): res.coupon= allPay.value
+  }
+}
+
+//计算满减优惠
+const fullMinus = (item)=>{
+  const res = findCouponId(item.id)
+  if(allPay.value >= item.CouponLocalPrice){
+    res === undefined ? conponsLise.value.push({id:item.id ,coupon:item.CouponPrice}): res.coupon = item.CouponPrice
+  }
+  else{
+    const index = conponsLise.value.findIndex(index=>index.id===item.id)
+    if(index !== -1) conponsLise.value.splice(index, 1)
+  }
+}
+
+//计算折扣
+const disCount = (item)=>{
+  const res = findCouponId(item.id)
+  if(!item.CouponLocalPrice || allPay.value >= item.CouponLocalPrice) 
+  res === undefined ? conponsLise.value.push({id:item.id ,coupon: ((1 - item.CouponPrice * 0.1) * allPay.value).toFixed(2)}): res.coupon = ((1-item.CouponPrice * 0.1) * allPay.value).toFixed(2)
+  else{
+    const index = conponsLise.value.findIndex(index=>index.id===item.id)
+    if(index !== -1) conponsLise.value.splice(index, 1)
+  }
+}
+
+//计算立减
+const instantReduction = (item)=>{
+  const res = findCouponId(item.id)
+  if(allPay.value >= item.CouponLocalPrice){
+    res === undefined ? conponsLise.value.push({id:item.id ,coupon:item.CouponPrice}): res.coupon = item.CouponPrice
+  }
+  else{
+    const index = conponsLise.value.findIndex(index=>index.id===item.id)
+    if(index !== -1) conponsLise.value.splice(index, 1)
+  }
+}
+
+const findCouponId = (id)=>{
+  // console.log(conponsLise.value.find(item=>item.id === id) );
+  return conponsLise.value.find(item=>item.id === id) 
+}
 
 //计算购物车被选物品的总价
 const allPay = computed(()=>{
@@ -232,13 +343,16 @@ const selectedCount = computed(()=>{
   })
   return res
 })
+
+const revisePay = (value)=>{
+  Payrevise.value = value
+}
 </script>
 
 <style lang="less" scoped>
 .content{
     position: relative;
     height: 100%;
-    // max-height: 100vh;
     overflow: hidden;
     .content-header{
       display: flex;
@@ -506,7 +620,11 @@ pointer-events:none;
     }
     .detail{
       font-size: 15px;
+      cursor: pointer;
       margin-left: 7px;
+      .iconfont{
+        font-weight: 700;
+      }
     }
     .selected{
       color:rgb(134, 132, 132);

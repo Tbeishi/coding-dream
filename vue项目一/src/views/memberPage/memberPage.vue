@@ -61,9 +61,8 @@
 }
 
 .memberSub{
-    margin-top: 10px;
-    margin-left: 50px;
-    flex:0.5
+    margin: 10px 50px;
+    flex:1
 }
 .aside{
     width: 180px;
