@@ -12,13 +12,13 @@ export default function getCouponsData(){
         },
         {
             id: 2,
-            CouponTitle:'冰淇淋红包',
+            CouponTitle:'活动红包',
             outOffDate:'2024.05.20 23:59',
             CouponPrice: 5.2,
             CouponWay:"满12可用",
             CouponLocalPrice: 12,
             CouponType: 2,
-            CouponRange:'仅冰淇淋可用',
+            CouponRange:'全部商品可用',
             isChecked:false,
         },
         {
@@ -34,13 +34,13 @@ export default function getCouponsData(){
         },
         {
             id: 4,
-            CouponTitle:'零食',
+            CouponTitle:'零食折扣券',
             outOffDate:'2024.03.20 23:59',
             CouponPrice: 8.5,
             CouponWay:"满50可用",
             CouponLocalPrice: 50,
             CouponType: 3,
-            CouponRange:'仅零食可用',
+            CouponRange:'全部商品可用',
             isChecked:false,
         },
         {

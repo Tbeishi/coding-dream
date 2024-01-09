@@ -58,19 +58,32 @@ import { computed, ref,watch } from 'vue'
 import { useCouponsStore } from '@/store/coupons'
 const CouponsStore = useCouponsStore()
 const drawer = ref(false)
-const choosedIndex = ref()
+const lastClick = ref(0)
+const chooseIndex = ref(0)
+const CouponsLength = ref(CouponsStore.usefulCouponList.length)
 const openDrawer = ()=>{
     drawer.value= true
 }
 
 const handleChecked = (index)=>{
-    const coupon = CouponsStore.usefulCouponList.find((coupon,Index)=>coupon.isChecked && index !== Index)
-    if(coupon !== undefined){
-    coupon.isChecked = false
-    CouponsStore.usefulCouponList[index].isChecked = true
-    choosedIndex.value = index
+    if(CouponsLength.value !== CouponsStore.usefulCouponList.length){
+        lastClick.value = 0
+        CouponsLength.value = CouponsStore.usefulCouponList.length
     }
-    else{choosedIndex.value = -1}
+    if(lastClick.value === index) {
+        CouponsStore.usefulCouponList[index].isChecked
+        lastClick.value = 0
+        chooseIndex.value = -1
+    }
+    
+    else{
+        CouponsStore.usefulCouponList[lastClick.value].isChecked = false
+        CouponsStore.usefulCouponList[index].isChecked = true
+        lastClick.value = index
+        chooseIndex.value = index
+    }
+    // console.log('lastClick === ' + lastClick.value);
+    // console.log('index === ' + index);
 }
 
 const CouponPay = computed(()=>{
@@ -96,7 +109,7 @@ const Couponcount =  computed(()=>{
 })
 
 const post = ()=>{
-    emit('revisePay',choosedIndex.value)
+    emit('revisePay',chooseIndex.value)
     drawer.value= false
 }
 
