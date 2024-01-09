@@ -65,7 +65,9 @@ const openDrawer = ()=>{
     drawer.value= true
 }
 
+//处理优惠卷选中框
 const handleChecked = (index)=>{
+    //可用优惠卷发生变化，最后一次选中优惠卷下标改为0，并记录当前可用优惠卷长度
     if(CouponsLength.value !== CouponsStore.usefulCouponList.length){
         lastClick.value = 0
         CouponsLength.value = CouponsStore.usefulCouponList.length
