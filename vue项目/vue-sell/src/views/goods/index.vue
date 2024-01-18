@@ -14,6 +14,9 @@
               <SupportIcon size="3" :type="item.type" v-if="item.type >= 0"/>
               {{item.name}}
             </span>
+            <span class="bubble" v-if="cartCountSum[index] > 0">
+                <span class="num"> {{  cartCountSum[index] }}</span>
+            </span>
           </li>
         </ul>
       </div>  
@@ -40,10 +43,10 @@
                       <span class="now">￥{{ food.price }}</span>
                       <span class="old" v-show="food.oldPrice">￥{{ food.oldPrice }}</span>
                     </div>
-                    <div class="cart-context">
-                      <i class="iconfont icon-jianshao" v-show="cartCount[index1]"  @click="selectFood(index1,index2)"></i>
-                      <span class="cart-count" v-show="cartCount[index1][index2]">{{ cartCount[index1][index2] }}</span>
-                      <i class="iconfont icon-jia" @click="selectFood(index1,index2)"></i>
+                    <div class="cart-context" v-if="cartCount[index1]">
+                      <i class="iconfont icon-jianshao" v-show="cartCount[index1][index2].count"  @click="reduceCart(index1,index2)"></i>
+                      <span class="cart-count" v-show="cartCount[index1][index2].count">{{ cartCount[index1][index2].count }}</span>
+                      <i class="iconfont icon-jia" @click="addCart(index1,index2)"></i>
                     </div>
                   </div>
                   <!-- + -->
@@ -56,7 +59,7 @@
       </div>
     </div>
     
-    <Cart/>
+    <Cart :costList="cartCountSum" :cartList="cartFood"/>
   </div>
 </template>
 
@@ -73,12 +76,14 @@ export default {
   data() {
     return {
       goods: [],
-      currentIndex: 0,
       foodList:[],//各菜系的食物dom结构
       foodBScroll:[],
       scrollY:0,
       foodHeight:[],
       cartCount:[],
+      cartCountSum:[],
+      cartFood:[],
+      foodNameList:[]
     }
   },
   created() {
@@ -90,11 +95,14 @@ export default {
       this.$nextTick(() => { // $nextTick里面的回调会在页面加载完毕之后才执行
         this.betterScroll()
         this.getFoodHeight()
-        this.goods.forEach((item,index)=>{
+        this.goods.forEach((item)=>{
           const arr = []
-          item.foods.forEach(()=>{ arr.push(1)})
+          item.foods.forEach((food)=>{ arr.push({
+            food,
+            count: 0
+          })})
+          this.cartCountSum.push(0)
           this.cartCount.push(arr)
-          
         })
       })
     })
@@ -112,16 +120,13 @@ export default {
       })
       this.foodList = this.$refs.foodList
       this.foodBScroll.on('scroll',(pos)=>{
-        this.scrollY = Math.round(Math.abs(pos.y))
+      this.scrollY = Math.round(Math.abs(pos.y))
       })
     },
     selectMenu(i) {
       // console.log(i);
       this.currentIndex = i
       this.foodBScroll.scrollToElement(this.foodList[i],500)
-    },
-    selectFood(i,y) {
-      console.log(this.cartCount[i][y]);
     },
     getFoodHeight(){
       let height = 0
@@ -130,13 +135,34 @@ export default {
         height += foodheight.clientHeight
         this.foodHeight.push(height)
       })
-    }
+      console.log(this.foodHeight);
+    },
+    addCart(MenuID,foodID){
+      this.cartCount[MenuID][foodID].count++
+      this.cartCountSum[MenuID]++
+      const foodname = this.goods[MenuID].name + this.goods[MenuID].foods[foodID].name 
+      if(!this.foodNameList.includes(foodname)){
+        this.foodNameList.push(foodname)
+        this.cartFood.push(this.cartCount[MenuID][foodID])
+      }
+    },
+    reduceCart(MenuID,foodID){
+      this.cartCount[MenuID][foodID].count--
+      this.cartCountSum[MenuID]--
+    },
   },
-  // computed:{
-  //   computeHeight(){
-  //     const 
-  //   }
-  // }
+  computed:{
+   currentIndex(){
+    //随着右侧滚动this.scrollY返回不同的下标
+    for(let i = 0; i < this.foodHeight.length; i++){
+      const h1 = this.foodHeight[i]
+      const h2 = this.foodHeight[i+1]
+      if(!h2||(this.scrollY >= h1 && this.scrollY < h2)){
+        return i
+      }
+    }
+   }
+  }
 }
 </script>
 
@@ -155,15 +181,30 @@ export default {
       flex: 0 0 80px;
       background: @color-background-ssss;
       .menu-item{
-        padding: 0 14px;
+        padding: 0 10px;
         font-size: @fontsize-small;
         height: 54px;
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
         &.current{
           background: #fff;
           font-weight: 700;
+        }
+        .bubble{
+          background: linear-gradient(90deg,#fc9153,#f01414);
+          border-radius: 16px;
+          color: #fff;
+          font-family: Helvetica;
+          font-size: 10px;
+          font-weight: 700;
+          line-height: 16px;
+          padding: 0 5px;
+          text-align: center;
+          position: absolute;
+          right: 2px;
+          top: 6px;
         }
       }
     }
@@ -251,5 +292,9 @@ export default {
       }
     }
   }
+}
+
+.food-item&:last-child { 
+  margin-bottom: 0px !important;
 }
 </style>

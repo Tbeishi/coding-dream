@@ -49,10 +49,6 @@
   &.fade-enter-active, &.fade-leave-active{
     transition: all 0.5s ease;
   }
-
-  .detail-wrapper{
-
-  }
   .detail-close{
     width: 30px;
     height: 30px;

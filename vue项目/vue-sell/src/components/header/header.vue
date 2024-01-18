@@ -73,7 +73,7 @@ export default {
 .header{
   background: @color-background-ss;
   position: relative;
-  z-index: 999;
+  z-index: 2;
   .content-wrapper{
     display: flex;
     padding: 24px 12px 18px 24px;
