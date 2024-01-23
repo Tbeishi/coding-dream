@@ -92,7 +92,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -100,7 +100,22 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _default = {
   onLaunch: function onLaunch() {
-    console.log('App Launch');
+    uni.onTabBarMidButtonTap(function () {
+      console.log(111);
+      // 使用uniapp提供扫码api
+      uni.scanCode({
+        scanType: ['qrCode'],
+        // 扫码成功后的回调
+        success: function success(res) {
+          // res中包含二维码中的信息，其中就有网络链接
+          // 使用navigateTo跳转，并且携带参数，参数为二维码中的链接
+          uni.navigateTo({
+            // 这里注意，此地址只是自己提前写好的，并且路径前面一定要加/
+            url: "/pages/webpage/index?link=".concat(res.result)
+          });
+        }
+      });
+    });
   },
   onShow: function onShow() {
     console.log('App Show');
@@ -110,6 +125,7 @@ var _default = {
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 

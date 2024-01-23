@@ -1,13 +1,53 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/login/login",
+    "pages/home/home",
+    "pages/my/my",
+    "pages/Record/Record",
+    "pages/map/map"
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#c63536",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#9a9a9a",
+    "selectedColor": "#be8984",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "/static/iconfont/首页.png",
+        "selectedIconPath": "/static/iconfont/首页-active.png"
+      },
+      {
+        "pagePath": "pages/Record/Record",
+        "text": "记录",
+        "iconPath": "/static/iconfont/资金记录.png",
+        "selectedIconPath": "/static/iconfont/资金记录-active.png"
+      },
+      {
+        "pagePath": "pages/map/map",
+        "text": "地图",
+        "iconPath": "/static/iconfont/地图服务.png",
+        "selectedIconPath": "/static/iconfont/地图服务-active.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "/static/iconfont/我的.png",
+        "selectedIconPath": "/static/iconfont/我的-active.png"
+      }
+    ],
+    "midButton": {
+      "iconPath": "/static/iconfont/扫一扫.png",
+      "text": "扫一扫",
+      "height": "55px",
+      "iconWidth": "35px"
+    }
   },
   "usingComponents": {}
 }
