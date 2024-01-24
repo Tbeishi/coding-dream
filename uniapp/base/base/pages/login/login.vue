@@ -1,6 +1,6 @@
 <template>
 	<view class="login-container">
-		<view class="header">巡检卫士</view>
+		<view class="header" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 20 + 'rpx' : ''}">巡检卫士</view>
 		<image class="logo" src="../../static/logo.png" mode=""></image>
 		<uni-forms :modelValue="formData" :rules="rules" ref="form" >
 		<uni-forms-item name="tel" class="user">
@@ -9,7 +9,7 @@
 		</uni-forms-item>
 		<uni-forms-item name="password" class="password">
 			<text class="iconfont icon-mima"></text>
-			<input type="password" class="uni-input" focus  v-model="formData.password"/>
+			<input type="password" class="uni-input" v-model="formData.password"/>
 		</uni-forms-item>
 		</uni-forms>
 		<view class="method">
@@ -37,6 +37,7 @@ import { doLogin } from '../../api/login.js'
 export default {
 	data() {
 	    return {
+		safeAreaInsets:'',
 	      formData: {
 	            tel: '',       // 存储用户名输入框的值
 	            password: '',   // 存储密码输入框的值
@@ -64,6 +65,10 @@ export default {
 		 				}
 		 		}
 	    }
+	  },
+	  onLoad() {
+	  	this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
+	  	console.log(this.safeAreaInsets);
 	  },
   methods: {
     handleLogin() {
@@ -144,6 +149,13 @@ export default {
 		color:#527ea0;
 		padding: 0 70rpx;
 		margin-bottom: 30rpx;
+	}
+}
+
+.uni-forms-item__error{
+	margin-left: 200rpx;
+	uni-text{
+		font-size: 34rpx;
 	}
 }
 </style>

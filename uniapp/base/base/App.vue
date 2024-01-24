@@ -1,6 +1,8 @@
 <script>
 	export default {
 		onLaunch: function() {
+			this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
+			console.log(this.safeAreaInsets);
 		    uni.onTabBarMidButtonTap(()=>{
 				// 使用uniapp提供扫码api
 				      uni.scanCode({
@@ -13,7 +15,6 @@
 				            // 这里注意，此地址只是自己提前写好的，并且路径前面一定要加/
 				            url:`/pages/webPage/webPage?link=${res.result}`
 				          })
-						  // console.log(res)
 				        }
 				      })
 		    })
@@ -23,12 +24,12 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
-		}
+		},
 	}
 </script>
 
 <style lang="scss">
-@import url('https://at.alicdn.com/t/c/font_4420098_5wsqxrg47dd.css');
+@import url('https://at.alicdn.com/t/c/font_4420098_zec5y5wkx5e.css');
 uni-page-body,html,body{  
    height: 100%;  
 }

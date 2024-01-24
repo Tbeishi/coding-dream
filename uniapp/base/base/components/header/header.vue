@@ -4,7 +4,14 @@
 	</view>
 </template>
 
-<script setup>
+<script>
+	export default {
+		data() {
+			return {
+				
+			};
+		}
+	}
 </script>
 
 <style lang="scss">

@@ -14,6 +14,14 @@
 				"navigationBarTitleText": ""
 			}
 		},
+		{
+			"path" : "pages/webPage/webPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
 		
 		{
 			"path" : "pages/my/my",
@@ -37,11 +45,10 @@
 			}
 		},
 		{
-			"path" : "pages/webPage/webPage",
+			"path" : "pages/home/components/homeDialog/homeDialog",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+				"navigationBarTitleText" : ""
 			}
 		}
 	],
@@ -60,30 +67,30 @@
 			{
 				"pagePath": "pages/home/home",
 				"text": "首页",
-				"iconPath": "/static/iconfont/首页.png",
-				"selectedIconPath": "/static/iconfont/首页-active.png"
+				"iconPath": "/static/iconfont/home.png",
+				"selectedIconPath": "/static/iconfont/home-active.png"
 			},
 			{
 				"pagePath": "pages/Record/Record",
 				"text": "记录",
-				"iconPath": "/static/iconfont/资金记录.png",
-				"selectedIconPath": "/static/iconfont/资金记录-active.png"
+				"iconPath": "/static/iconfont/pay.png",
+				"selectedIconPath": "/static/iconfont/pay-active.png"
 			},
 			{
 				"pagePath": "pages/map/map",
 				"text": "地图",
-				"iconPath": "/static/iconfont/地图服务.png",
-				"selectedIconPath": "/static/iconfont/地图服务-active.png"
+				"iconPath": "/static/iconfont/map.png",
+				"selectedIconPath": "/static/iconfont/map-active.png"
 			},
 			{
 				"pagePath": "pages/my/my",
 				"text": "我的",
-				"iconPath": "/static/iconfont/我的.png",
-				"selectedIconPath": "/static/iconfont/我的-active.png"
+				"iconPath": "/static/iconfont/my.png",
+				"selectedIconPath": "/static/iconfont/my-active.png"
 			}
 		],
 		 "midButton": {
-		       "iconPath": "/static/iconfont/扫一扫.png",
+		       "iconPath": "/static/iconfont/swap.png",
 		        "text": "扫一扫",
 				"height": "55px",
 				"iconWidth": "35px"

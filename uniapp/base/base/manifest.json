@@ -41,9 +41,13 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {}
+            }
         }
     },
     /* 快应用特有相关 */
@@ -69,15 +73,26 @@
         "enable" : false
     },
     "vueVersion" : "2",
-	// h5端跨域配置
-	"h5": { "devServer": { 
-		"disableHostCheck": true,
-		"proxy": {
-			"/api": {
-					"target": "http://119.23.47.58:8891",
-					"changeOrigin": true,
-					"secure": false			
-				}
-		}
-		} }
+    // h5端跨域配置
+    "h5" : {
+        "devServer" : {
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://119.23.47.58:8891",
+                    "changeOrigin" : true,
+                    "secure" : false
+                }
+            }
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "amap" : {
+                    "key" : "e926912af6029270bb93a8a28cc28a7f",
+                    "securityJsCode" : "",
+                    "serviceHost" : ""
+                }
+            }
+        }
+    }
 }

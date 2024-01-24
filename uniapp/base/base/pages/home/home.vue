@@ -1,8 +1,8 @@
 <template>
-	<view class="content">
+	<view class="content" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 40 + 'rpx' : ''}">
 		<view class="header">
 			<view>巡检卫士<text class="iconfont icon-xiangxiajiantou"></text></view>
-			<text class="iconfont icon-caidan"></text>
+			<text class="iconfont icon-caidan" @click="openDialog"></text>
 		</view>
 		<view class="task">
 			<view class="taskBall">
@@ -18,23 +18,58 @@
 				<button plain size="mini" class="btn">查看</button>
 			</view>
 		</view>
-		<image class="pic" src="/static/pic.png" mode=""></image>
-		<iconBall/>
+		<image class="pic" src="/static/pic.png"></image>
+		<view class="Message" v-for="item in 6" :key="item">
+			<uni-card :is-shadow="false" is-full>
+			<iconBall/>
+			<view class="taskMessage">
+				<text style="margin: 20rpx 0;">巡检工作已结束</text>
+				<text style="margin-bottom: 20rpx">以下地点尚未巡检:调压箱,停车场A区，我，液压装置</text>
+				<text>计划名称:机动车间</text>
+				<text>巡检路线:生产车间安全</text>
+				<text>班组名称:设备管理部</text>
+				<text>开始时间: 2020/2/14 9:15:00</text>
+				<text>结束时间: 2020/2/14 10:1 5:00</text>
+			</view>
+			<text class="iconfont icon-youjiantou"></text>
+			</uni-card>
+		</view>
+		<homeDialog ref="dlog" :safeAreaInsets="safeAreaInsets" />
 	</view>
 </template>
 
-<script setup>
+<script>
+	import homeDialog from './components/homeDialog/homeDialog.vue'
+	export default {
+		components:{//为当前的组件注册私有子组件
+		'homeDialog': homeDialog,
+		 },
+		data() {
+			return {
+				safeAreaInsets:''
+			};
+		},
+		onLoad() {
+			this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
+			console.log(this.safeAreaInsets);
+		},
+		methods:{
+			openDialog(){
+				this.$refs.dlog.open()
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
 .content{
-	height: 100%;
 	background-color: #c53736;
+	// padding-top: 72rpx;
 	.header{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: 100rpx;
+		height: 60rpx;
 		background-color: #c53736;
 		line-height: 100rpx;
 		font-weight: 700;
@@ -55,6 +90,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		transform: translateY(12rpx);
 		padding: 0 30rpx;
 		.taskBall{
 			height: 300rpx;
@@ -86,10 +122,28 @@
 		}
 	}
 	.pic{
+		transform: translateY(12rpx);
 		width: 100%;
 		height: 300rpx;
 	}
+	.Message{
+		height: 100%;
+		background-color: #fff;
+		.taskMessage{
+			display: flex;
+			flex-direction: column;
+			margin-left: 20rpx;
+		}
+	}
 }
 
-
+/deep/.uni-card__content{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.icon-youjiantou{
+		font-size: 50rpx;
+		color: #afadae;
+	}
+}
 </style>
