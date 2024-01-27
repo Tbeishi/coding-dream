@@ -50,8 +50,7 @@ export default {
 		 							errorMessage: '请输入手机号',
 		 						},
 		 						{
-		 							minLength: 11,
-		 							maxLength: 11,
+									pattern:/^(13[0-9]|14[1579]|15[0-3,5-9]|16[6]|17[0123456789]|18[0-9]|19[89])\d{8}$/,
 		 							errorMessage: '手机号格式不对',
 		 						}
 		 					]

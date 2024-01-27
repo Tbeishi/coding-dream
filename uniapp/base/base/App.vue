@@ -2,7 +2,6 @@
 	export default {
 		onLaunch: function() {
 			this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
-			console.log(this.safeAreaInsets);
 		    uni.onTabBarMidButtonTap(()=>{
 				// 使用uniapp提供扫码api
 				      uni.scanCode({
@@ -29,8 +28,5 @@
 </script>
 
 <style lang="scss">
-@import url('https://at.alicdn.com/t/c/font_4420098_zec5y5wkx5e.css');
-uni-page-body,html,body{  
-   height: 100%;  
-}
+@import url('https://at.alicdn.com/t/c/font_4420098_lenet3okjs.css');
 </style>

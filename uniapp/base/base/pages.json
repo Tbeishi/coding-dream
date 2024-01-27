@@ -22,7 +22,13 @@
 				"enablePullDownRefresh" : false
 			}
 		},
-		
+		{
+			"path" : "pages/point/point",
+			"style" : 
+			{
+				"navigationBarTitleText" : "点"
+			}
+		},
 		{
 			"path" : "pages/my/my",
 			"style" : 
@@ -50,6 +56,34 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/pointMessage/pointMessage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/Location/Location",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/addPoint/addPoint",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/inspection/inspection",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -71,22 +105,22 @@
 				"selectedIconPath": "/static/iconfont/home-active.png"
 			},
 			{
-				"pagePath": "pages/Record/Record",
-				"text": "记录",
+				"pagePath": "pages/inspection/inspection",
+				"text": "待巡检项",
 				"iconPath": "/static/iconfont/pay.png",
 				"selectedIconPath": "/static/iconfont/pay-active.png"
+			},
+			{
+				"pagePath": "pages/point/point",
+				"text": "点定位",
+				"iconPath": "/static/iconfont/point.png",
+				"selectedIconPath": "/static/iconfont/point-active.png"
 			},
 			{
 				"pagePath": "pages/map/map",
 				"text": "地图",
 				"iconPath": "/static/iconfont/map.png",
 				"selectedIconPath": "/static/iconfont/map-active.png"
-			},
-			{
-				"pagePath": "pages/my/my",
-				"text": "我的",
-				"iconPath": "/static/iconfont/my.png",
-				"selectedIconPath": "/static/iconfont/my-active.png"
 			}
 		],
 		 "midButton": {

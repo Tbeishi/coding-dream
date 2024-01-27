@@ -31,7 +31,6 @@
 		},
 		onLoad() {
 			this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
-			console.log(this.safeAreaInsets);
 		},
 		methods: {
 			

@@ -2,7 +2,8 @@
 	<view class="content" :style="{ paddingTop: safeAreaInsets ? safeAreaInsets.top + 40 + 'rpx' : ''}">
 		<view class="header">
 			<view>巡检卫士<text class="iconfont icon-xiangxiajiantou"></text></view>
-			<text class="iconfont icon-caidan" @click="openDialog"></text>
+			<!-- @click="openDialog" -->
+			<text class="iconfont icon-caidan" ></text> 
 		</view>
 		<view class="task">
 			<view class="taskBall">
@@ -34,16 +35,16 @@
 			<text class="iconfont icon-youjiantou"></text>
 			</uni-card>
 		</view>
-		<homeDialog ref="dlog" :safeAreaInsets="safeAreaInsets" />
+		<!-- <homeDialog ref="dlog" :safeAreaInsets="safeAreaInsets" /> -->
 	</view>
 </template>
 
 <script>
 	import homeDialog from './components/homeDialog/homeDialog.vue'
 	export default {
-		components:{//为当前的组件注册私有子组件
-		'homeDialog': homeDialog,
-		 },
+		// components:{//为当前的组件注册私有子组件
+		// 'homeDialog': homeDialog,
+		//  },
 		data() {
 			return {
 				safeAreaInsets:''
@@ -51,7 +52,6 @@
 		},
 		onLoad() {
 			this.safeAreaInsets = uni.getSystemInfoSync().safeAreaInsets
-			console.log(this.safeAreaInsets);
 		},
 		methods:{
 			openDialog(){
@@ -64,7 +64,6 @@
 <style lang="scss">
 .content{
 	background-color: #c53736;
-	// padding-top: 72rpx;
 	.header{
 		display: flex;
 		justify-content: space-between;
